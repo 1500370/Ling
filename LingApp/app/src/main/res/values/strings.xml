@@ -1,0 +1,50 @@
+<resources>
+
+    <string name="app_name">Ling Demo App</string>
+
+    <!--系統基本字串-->
+    <string name="confirm">確定</string>
+    <string name="cancel">取消</string>
+    <string name="warn">注意</string>
+    <string name="exit_app_message">您是否要關閉程式？</string>
+
+    <!--Side menu-->
+    <string name="menu_group_left_1">左群組1</string>
+    <string name="title_home">首頁</string>
+    <string name="title_bingo">賓果遊戲</string>
+    <string name="title_setting">設定</string>
+
+    <!--賓果-->
+    <string name="bingo_please_input_range">請輸入數字範圍：</string>
+    <string name="bingo_range_max">最大值</string>
+    <string name="bingo_range_min">最小值</string>
+    <string name="bingo_reset">重設</string>
+    <string name="bingo_please_select_size">請選擇賓果大小：</string>
+    <string name="bingo_size_defult">3 x 3</string>
+    <string name="bingo_current_mode">當前模式：</string>
+    <string name="bingo_mode_input">輸入模式</string>
+    <string name="bingo_mode_play">遊戲模式</string>
+    <string name="bingo_please_input_num">請輸入賓果盤數字：</string>
+    <string name="bingo_random">亂數</string>
+    <string name="bingo_plate_error">請輸入賓果盤數字！</string>
+    <string name="bingo_plate_repeat_error">賓果盤數字請勿重複輸入！</string>
+    <string name="bingo_plate_num_error">請輸入數字範圍 %1$s ~ %2$s 之間不重複的數字！</string>
+    <string name="bingo_range_error">請輸入數字範圍，最大值減最小值必需大於賓果盤範圍（%1$s）！</string>
+    <string name="bingo_max_error">最大值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
+    <string name="bingo_min_error">最小值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
+
+    <string-array name="bingo_size_list">
+        <item name="bingo_3">3 x 3</item>
+        <item name="bingo_4">4 x 4</item>
+        <item name="bingo_5">5 x 5</item>
+        <item name="bingo_6">6 x 6</item>
+        <item name="bingo_7">7 x 7</item>
+    </string-array>
+
+    <string name="app_version_name" translatable="false">1.0.0</string>
+    <string name="app_develop_name" translatable="false">R01</string>
+
+    <string name="action_example" translatable="false">Example action</string>
+    <string name="action_settings" translatable="false">Settings</string>
+
+</resources>

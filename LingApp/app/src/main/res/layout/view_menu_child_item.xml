@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_child_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
+
+    <View
+        android:id="@+id/v_background"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:background="@color/transparent" />
+
+    <RelativeLayout
+        android:id="@+id/rl_child_content"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:background="@drawable/bg_transparent_press_white20">
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="54px"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_home" />
+
+        <TextView
+            android:id="@+id/tv_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24px"
+            android:layout_marginRight="54px"
+            android:layout_toRightOf="@+id/iv_menu"
+            android:maxLines="1"
+            android:text="@string/title_home"
+            android:textColor="@android:color/white"
+            android:textSize="60px" />
+
+        <View
+            android:id="@+id/v_div"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white_50" />
+    </RelativeLayout>
+</RelativeLayout>

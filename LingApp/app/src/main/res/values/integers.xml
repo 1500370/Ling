@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 整體定義 全畫面長寬比為「1080x1920」 -->
+    <integer name="activity_weight_sum_horizontal">1080</integer>
+    <integer name="activity_weight_sum_vertical">1920</integer>
+</resources>

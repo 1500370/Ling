@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ling.testapp"
+    android:versionCode="1"
+    android:versionName="@string/app_version_name">
+
+    <!-- 網路權限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- WIFI權限-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 取得帳戶名稱 -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- 取得GPS位置權限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!-- 設定推播震動權限 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <!-- 讀取Task 的權限, 判斷 activity 是否啟動 -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+    <application
+        android:name=".ui.object.LApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher_app"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:largeHeap="true">
+        <activity
+            android:name=".function.Start.LStartActivity"
+            android:label="@string/app_name"
+            android:theme="@style/StartAppTheme"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".function.Main.LMainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:label="@string/title_home"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".function.Bingo.LBingoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:label="@string/title_bingo"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+
+    </application>
+</manifest>

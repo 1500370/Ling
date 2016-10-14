@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_navigation_bar_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/rl_navigation_bar_content"
+        android:background="@color/pink_light" />
+
+    <View
+        android:id="@+id/v_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="8.1px"
+        android:layout_below="@+id/v_line"
+        android:background="@drawable/drawer_shadow_top" />
+
+    <RelativeLayout
+        android:id="@+id/rl_navigation_bar_content"
+        android:layout_width="match_parent"
+        android:layout_height="170.9px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/pink_dark">
+
+        <ImageButton
+            android:id="@+id/ibtn_left"
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="48px"
+            android:background="@color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_menu" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="96px"
+            android:layout_marginRight="96px"
+            android:background="@color/transparent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/title_home"
+            android:textColor="@android:color/white"
+            android:textSize="60px" />
+
+        <ImageButton
+            android:id="@+id/ibtn_right"
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="48px"
+            android:background="@color/transparent"
+            android:scaleType="fitXY" />
+    </RelativeLayout>
+</RelativeLayout>

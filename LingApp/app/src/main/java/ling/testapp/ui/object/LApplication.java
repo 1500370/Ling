@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import ling.testapp.function.Bingo.object.LBingoInfo;
+
 /**
  * Created by jlchen on 16/9/29
  */
@@ -11,7 +13,7 @@ public class LApplication extends Application {
 
 	private static final String TAG			= "LApplication";
 	private static Context s_context	= null;
-	public  static LBingoInfo	s_bingoInfo	= null;
+	public  static LBingoInfo s_bingoInfo	= null;
 
 	@Override
 	public void onCreate() {

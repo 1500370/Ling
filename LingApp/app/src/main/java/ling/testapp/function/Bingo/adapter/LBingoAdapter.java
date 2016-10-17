@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,7 +51,7 @@ public class LBingoAdapter extends BaseAdapter {
         //點擊模式下 點擊輸入框
         void OnItemClick(ArrayList<LBingoItem> arrayList);
         //遊戲模式下 點擊輸入框
-        void OnItemSelect(ArrayList<LBingoItem> arrayList);
+        void OnItemSelect(View v, ArrayList<LBingoItem> arrayList, int iPosition);
         //輸入模式下 更新賓果盤資料
         void updateData(ArrayList<LBingoItem> arrayList);
         //關閉activity
@@ -65,14 +66,15 @@ public class LBingoAdapter extends BaseAdapter {
     }
 
     private static class Holder {
-        public EditText etNum;
+        public Button       btnNum;
+        public EditText     etNum;
         public LinearLayout llRoot;
     }
 
     private static final double WEIGHT_PADDING      = 18;
     private static final double WEIGHT_TEXT_SIZE    = 343;
 
-    private Context m_context       = null;
+    private Context             m_context       = null;
     private LViewScaleDef       m_viewScaleDef  = null;
 
     private int                 m_iWidth        = 0;
@@ -133,16 +135,19 @@ public class LBingoAdapter extends BaseAdapter {
 
             holder.llRoot   = (LinearLayout)convertView.findViewById(R.id.ll_bingo_item_root);
             holder.etNum    = (EditText)convertView.findViewById(R.id.et_num);
-
+            holder.btnNum   = (Button) convertView.findViewById(R.id.btn_num);
             holder.llRoot.getLayoutParams().height = m_iItemWidth;
             holder.llRoot.getLayoutParams().width = m_iItemWidth;
 
             holder.llRoot.setPadding(m_iItemPadding, m_iItemPadding, m_iItemPadding, m_iItemPadding);
 
-            if (!TextUtils.isEmpty(m_alData.get(iPosition).m_strNum))
+            if (!TextUtils.isEmpty(m_alData.get(iPosition).m_strNum)){
                 holder.etNum.setText(m_alData.get(iPosition).m_strNum);
+                holder.btnNum.setText(m_alData.get(iPosition).m_strNum);
+            }
 
             m_viewScaleDef.setTextSize(m_dItemTextSize, holder.etNum);
+            m_viewScaleDef.setTextSize(m_dItemTextSize, holder.btnNum);
 
             convertView.setTag(holder);
             m_map.put(iPosition, holder.etNum);
@@ -153,22 +158,54 @@ public class LBingoAdapter extends BaseAdapter {
         switch (m_type){
             //點擊模式
             case CLICK:{
+                holder.etNum.setVisibility(View.VISIBLE);
+                holder.btnNum.setVisibility(View.GONE);
                 setClickMode(holder, iPosition);
                 break;
             }
             //輸入模式
             case INPUT:{
+                holder.etNum.setVisibility(View.VISIBLE);
+                holder.btnNum.setVisibility(View.GONE);
                 setInputMode(holder, iPosition);
                 break;
             }
             //遊戲模式
             case GAME:{
-
+                holder.etNum.setVisibility(View.GONE);
+                holder.btnNum.setVisibility(View.VISIBLE);
+                setGameMode(holder, iPosition);
                 break;
             }
         }
 
         return convertView;
+    }
+
+    private void setGameMode(final Holder holder, final int iPosition){
+
+        if (true == m_alData.get(iPosition).m_bSelect){
+            holder.btnNum.setBackgroundResource(R.drawable.bg_bingo_item_select);
+        }else {
+            holder.btnNum.setBackgroundResource(R.drawable.bg_bingo_item);
+        }
+
+        holder.btnNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean bSelect = m_alData.get(iPosition).m_bSelect;
+
+                if (true == bSelect){
+                    m_alData.get(iPosition).m_bSelect = false;
+                }else {
+                    m_alData.get(iPosition).m_bSelect = true;
+                }
+
+                if ( null != m_listener ){
+                    m_listener.OnItemSelect(v, m_alData, iPosition);
+                }
+            }
+        });
     }
 
     private void setClickMode(final Holder holder, final int iPosition){
@@ -322,11 +359,8 @@ public class LBingoAdapter extends BaseAdapter {
 
             if ( null!= m_listener ){
                 m_listener.updateData(m_alData);
-                String strMsg = String.format(
-                        m_context.getString(R.string.bingo_plate_num_error),
-                        String.valueOf(m_iMin),
-                        String.valueOf(m_iMax));
-                m_listener.showToast(strMsg);
+                m_listener.showToast(
+                        m_context.getString(R.string.bingo_plate_range_error));
             }
             return false;
         }
@@ -340,8 +374,10 @@ public class LBingoAdapter extends BaseAdapter {
 
             if ( null!= m_listener ){
                 m_listener.updateData(m_alData);
-                m_listener.showToast(
-                        m_context.getString(R.string.bingo_plate_repeat_error));
+                String strMsg = String.format(
+                        m_context.getString(R.string.bingo_plate_input_repeat_error),
+                        str);
+                m_listener.showToast(strMsg);
             }
             return false;
         }

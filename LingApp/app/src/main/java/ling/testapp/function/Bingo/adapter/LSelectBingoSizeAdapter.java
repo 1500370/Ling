@@ -1,4 +1,4 @@
-package ling.testapp.ui.popupwindow.adapter;
+package ling.testapp.function.Bingo.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;

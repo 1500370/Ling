@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:splitMotionEvents="false">
 
     <GridView
         android:id="@+id/gv_bingo"

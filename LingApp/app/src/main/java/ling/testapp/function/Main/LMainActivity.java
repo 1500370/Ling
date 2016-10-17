@@ -114,10 +114,10 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private DrawerLayout m_drawerLayout              = null;
-    private FrameLayout m_flContent                 = null;
-    private LinearLayout m_llLeftMenu                = null;
-    private LinearLayout m_llRightMenu               = null;
+    private DrawerLayout                m_drawerLayout              = null;
+    private FrameLayout                 m_flContent                 = null;
+    private LinearLayout                m_llLeftMenu                = null;
+    private LinearLayout                m_llRightMenu               = null;
     private LLeftMenuFragment           m_leftMenuFragment          = null;
 //    private RightDrawerFragment m_RightDrawerFragment   = null;
 
@@ -131,11 +131,13 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
     /** 當下畫面的Function Code */
     protected int                       m_iCurrViewId               = 0;
     /** 當下畫面的名稱 */
-    protected String m_strCurrViewName           = "";
+    protected String                    m_strCurrViewName           = "";
     /** 當下畫面的Tag */
-    protected String m_strCurrViewTag            = "";
+    protected String                    m_strCurrViewTag            = "";
     /** 是否第一次進入首頁 */
     protected boolean                   m_bFirstHome                = true;
+    /** 是否要顯示切換fragment動畫 */
+    protected boolean                   m_bIsAnim                   = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -144,7 +146,7 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
 
     @Override
     protected void initialLayoutComponent() {
-        m_menuHomeItem = LMenuViewIdDef.getInstance().getHomeMenuList().get(0).alMenuItem.get(0);
+        m_menuHomeItem  = LMenuViewIdDef.getInstance().getHomeMenuList().get(0).alMenuItem.get(0);
 
         m_flContent     = (FrameLayout) findViewById(R.id.fl_content);
         m_drawerLayout  = (DrawerLayout)findViewById(R.id.dl_main);
@@ -201,6 +203,7 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
                 super.onBackPressed();
             }
         } else {
+            m_bIsAnim = true;
             selectSideMenu(m_menuHomeItem);
         }
     }
@@ -210,7 +213,7 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
      *
      * @param sideMenuItem 畫面的相關參數
      */
-    public void selectSideMenu( LSideMenuItem sideMenuItem ) {
+    public void selectSideMenu(final LSideMenuItem sideMenuItem ) {
 
         final int       iViewId     = sideMenuItem.iId;
         final String    strViewName = getResources().getString(sideMenuItem.iNameResId);
@@ -254,6 +257,8 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
             @Override
             public void run() {
                 changeFragment(iViewId, strViewName, fragment);
+
+                m_menuCurrItem = sideMenuItem;
 
                 //關閉menu
                 m_drawerLayout.closeDrawers();
@@ -300,11 +305,12 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
         m_strCurrViewName   = strNewViewName;
 
         // 設置轉換效果 (第一次近首頁不需要動畫)
-        if (false == m_bFirstHome) {
+        if (true == m_bFirstHome || true == m_bIsAnim) {
             fragmentTransaction.setCustomAnimations(R.anim.anim_right_in, R.anim.anim_left_out);
-        } else {
-            m_bFirstHome = false;
         }
+
+        m_bFirstHome = false;
+        m_bIsAnim = false;
 
         // 替换容器(container)原来的Fragment
         fragmentTransaction.replace(m_flContent.getId(), newFragment, strNewViewName);

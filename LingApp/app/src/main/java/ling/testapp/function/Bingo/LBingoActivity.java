@@ -7,7 +7,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,12 @@ import ling.testapp.ui.toast.LToast;
 
 /**
  * Created by jlchen on 2016/10/5.
+ * 賓果遊戲-輸入賓果盤頁面
+ *
+ * *待完成功能*
+ * 1. 單一輸入框清除內容功能
+ * 2. 當賓果盤數字驗證錯誤時, 數字顏色要變紅
+ * 3. 驗證錯誤則show出訊息(非show dialog/toast)
  */
 
 public class LBingoActivity extends LBaseActivity {
@@ -66,7 +73,7 @@ public class LBingoActivity extends LBaseActivity {
         }
 
         @Override
-        public void OnItemSelect(ArrayList<LBingoItem> arrayList) {
+        public void OnItemSelect(View v, ArrayList<LBingoItem> arrayList, int iPosition) {
 
         }
 
@@ -87,25 +94,27 @@ public class LBingoActivity extends LBaseActivity {
             toast.setGravity(
                     Gravity.TOP | Gravity.CENTER_HORIZONTAL,
                     0,
-                    LViewScaleDef.getInstance(m_context).getLayoutHeight(WEIGHT_TOAST_MARGIN));
+                    LViewScaleDef.getInstance(m_context).getLayoutWidth(WEIGHT_TOAST_MARGIN));
             toast.show();
         }
     };
 
     private static final double WEIGHT_TOTAL_WIDTH  = 1020;
     private static final double WEIGHT_PADDING      = 15;
-    private static final double WEIGHT_TOAST_MARGIN = 35;
+    private static final double WEIGHT_TOAST_MARGIN = 60;
+    private static final double WEIGHT_TEXT_SIZE    = 36;
 
-    private LinearLayout m_llRoot        = null;
-    private FrameLayout m_flContent     = null;
+    private RelativeLayout          m_rlRoot        = null;
+    private TextView                m_tvText        = null;
+    private FrameLayout             m_flContent     = null;
 
-    private GridView m_gridView      = null;
+    private GridView                m_gridView      = null;
     private LBingoAdapter           m_adapter       = null;
     private int                     m_iMin          = 0;
     private int                     m_iMax          = 0;
     private int                     m_iCol          = 3;
     private int                     m_iGvWidth      = 0;
-    private ArrayList<LBingoItem> m_alData        = new ArrayList<>();
+    private ArrayList<LBingoItem>   m_alData        = new ArrayList<>();
 
 
     @Override
@@ -125,13 +134,20 @@ public class LBingoActivity extends LBaseActivity {
             m_iMax = bundle.getInt(LUiMessageDef.BUNDLE_TAG_BINGO_MAX);
         }
 
-        m_llRoot = (LinearLayout)findViewById(R.id.ll_bingo_root);
-        m_llRoot.setOnClickListener(new View.OnClickListener() {
+        m_rlRoot = (RelativeLayout)findViewById(R.id.rl_bingo_root);
+        m_rlRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+        m_tvText = (TextView)findViewById(R.id.tv_detail);
+        String str = String.format(
+                m_context.getResources().getString(R.string.bingo_detail_text),
+                ""+m_iMin,
+                ""+m_iMax,
+                m_iCol+" x "+m_iCol);
+        m_tvText.setText(str);
 
         View vContent = View.inflate(m_context, R.layout.view_bingo, null);
         m_flContent = (FrameLayout)findViewById(R.id.fl_content);
@@ -141,11 +157,15 @@ public class LBingoActivity extends LBaseActivity {
 
     @Override
     protected void setTextSizeAndLayoutParams(LViewScaleDef vScaleDef) {
-        LinearLayout.LayoutParams params
-                = (LinearLayout.LayoutParams)m_flContent.getLayoutParams();
+        vScaleDef.setTextSize(WEIGHT_TEXT_SIZE, m_tvText);
+        m_tvText.getLayoutParams().height = vScaleDef.getLayoutWidth(WEIGHT_TOAST_MARGIN);
+
+        RelativeLayout.LayoutParams params
+                = (RelativeLayout.LayoutParams)m_flContent.getLayoutParams();
         params.setMargins(vScaleDef.getLayoutWidth(WEIGHT_PADDING),
-                vScaleDef.getLayoutWidth(WEIGHT_PADDING * 2),
-                vScaleDef.getLayoutWidth(WEIGHT_PADDING), 0);
+                0,
+                vScaleDef.getLayoutWidth(WEIGHT_PADDING),
+                0);
         m_flContent.setPadding(vScaleDef.getLayoutWidth(WEIGHT_PADDING),
                 vScaleDef.getLayoutWidth(WEIGHT_PADDING),
                 vScaleDef.getLayoutWidth(WEIGHT_PADDING),
@@ -176,6 +196,7 @@ public class LBingoActivity extends LBaseActivity {
 
     @Override
     public void finish() {
+        cancelEditTextFocus();
 
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
@@ -186,5 +207,11 @@ public class LBingoActivity extends LBaseActivity {
         super.finish();
 
         overridePendingTransition(R.anim.anim_alpha_in, R.anim.anim_alpha_out);
+    }
+
+    private void cancelEditTextFocus(){
+        m_rlRoot.setFocusable(true);
+        m_rlRoot.setFocusableInTouchMode(true);
+        m_rlRoot.requestFocus();
     }
 }

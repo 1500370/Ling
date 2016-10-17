@@ -5,19 +5,36 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@color/transparent"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/et_num"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_dialog"
-        android:gravity="center"
         android:layout_gravity="center"
+        android:background="@drawable/bg_bingo_item"
+        android:gravity="center"
         android:imeOptions="actionNext"
         android:inputType="number"
         android:maxLength="3"
         android:maxLines="1"
         android:paddingTop="0px"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/btn_num"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="0px"
+        android:background="@drawable/bg_bingo_item"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="0px"
+        android:minHeight="0px"
+        android:minWidth="0px"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
 </LinearLayout>

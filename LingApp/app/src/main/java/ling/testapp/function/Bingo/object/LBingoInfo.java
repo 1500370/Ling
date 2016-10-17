@@ -1,4 +1,4 @@
-package ling.testapp.ui.object;
+package ling.testapp.function.Bingo.object;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,9 +16,9 @@ import ling.testapp.function.Bingo.item.LBingoItem;
  */
 public class LBingoInfo {
 
-    private final String TAG             = "BingoInfo";
-    private Context m_context       = null;
-    private SharedPreferences m_spBingoInfo   = null;
+    private final String        TAG             = "BingoInfo";
+    private Context             m_context       = null;
+    private SharedPreferences   m_spBingoInfo   = null;
 
     //SharedPreferences 檔名定義
     /**
@@ -30,13 +30,11 @@ public class LBingoInfo {
     /**
      * 賓果SIZE預設值
      */
-    private static final int            DEF_BINGO_SIZE  = 3;
+    private static final int    DEF_BINGO_SIZE  = 3;
 
     //賓果盤基本預設值
-    public  static final int            DEF_MIN         = 1;
-    public  static final int            DEF_MAX         = 999;
-
-
+    public  static final int    DEF_MIN         = 1;
+    public  static final int    DEF_MAX         = 999;
 
     public LBingoInfo(Context context) {
 
@@ -175,10 +173,73 @@ public class LBingoInfo {
         for (int i = 0; i < iSize; i ++){
             int iRandom = (int)(Math.random() * arrayList.size());
 
-            result.add(new LBingoItem(i, String.valueOf(arrayList.get(iRandom)), false, false));
+            result.add(new LBingoItem(i, String.valueOf(arrayList.get(iRandom))));
 
             arrayList.remove(iRandom);
         }
         return result;
+    }
+
+    //計算連線數
+    public int getBingoLine(ArrayList<LBingoItem> arrayList, int iCol){
+        int iLine = 0;
+        int iSize = arrayList.size();
+
+        //橫線
+        for(int i = 0; i < iSize; i += iCol){
+            boolean bLine = true;
+            for (int j = i; j < (i + iCol); j ++){
+                if (false == arrayList.get(j).m_bSelect)
+                    bLine = false;
+            }
+
+            if (true == bLine){
+                iLine ++;
+            }
+        }
+
+        //直線
+        for(int i = 0; i < iCol; i ++){
+            boolean bLine = true;
+            for (int j = i; j < iSize; j += iCol){
+                if (false == arrayList.get(j).m_bSelect)
+                    bLine = false;
+            }
+
+            if (true == bLine){
+                iLine ++;
+            }
+        }
+
+        //正斜線
+        boolean bSlash = true;
+        for(int i = 0; i < iSize; i += (iCol+1)){
+            if (false == arrayList.get(i).m_bSelect)
+                bSlash = false;
+        }
+
+        if (true == bSlash){
+            iLine ++;
+        }
+
+        //反斜線
+        boolean bBackslash = true;
+        int iIndex = 0;
+        for(int i = (iCol-1); i < iSize; i += (iCol-1)){
+            //只要依列數確認n個數字是否都已選
+            if (iIndex >= iCol)
+                break;
+
+            if (false == arrayList.get(i).m_bSelect)
+                bBackslash = false;
+
+            iIndex++;
+        }
+
+        if (true == bBackslash){
+            iLine ++;
+        }
+
+        return iLine;
     }
 }

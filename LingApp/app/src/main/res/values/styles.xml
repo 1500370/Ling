@@ -54,17 +54,6 @@
         <item name="colorControlHighlight">@color/transparent</item>
     </style>
 
-    <style name="alertdialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:backgroundDimAmount">0.5</item>
-    </style>
-
     <!--  Shadow -->
     <declare-styleable name="ShadowLayout">
         <attr name="sl_cornerRadius" format="dimension" />
@@ -97,14 +86,35 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="Transparent" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--將Activity的Theme設置成透明-->
-        <item name="android:windowIsTranslucent">true</item>
+    <!--<style name="SelectPopupwindow" parent="android:Animation" mce_bogus="1">-->
+        <!--<item name="android:windowEnterAnimation">@anim/anim_top_in</item>-->
+        <!--<item name="android:windowExitAnimation">@anim/anim_top_out</item>-->
+    <!--</style>-->
+
+    <!--Progress Dlg設定-->
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-    <style name="PopupAnimation" parent="android:Animation" mce_bogus="1">
-        <item name="android:windowEnterAnimation">@anim/anim_alpha_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_alpha_out</item>
+    <style name="ProgressDialog" parent="@style/CustomDialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!--自定義警示對話框-->
+    <style name="AlertDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
     <!--新增字型設定-->
@@ -122,31 +132,5 @@
     </style>
     <!--medium android 5.0以後才支援, 故 設定在 v21/style.xml-->
     <style name="medium" parent="bold">
-    </style>
-
-    <!--Progress Dlg設定-->
-    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-    </style>
-
-    <style name="CIProgressDialog" parent="@style/CustomDialog">
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <!--自定義警示對話框-->
-    <style name="alert_dialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:backgroundDimAmount">0.5</item>
     </style>
 </resources>

@@ -70,7 +70,7 @@ public class LAlertDialog extends Dialog
 
 	public LAlertDialog(Context context, OnAlertMsgDialogListener onAlertDialogListener)
 	{
-		super(context, R.style.alert_dialog);
+		super(context, R.style.AlertDialog);
 		setCancelable(false);	//back 不可關閉
 		setCanceledOnTouchOutside(false);	//點擊外面dialog不會dismiss
 //		requestWindowFeature(Window.FEATURE_NO_TITLE);	//不顯示沒有title

@@ -38,11 +38,11 @@ public class LSwitchButton extends View {
     private              int        m_iShape;
 
     // varials of drawing
-    private Paint m_paint;
-    private Rect m_rectBack;
-    private Rect m_rectFront;
-    private RectF m_rfFrontCircle;
-    private RectF m_rfBackCircle;
+    private              Paint      m_paint;
+    private              Rect       m_rectBack;
+    private              Rect       m_rectFront;
+    private              RectF      m_rfFrontCircle;
+    private              RectF      m_rfBackCircle;
     private              int        m_iAlpha;
     private              int        m_iMaxLeft;
     private              int        m_iMinLeft;
@@ -170,7 +170,8 @@ public class LSwitchButton extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (m_bSlideable == false)
-            return super.onTouchEvent(event);
+            return false;
+
         int action = MotionEventCompat.getActionMasked(event);
         switch (action) {
             //使用者開始觸摸
@@ -224,11 +225,13 @@ public class LSwitchButton extends View {
     }
 
     public void moveToDest(final boolean toRight) {
+        setSlideable(false);
+
         if (m_listener != null && toRight == m_listener.IsOpenSwitch(toRight)){
             //符合條件才可以開啟開關
             ValueAnimator toDestAnim = ValueAnimator.ofInt(m_iFrontRectLeft,
                     toRight ? m_iMaxLeft : m_iMinLeft);
-            toDestAnim.setDuration(300);
+            toDestAnim.setDuration(200);
             toDestAnim.setInterpolator(new AccelerateDecelerateInterpolator());
             toDestAnim.start();
             toDestAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -259,7 +262,7 @@ public class LSwitchButton extends View {
         }else {
             //否則一律為關閉狀態
             ValueAnimator toDestAnim = ValueAnimator.ofInt(m_iFrontRectLeft, RIM_SIZE);
-            toDestAnim.setDuration(300);
+            toDestAnim.setDuration(200);
             toDestAnim.setInterpolator(new AccelerateDecelerateInterpolator());
             toDestAnim.start();
             toDestAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -279,7 +282,8 @@ public class LSwitchButton extends View {
                     m_bIsOpen = false;
                     m_iFrontRectLeftBegin = RIM_SIZE;
 
-                    m_listener.onChanged(LSwitchButton.this, false);
+                    if ( null != m_listener )
+                        m_listener.onChanged(LSwitchButton.this, false);
                 }
             });
         }
@@ -304,6 +308,10 @@ public class LSwitchButton extends View {
 
     public void setSlideable(boolean bSlideable) {
         this.m_bSlideable = bSlideable;
+    }
+
+    public boolean getSlideable() {
+        return this.m_bSlideable;
     }
 
     @Override

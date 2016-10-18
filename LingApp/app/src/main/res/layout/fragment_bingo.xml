@@ -50,7 +50,7 @@
                 android:maxLines="1"
                 android:paddingBottom="5px"
                 android:paddingTop="0px"
-                android:text="@string/bingo_size_defult"
+                android:text="@array/bingo_size_list"
                 android:textColor="@color/black_80"
                 android:textSize="48px" />
 

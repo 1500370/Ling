@@ -13,6 +13,7 @@ import ling.testapp.function.Bingo.item.LBingoItem;
 
 /**
  * Created by jlchen on 16/9/29
+ * 賓果遊戲
  */
 public class LBingoInfo {
 

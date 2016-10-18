@@ -8,10 +8,11 @@
         android:id="@+id/lv_select_bingo_size"
         android:layout_width="960px"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
         android:background="@color/pink_dark"
         android:dividerHeight="0px"
         android:drawSelectorOnTop="true"
         android:alpha="0.9"
-        android:listSelector="@drawable/bg_transparent_press_white20"></ListView>
+        android:listSelector="@drawable/bg_transparent_press_white20" />
 
 </LinearLayout>

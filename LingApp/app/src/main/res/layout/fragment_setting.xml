@@ -58,7 +58,7 @@
                 android:shadowRadius="4"
                 android:layout_marginTop="20px"
                 android:text="@string/setting_language_tw"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white_80"
                 android:textSize="36px" />
         </LinearLayout>
 
@@ -128,7 +128,7 @@
             android:shadowDy="3"
             android:shadowRadius="4"
             android:text="@string/app_version_name"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white_80"
             android:textSize="36px" />
 
         <TextView
@@ -145,7 +145,7 @@
             android:shadowDy="3"
             android:shadowRadius="4"
             android:text="@string/app_develop_name"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white_80"
             android:textSize="36px" />
     </RelativeLayout>
 

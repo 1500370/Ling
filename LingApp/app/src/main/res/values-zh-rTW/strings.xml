@@ -1,4 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--app名-->
+    <string name="app_name">羚 Demo App</string>
+
+    <!--系統基本字串-->
+    <string name="confirm">確定</string>
+    <string name="cancel">取消</string>
+    <string name="warn">注意</string>
+    <string name="exit_app_message">您是否要關閉程式？</string>
+
+    <!--Side menu-->
+    <string name="menu_group_training">練習題</string>
+    <string name="title_home">首頁</string>
+    <string name="title_bingo">賓果遊戲</string>
+    <string name="title_nbns">三大法人買賣超走勢圖</string>
+    <string name="menu_group_other">其他</string>
+    <string name="title_setting">設定</string>
+
+    <!--賓果-->
+    <string name="bingo_please_input_range">請輸入數字範圍：</string>
+    <string name="bingo_range_max">最大值</string>
+    <string name="bingo_range_min">最小值</string>
+    <string name="bingo_reset">重設</string>
+    <string name="bingo_please_select_size">請選擇賓果大小：</string>
+    <string name="bingo_current_mode">當前模式：</string>
+    <string name="bingo_mode_input">輸入模式</string>
+    <string name="bingo_mode_play">遊戲模式</string>
+    <string name="bingo_please_input_num">請輸入賓果盤數字：</string>
+    <string name="bingo_random">亂數</string>
+    <string name="bingo_random_select">隨選</string>
+    <string name="bingo_random_restart">重玩</string>
+    <string name="bingo_plate_error">請輸入賓果盤數字！</string>
+    <string name="bingo_plate_input_repeat_error">您已輸入過數字 %1$s ！</string>
+    <string name="bingo_plate_repeat_error">賓果盤數字請勿重複輸入！</string>
+    <string name="bingo_plate_range_error">賓果盤數字超過範圍！</string>
+    <string name="bingo_range_error">請輸入數字範圍，最大值減最小值必需大於賓果盤範圍（%1$s）！</string>
+    <string name="bingo_max_error">最大值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
+    <string name="bingo_min_error">最小值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
+    <string name="bingo_detail_text">數字範圍: %1$s ~ %2$s ; 賓果盤大小: %3$s</string>
+    <string name="bingo_line">恭喜您！成功連線 %1$s 條。</string>
+
+    <!--設定-->
+    <string name="setting_language">語系設定</string>
+    <string name="setting_version">系統版本</string>
+
 </resources>

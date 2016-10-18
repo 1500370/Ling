@@ -77,6 +77,11 @@ public class LThreeNBNSActivity extends LBaseActivity{
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
     public void finish() {
         super.finish();
 

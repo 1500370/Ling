@@ -1,4 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--app名-->
+    <string name="app_name">Ling Demo App</string>
+
+    <!--系統基本字串-->
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="warn">Warning</string>
+    <string name="exit_app_message">Do you wish to exit？</string>
+
+    <!--Side menu-->
+    <string name="menu_group_training">Exercise</string>
+    <string name="title_home">Home</string>
+    <string name="title_bingo">Bingo</string>
+    <string name="title_nbns">Institutional Investors Net Buy/Sell</string>
+    <string name="menu_group_other">Others</string>
+    <string name="title_setting">Setting</string>
+
+    <!--賓果-->
+    <string name="bingo_please_input_range">Input Range：</string>
+    <string name="bingo_range_max">Max</string>
+    <string name="bingo_range_min">Min</string>
+    <string name="bingo_reset">Reset</string>
+    <string name="bingo_please_select_size">Select Size：</string>
+    <string name="bingo_current_mode">Mode：</string>
+    <string name="bingo_mode_input">Input Mode</string>
+    <string name="bingo_mode_play">Play Mode</string>
+    <string name="bingo_please_input_num">Input Number：</string>
+    <string name="bingo_random">Random</string>
+    <string name="bingo_random_select">Select</string>
+    <string name="bingo_random_restart">Restart</string>
+    <string name="bingo_plate_error">Please Input Bingo Plate Number！</string>
+    <string name="bingo_plate_input_repeat_error">您已輸入過數字 %1$s ！</string>
+    <string name="bingo_plate_repeat_error">賓果盤數字請勿重複輸入！</string>
+    <string name="bingo_plate_range_error">賓果盤數字超過範圍！</string>
+    <string name="bingo_range_error">請輸入數字範圍，最大值減最小值必需大於賓果盤範圍（%1$s）！</string>
+    <string name="bingo_max_error">最大值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
+    <string name="bingo_min_error">最小值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
+    <string name="bingo_detail_text">數字範圍: %1$s ~ %2$s ; 賓果盤大小: %3$s</string>
+    <string name="bingo_line">恭喜您！成功連線 %1$s 條。</string>
+
+    <!--設定-->
+    <string name="setting_language">Language Setting</string>
+    <string name="setting_version">App Version</string>
 
 </resources>

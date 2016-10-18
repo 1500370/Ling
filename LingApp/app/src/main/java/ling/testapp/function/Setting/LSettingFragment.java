@@ -19,7 +19,7 @@ import ling.testapp.ui.navigation.LNavigationBar;
  * Created by jlchen on 2016/9/23.
  */
 
-public class LSettingFragment extends LBaseFragment{
+public class LSettingFragment extends LBaseFragment implements View.OnClickListener{
 
     private LNavigationBar.OnListener   m_navigationListener
             = new LNavigationBar.OnListener() {
@@ -203,5 +203,13 @@ public class LSettingFragment extends LBaseFragment{
 
     public void uiSetParameterListener(LNaviBarToMainListener onListener) {
         m_onMainListener = onListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.rl_language:
+                break;
+        }
     }
 }

@@ -37,9 +37,16 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     }
 
     public interface OnInterface {
+
+        /**變更語系*/
+        void changeLanguageText(String strText);
     }
 
     private OnInterface m_onInterface   = new OnInterface() {
+        @Override
+        public void changeLanguageText(String strText) {
+            m_tvTitle.setText(strText);
+        }
     };
 
     public  static final double NAVIGATION_BAR_HEIGHT   = 180;
@@ -98,7 +105,7 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
         m_ibtnLeft.setOnClickListener(this);
         m_ibtnRight = (ImageButton) findViewById(R.id.ibtn_right);
         m_ibtnRight.setOnClickListener(this);
-        m_ibtnRight.setVisibility(GONE);
+        m_ibtnRight.setVisibility(INVISIBLE);
         m_vLine     = findViewById(R.id.v_line);
         m_vShadow   = findViewById(R.id.v_shadow);
 
@@ -107,7 +114,7 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
                 m_tvTitle.setText( m_onParameter.GetTitle() );
                 m_tvTitle.setVisibility(VISIBLE);
             }else {
-                m_tvTitle.setVisibility(GONE);
+                m_tvTitle.setVisibility(INVISIBLE);
             }
 
             if ( 0 != m_onParameter.GetLeftIconRes() ){
@@ -116,6 +123,7 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
 
             if ( 0 != m_onParameter.GetRightIconRes() ){
                 m_ibtnRight.setImageResource( m_onParameter.GetRightIconRes() );
+                m_ibtnRight.setVisibility(VISIBLE);
             }
         }
     }

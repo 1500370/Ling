@@ -57,6 +57,7 @@ import static ling.testapp.function.Bingo.object.LBingoInfo.DEF_MIN;
  * 4. 改變賓果盤大小時, 不清除最小值/最大值
  * 5. 自動產生最小值/最大值
  * 6. 儲存上次玩的紀錄
+ * 7. 題目說明
  */
 
 public class LBingoFragment extends LBaseFragment implements

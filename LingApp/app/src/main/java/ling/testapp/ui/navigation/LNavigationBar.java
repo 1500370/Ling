@@ -22,6 +22,10 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     public interface OnParameter {
         /**取得Title字串*/
         String GetTitle();
+        /**取得左側按鈕icon*/
+        int GetLeftIconRes();
+        /**取得右側按鈕icon*/
+        int GetRightIconRes();
     }
 
     public interface OnListener {
@@ -38,7 +42,6 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     private OnInterface m_onInterface   = new OnInterface() {
     };
 
-
     public  static final double NAVIGATION_BAR_HEIGHT   = 180;
     private static final double BACKGROUND_HEIGHT       = 170.9;
     private static final double LINE_HEIGHT             = 1;
@@ -47,17 +50,17 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     private static final double IMG_MARGIN              = 48;
     private static final double TEXT_TITLE_SIZE         = 72;
 
-    private OnParameter m_onParameter   = null;
-    private OnListener  m_onListener    = null;
+    private OnParameter     m_onParameter   = null;
+    private OnListener      m_onListener    = null;
 
-    private Context m_context       = null;
+    private Context         m_context       = null;
 
-    private RelativeLayout m_rlBg      = null;
-    private TextView m_tvTitle       = null;
-    private ImageButton m_ibtnLeft      = null;
-    private ImageButton m_ibtnRight     = null;
-    private View m_vLine         = null;
-    private View m_vShadow       = null;
+    private RelativeLayout  m_rlBg          = null;
+    private TextView        m_tvTitle       = null;
+    private ImageButton     m_ibtnLeft      = null;
+    private ImageButton     m_ibtnRight     = null;
+    private View            m_vLine         = null;
+    private View            m_vShadow       = null;
 
     public LNavigationBar(Context context) {
         this(context, null);
@@ -105,6 +108,14 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
                 m_tvTitle.setVisibility(VISIBLE);
             }else {
                 m_tvTitle.setVisibility(GONE);
+            }
+
+            if ( 0 != m_onParameter.GetLeftIconRes() ){
+                m_ibtnLeft.setImageResource( m_onParameter.GetLeftIconRes() );
+            }
+
+            if ( 0 != m_onParameter.GetRightIconRes() ){
+                m_ibtnRight.setImageResource( m_onParameter.GetRightIconRes() );
             }
         }
     }

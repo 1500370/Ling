@@ -12,8 +12,8 @@ import ling.testapp.function.Bingo.object.LBingoInfo;
 public class LApplication extends Application {
 
 	private static final String TAG			= "LApplication";
-	private static Context s_context	= null;
-	public  static LBingoInfo s_bingoInfo	= null;
+	private static Context 		s_context	= null;
+	public  static LBingoInfo 	s_bingoInfo	= null;
 
 	@Override
 	public void onCreate() {

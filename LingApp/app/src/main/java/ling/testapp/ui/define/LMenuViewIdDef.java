@@ -9,6 +9,7 @@ import ling.testapp.function.Bingo.LBingoFragment;
 import ling.testapp.function.Main.LHomeFragment;
 import ling.testapp.function.Main.item.LSideMenuGroupItem;
 import ling.testapp.function.Main.item.LSideMenuItem;
+import ling.testapp.function.NBNS.LThreeNBNSActivity;
 import ling.testapp.function.Setting.LSettingFragment;
 
 /**
@@ -21,9 +22,12 @@ public class LMenuViewIdDef {
     public static final int MENU_ID_HOME        = 1000;
 
     //左側選單
-    public static final int MENU_ID_LEFT_1      = 1100;
+    public static final int MENU_ID_TRAINING    = 1100;
     public static final int MENU_ID_BINGO       = 1101;
-    public static final int MENU_ID_SETTING     = 1102;
+    public static final int MENU_ID_NBNS        = 1102;
+
+    public static final int MENU_ID_OTHER       = 1200;
+    public static final int MENU_ID_SETTING     = 1201;
 
     //右側選單
     public static final int MENU_ID             = 1201;
@@ -50,6 +54,7 @@ public class LMenuViewIdDef {
     private void initialHomeMenu(){
 
         ArrayList<LSideMenuGroupItem> alGroupList = new ArrayList<>();
+
         ArrayList<LSideMenuItem> alChildList = new ArrayList<>();
         alChildList.add(new LSideMenuItem(
                 MENU_ID_HOME,
@@ -61,27 +66,42 @@ public class LMenuViewIdDef {
                 R.string.title_home,
                 0,
                 alChildList));
+
         m_mapSideMenuList.put(MENU_TYPE_HOME, alGroupList);
     }
 
     private void initialLeftMenuList(){
         ArrayList<LSideMenuGroupItem> alGroupList = new ArrayList<>();
-        ArrayList<LSideMenuItem> alChildList = new ArrayList<>();
-        alChildList.add(new LSideMenuItem(
+
+        ArrayList<LSideMenuItem> alChildTraining = new ArrayList<>();
+        alChildTraining.add(new LSideMenuItem(
                 MENU_ID_BINGO,
                 R.string.title_bingo,
                 R.drawable.ic_bingo,
                 LBingoFragment.class));
-        alChildList.add(new LSideMenuItem(
+        alChildTraining.add(new LSideMenuItem(
+                MENU_ID_NBNS,
+                R.string.title_nbns,
+                R.drawable.ic_nbns,
+                LThreeNBNSActivity.class));
+        alGroupList.add(new LSideMenuGroupItem(
+                MENU_ID_TRAINING,
+                R.string.menu_group_training,
+                0,
+                alChildTraining));
+
+        ArrayList<LSideMenuItem> alChildOther = new ArrayList<>();
+        alChildOther.add(new LSideMenuItem(
                 MENU_ID_SETTING,
                 R.string.title_setting,
                 R.drawable.ic_setting,
                 LSettingFragment.class));
         alGroupList.add(new LSideMenuGroupItem(
-                MENU_ID_LEFT_1,
-                R.string.menu_group_left_1,
+                MENU_ID_OTHER,
+                R.string.menu_group_other,
                 0,
-                alChildList));
+                alChildOther));
+
         m_mapSideMenuList.put(MENU_TYPE_LEFT, alGroupList);
     }
 

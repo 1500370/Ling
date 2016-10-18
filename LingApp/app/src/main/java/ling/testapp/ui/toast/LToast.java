@@ -69,14 +69,14 @@ public class LToast {
     private static final double DEF_TEXT_HEIGHT     = 120;
     private static final double DEF_GRAVITY_Y       = 198;
 
-    private Context m_context           = null;
+    private Context             m_context           = null;
     private LViewScaleDef       m_vScaleDef         = null;
-    private final Handler m_handler           = new Handler();
+    private final Handler       m_handler           = new Handler();
     private int                 m_iDuration         = 3000;
     private int                 m_iGravity          = Gravity.CENTER;
     private int                 m_iX,   m_iY;
-    private View m_view, m_viewNext;
-    private WindowManager m_wm;
+    private View                m_view, m_viewNext;
+    private WindowManager       m_wm;
     private final WindowManager.LayoutParams m_params = new WindowManager.LayoutParams();
 
     public LToast (Context context){

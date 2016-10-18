@@ -1,34 +1,28 @@
-package ling.testapp.function.Main;
+package ling.testapp.function.NBNS;
 
 import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import ling.testapp.R;
-import ling.testapp.function.Base.LBaseFragment;
+import ling.testapp.function.Base.LBaseActivity;
 import ling.testapp.ui.define.LViewScaleDef;
-import ling.testapp.ui.listener.LNaviBarToMainListener;
 import ling.testapp.ui.navigation.LNavigationBar;
 
 /**
- * Created by jlchen on 2016/9/23.
- * 首頁
+ * Created by jlchen on 2016/10/18.
+ * 三大法人買賣超走勢圖
  */
 
-public class LHomeFragment extends LBaseFragment{
+public class LThreeNBNSActivity extends LBaseActivity{
 
     private LNavigationBar.OnListener   m_navigationListener
             = new LNavigationBar.OnListener() {
         @Override
         public void OnRightImgClick() {
-            if ( null != m_onMainListener ){
-                m_onMainListener.OnNaviBarRightImgClick();
-            }
         }
 
         @Override
         public void OnLeftImgClick() {
-            m_onMainListener.OnNaviBarLeftImgClick();
+            finish();
         }
     };
 
@@ -36,12 +30,12 @@ public class LHomeFragment extends LBaseFragment{
             = new LNavigationBar.OnParameter() {
         @Override
         public String GetTitle() {
-            return getActivity().getResources().getString(R.string.title_home);
+            return m_context.getResources().getString(R.string.title_nbns);
         }
 
         @Override
         public int GetLeftIconRes() {
-            return 0;
+            return R.drawable.ic_left_arrow;
         }
 
         @Override
@@ -50,30 +44,29 @@ public class LHomeFragment extends LBaseFragment{
         }
     };
 
-    private LNaviBarToMainListener      m_onMainListener            = null;
-
-    private LNavigationBar              m_navigationBar             = null;
+    private LNavigationBar m_navigationBar         = null;
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.fragment_home;
+        return R.layout.activity_nbns;
     }
 
     @Override
-    protected void initialLayoutComponent(LayoutInflater inflater, View view) {
+    protected void initialLayoutComponent() {
 
-        m_navigationBar = (LNavigationBar)view.findViewById(R.id.navigation_bar);
+        m_navigationBar = (LNavigationBar)findViewById(R.id.navigation_bar);
     }
 
     @Override
-    protected void setTextSizeAndLayoutParams(View view, LViewScaleDef vScaleDef) {
+    protected void setTextSizeAndLayoutParams(LViewScaleDef vScaleDef) {
 
         m_navigationBar.getLayoutParams().height
                 = vScaleDef.getLayoutHeight(LNavigationBar.NAVIGATION_BAR_HEIGHT);
     }
 
     @Override
-    protected void setOnParameterAndListener(View view) {
+    protected void setOnParameterAndListener() {
+
         m_navigationBar.uiSetParameterListener(
                 m_navigationParameter, m_navigationListener);
     }
@@ -83,7 +76,10 @@ public class LHomeFragment extends LBaseFragment{
 
     }
 
-    public void uiSetParameterListener(LNaviBarToMainListener onListener) {
-        m_onMainListener = onListener;
+    @Override
+    public void finish() {
+        super.finish();
+
+        overridePendingTransition(R.anim.anim_left_in, R.anim.anim_right_out);
     }
 }

@@ -71,6 +71,16 @@ public class LBingoFragment extends LBaseFragment implements
         public String GetTitle() {
             return getActivity().getResources().getString(R.string.title_bingo);
         }
+
+        @Override
+        public int GetLeftIconRes() {
+            return 0;
+        }
+
+        @Override
+        public int GetRightIconRes() {
+            return 0;
+        }
     };
 
     private LNavigationBar.OnListener   m_navigationListener

@@ -22,7 +22,7 @@ import ling.testapp.ui.dialog.LAlertDialog;
 public abstract class LBaseFragment extends Fragment {
 
     private     LAlertDialog    m_dialog            = null;
-    protected LayoutInflater m_layoutInflater    = null;
+    protected   LayoutInflater  m_layoutInflater    = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

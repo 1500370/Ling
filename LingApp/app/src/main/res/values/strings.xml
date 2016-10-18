@@ -1,6 +1,10 @@
 <resources>
-
+    <!--app名-->
     <string name="app_name">Ling Demo App</string>
+
+    <!--版號-->
+    <string name="app_version_name" translatable="false">1.0.0</string>
+    <string name="app_develop_name" translatable="false">R01</string>
 
     <!--系統基本字串-->
     <string name="confirm">確定</string>
@@ -9,9 +13,11 @@
     <string name="exit_app_message">您是否要關閉程式？</string>
 
     <!--Side menu-->
-    <string name="menu_group_left_1">左群組1</string>
+    <string name="menu_group_training">練習題</string>
     <string name="title_home">首頁</string>
     <string name="title_bingo">賓果遊戲</string>
+    <string name="title_nbns">三大法人買賣超走勢圖</string>
+    <string name="menu_group_other">其他</string>
     <string name="title_setting">設定</string>
 
     <!--賓果-->
@@ -38,7 +44,6 @@
     <string name="bingo_min_error">最小值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
     <string name="bingo_detail_text">數字範圍: %1$s ~ %2$s ; 賓果盤大小: %3$s</string>
     <string name="bingo_line">恭喜您！成功連線 %1$s 條。</string>
-
     <string-array name="bingo_size_list">
         <item name="bingo_3">3 x 3</item>
         <item name="bingo_4">4 x 4</item>
@@ -47,9 +52,15 @@
         <item name="bingo_7">7 x 7</item>
     </string-array>
 
-    <string name="app_version_name" translatable="false">1.0.0</string>
-    <string name="app_develop_name" translatable="false">R01</string>
+    <!--設定-->
+    <string name="setting_language">語系設定</string>
+    <string name="setting_language_tw" translatable="false">繁體中文</string>
+    <string name="setting_language_cn" translatable="false">简体中文</string>
+    <string name="setting_language_en" translatable="false">English</string>
+    <string name="setting_language_jp" translatable="false">日本語</string>
+    <string name="setting_version">系統版本</string>
 
+    <!--其他-->
     <string name="action_example" translatable="false">Example action</string>
     <string name="action_settings" translatable="false">Settings</string>
 

@@ -1,5 +1,6 @@
 package ling.testapp.function.Main;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -216,9 +217,6 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
     public void selectSideMenu(final LSideMenuItem sideMenuItem ) {
 
         final int       iViewId     = sideMenuItem.iId;
-        final String    strViewName = getResources().getString(sideMenuItem.iNameResId);
-        final Fragment  fragment    = uiNewFuncFragment(sideMenuItem._class);
-        m_menuCurrItem              = sideMenuItem;
 
         //更新左右選單的背景顏色
         if ( null != m_leftMenuInterface ){
@@ -236,6 +234,70 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
             return ;
         }
 
+        //activity or fragment
+        switch ( iViewId ) {
+            //跳轉fragment
+            /**首頁*/
+            case LMenuViewIdDef.MENU_ID_HOME:
+            /**賓果遊戲*/
+            case LMenuViewIdDef.MENU_ID_BINGO:
+            /**設定*/
+            case LMenuViewIdDef.MENU_ID_SETTING:
+                final Fragment fragment = uiNewFuncFragment(sideMenuItem._class);
+
+                uiSetParameterListenerFragment(iViewId, fragment);
+
+                m_handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        changeFragment(
+                                iViewId,
+                                getResources().getString(sideMenuItem.iNameResId),
+                                fragment);
+
+                        m_menuCurrItem = sideMenuItem;
+
+                        //關閉menu
+                        m_drawerLayout.closeDrawers();
+                    }
+                });
+                break;
+
+            //開新activity
+            /**三大法人*/
+            case LMenuViewIdDef.MENU_ID_NBNS:
+                //關閉menu
+                m_drawerLayout.closeDrawers();
+
+                m_handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        openActivity(sideMenuItem._class);
+                    }
+                }, 300);
+                break;
+            default:
+                //關閉menu
+                m_drawerLayout.closeDrawers();
+                break;
+        }
+    }
+
+    /** 將Class 轉換成 Fragment */
+    private Fragment uiNewFuncFragment(Class<?> _class) {
+        try {
+            if (null != _class) {
+                return (Fragment) _class.newInstance();
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void uiSetParameterListenerFragment(int iViewId , Fragment fragment){
         switch ( iViewId ) {
             /**首頁*/
             case LMenuViewIdDef.MENU_ID_HOME:
@@ -252,32 +314,6 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
             default:
                 break;
         }
-
-        m_handler.post(new Runnable() {
-            @Override
-            public void run() {
-                changeFragment(iViewId, strViewName, fragment);
-
-                m_menuCurrItem = sideMenuItem;
-
-                //關閉menu
-                m_drawerLayout.closeDrawers();
-            }
-        });
-    }
-
-    /** 將Class 轉換成 Fragment */
-    public Fragment uiNewFuncFragment(Class<?> _class) {
-        try {
-            if (null != _class) {
-                return (Fragment) _class.newInstance();
-            }
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -319,6 +355,32 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
         fragmentTransaction.commitAllowingStateLoss();
     }
 
+
+    /**
+     * 根據傳入的clazz 開啟新activity
+     */
+    private void openActivity(Class clazz){
+        openActivity(new Intent(), clazz);
+    }
+
+    private void openActivity(Intent intent, Class clazz){
+        openActivity(intent, clazz, 0);
+    }
+
+    private void openActivity(Intent intent, Class clazz, int iRequestCode){
+        openActivity(intent, clazz, iRequestCode, R.anim.anim_right_in, R.anim.anim_left_out);
+    }
+
+    private void openActivity(Intent intent, Class clazz, int iRequestCode, int iEnterAnim, int iExitAnim){
+        intent.setClass(m_context, clazz);
+        if (0 != iRequestCode){
+            startActivity(intent);
+        }else {
+            startActivityForResult(intent, iRequestCode);
+        }
+        overridePendingTransition(iEnterAnim, iExitAnim);
+    }
+
     @Override
     public void OnNaviBarLeftImgClick() {
 
@@ -329,5 +391,19 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
     public void OnNaviBarRightImgClick() {
 
         m_drawerLayout.openDrawer(Gravity.RIGHT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //回MainActivity需更新左右選單的背景顏色
+        if ( null != m_leftMenuInterface ){
+            m_leftMenuInterface.OnSelectMenu(m_iCurrViewId);
+        }
+//            if ( null != m_onRightMenuInterface ){
+//                m_onRightMenuInterface.onSelectMenu(m_iCurrViewId);
+//            }
+
     }
 }

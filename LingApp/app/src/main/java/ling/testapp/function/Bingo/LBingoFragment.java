@@ -3,11 +3,11 @@ package ling.testapp.function.Bingo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import ling.testapp.R;
 import ling.testapp.function.Base.LBaseFragment;
@@ -82,6 +84,11 @@ public class LBingoFragment extends LBaseFragment implements
         public int GetRightIconRes() {
             return 0;
         }
+
+        @Override
+        public int GetSecondRightIconRes() {
+            return R.drawable.ic_information;
+        }
     };
 
     private LNavigationBar.OnListener   m_navigationListener
@@ -91,6 +98,11 @@ public class LBingoFragment extends LBaseFragment implements
             if ( null != m_onMainListener ){
                 m_onMainListener.OnNaviBarRightImgClick();
             }
+        }
+
+        @Override
+        public void OnSecondRightImgClick() {
+
         }
 
         @Override
@@ -152,7 +164,7 @@ public class LBingoFragment extends LBaseFragment implements
             //4.非遊戲狀態, 才可以進行編輯賓果盤
             if (false == m_bSwitch){
                 //5.如果未設定最小/最大值, 無法進行編輯賓果盤
-                if (!LApplication.getBingoInfo().checkBingoRange(m_iMin, m_iMax, m_iRange)){
+                if (!checkBingoRange(m_iMin, m_iMax, m_iRange)){
                     showDialog(getString(R.string.warn),
                             String.format(
                                     getString(R.string.bingo_range_error),
@@ -167,9 +179,12 @@ public class LBingoFragment extends LBaseFragment implements
                 bundle.putInt(LUiMessageDef.BUNDLE_TAG_BINGO_MIN, m_iMin);
                 bundle.putSerializable(LUiMessageDef.BUNDLE_TAG_BINGO_DATA, m_alData);
                 intent.putExtras(bundle);
-                intent.setClass(getActivity(), LBingoActivity.class);
-                startActivityForResult(intent, LUiMessageDef.INTENT_REQUEST_CODE_BINGO);
-                getActivity().overridePendingTransition(R.anim.anim_alpha_in, R.anim.anim_alpha_out);
+
+                openActivity(intent,
+                        LBingoActivity.class,
+                        LUiMessageDef.INTENT_REQUEST_CODE_BINGO,
+                        R.anim.anim_alpha_in,
+                        R.anim.anim_alpha_out);
 
                 m_bShow = true;
                 m_flContent.setVisibility(View.INVISIBLE);
@@ -179,17 +194,20 @@ public class LBingoFragment extends LBaseFragment implements
         @Override
         public void OnItemSelect(View v, ArrayList<LBingoItem> arrayList, int iPosition) {
             //遊戲模式, 點擊賓果盤
+            if (false == m_switchButton.getSlideable() || 0 == arrayList.size()){
+                return;
+            }
 
             //1.更新賓果盤資料
-            m_alData = arrayList;
+            m_alData.get(iPosition).m_bSelect = arrayList.get(iPosition).m_bSelect;
 
             //2.改變選取狀態, 需更換背景色 & 更新未選取資料
-            if (true == arrayList.get(iPosition).m_bSelect){
+            if (true == m_alData.get(iPosition).m_bSelect){
                 v.setBackgroundResource(R.drawable.bg_bingo_item_select);
-                m_alUnSelect.remove(arrayList.get(iPosition));
+                m_alUnSelect.remove(m_alData.get(iPosition));
             }else {
                 v.setBackgroundResource(R.drawable.bg_bingo_item);
-                m_alUnSelect.add(arrayList.get(iPosition));
+                m_alUnSelect.add(m_alData.get(iPosition));
             }
 
             //3.重新計算連線數
@@ -294,7 +312,7 @@ public class LBingoFragment extends LBaseFragment implements
 
             if (false == m_bSwitch){
                 //未輸入範圍
-                if (!LApplication.getBingoInfo().checkBingoRange(m_iMin, m_iMax, m_iRange)){
+                if (!checkBingoRange(m_iMin, m_iMax, m_iRange)){
                     String str = String.format(
                             getString(R.string.bingo_range_error),
                             m_etSize.getText().toString());
@@ -305,7 +323,7 @@ public class LBingoFragment extends LBaseFragment implements
                 }
 
                 //未輸入賓果盤數字
-                if (!LApplication.getBingoInfo().checkBingoDataNotEmpty(m_alData)){
+                if (!checkBingoDataNotEmpty()){
                     showDialog(getString(R.string.warn), getString(R.string.bingo_plate_error));
 
                     m_switchButton.setSlideable(true);
@@ -328,7 +346,7 @@ public class LBingoFragment extends LBaseFragment implements
                 }
 
                 //輸入重複數字
-                if (!LApplication.getBingoInfo().checkBingoDataNotRepeat(m_alData)){
+                if (!checkBingoDataNotRepeat()){
                     showDialog(getString(R.string.warn), getString(R.string.bingo_plate_repeat_error));
 
                     m_switchButton.setSlideable(true);
@@ -372,11 +390,6 @@ public class LBingoFragment extends LBaseFragment implements
             m_rlLine.setVisibility(View.VISIBLE);
             m_btnRestart.setVisibility(View.INVISIBLE);
 
-            m_type = LBingoAdapter.BingoType.GAME;
-            //重置已選數字
-            resetSelectBingoData();
-            resetGridView();
-
             m_bSwitch = true;
             m_switchButton.setSlideable(true);
         }
@@ -415,6 +428,10 @@ public class LBingoFragment extends LBaseFragment implements
             hideAnim.setInterpolator(new AccelerateDecelerateInterpolator());
             hideAnim.setAnimationListener(m_hideTraAnimListener);
             m_flContent.startAnimation(hideAnim);
+
+            m_rlRange.setVisibility(View.INVISIBLE);
+            m_rlSize.setVisibility(View.INVISIBLE);
+            m_rlBingoPlate.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -464,9 +481,6 @@ public class LBingoFragment extends LBaseFragment implements
         @Override
         public void onAnimationEnd(Animation animation) {
 
-            m_type = LBingoAdapter.BingoType.CLICK;
-            resetGridView();
-
             m_bSwitch = false;
             m_switchButton.setSlideable(true);
         }
@@ -485,10 +499,11 @@ public class LBingoFragment extends LBaseFragment implements
     private static final double         EDIT_TEXT_HEIGHT        = 85;
     private static final double         TEXT_SIZE               = 48;
     private static final double         TEXT_MARGIN             = 30;
-    private static final double         BUTTON_WIDTH            = 150;
+    private static final double         BUTTON_WIDTH            = 180;
     private static final double         BUTTON_HEIGHT           = 80;
     private static final double	        SWITCH_BUTTON_WIDTH     = 130;
     private static final double	        SWITCH_BUTTON_HEIGHT    = 75;
+    private static final double	        SWITCH_BUTTON_MARGIN    = 12.5;
     private static final double         LINE_HEIGHT             = 1;
     private static final double         POPUPWINDOW_X           = 0;
     private static final double         POPUPWINDOW_Y           = 6;
@@ -541,7 +556,7 @@ public class LBingoFragment extends LBaseFragment implements
     private int                         m_iRange            = m_iCol * m_iCol;
     private ArrayList<LBingoItem>       m_alData            = new ArrayList<>();
     private ArrayList<String>           m_alSize            = new ArrayList<>();
-    private ArrayList<LBingoItem>       m_alUnSelect = new ArrayList<>();
+    private ArrayList<LBingoItem>       m_alUnSelect        = new ArrayList<>();
     private LBingoAdapter.BingoType     m_type              = LBingoAdapter.BingoType.CLICK;
 
     private LSelectBingoSizePopupwindow m_popupWindow       = null;
@@ -637,12 +652,12 @@ public class LBingoFragment extends LBaseFragment implements
         params = (RelativeLayout.LayoutParams)m_etMin.getLayoutParams();
         params.height = vScaleDef.getLayoutHeight(EDIT_TEXT_HEIGHT);
         params.width = vScaleDef.getLayoutWidth(EDIT_TEXT_WIDTH);
-        params.leftMargin = vScaleDef.getLayoutWidth(TEXT_MARGIN);
 
         params = (RelativeLayout.LayoutParams)m_etMax.getLayoutParams();
         params.height = vScaleDef.getLayoutHeight(EDIT_TEXT_HEIGHT);
         params.width = vScaleDef.getLayoutWidth(EDIT_TEXT_WIDTH);
         params.leftMargin = vScaleDef.getLayoutWidth(TEXT_MARGIN);
+        params.rightMargin = vScaleDef.getLayoutWidth(LAYOUT_MARGIN);
 
         params = (RelativeLayout.LayoutParams)m_vLine1.getLayoutParams();
         params.height = vScaleDef.getLayoutHeight(LINE_HEIGHT);
@@ -651,12 +666,12 @@ public class LBingoFragment extends LBaseFragment implements
         layoutParams.height = vScaleDef.getLayoutHeight(LAYOUT_HEIGHT+LINE_HEIGHT);
 
         params = (RelativeLayout.LayoutParams)m_tvSelectSize.getLayoutParams();
-        params.rightMargin = vScaleDef.getLayoutWidth(TEXT_MARGIN);
         params.leftMargin = vScaleDef.getLayoutWidth(LAYOUT_MARGIN);
 
         params = (RelativeLayout.LayoutParams)m_etSize.getLayoutParams();
         params.height = vScaleDef.getLayoutHeight(EDIT_TEXT_HEIGHT);
         params.width = vScaleDef.getLayoutWidth(EDIT_TEXT_WIDTH_BIG);
+        params.rightMargin = vScaleDef.getLayoutWidth(LAYOUT_MARGIN);
 
         params = (RelativeLayout.LayoutParams)m_vLine2.getLayoutParams();
         params.height = vScaleDef.getLayoutHeight(LINE_HEIGHT);
@@ -667,10 +682,14 @@ public class LBingoFragment extends LBaseFragment implements
         params = (RelativeLayout.LayoutParams)m_tvCurrMode.getLayoutParams();
         params.leftMargin = vScaleDef.getLayoutWidth(LAYOUT_MARGIN);
 
+        params = (RelativeLayout.LayoutParams)m_tvMode.getLayoutParams();
+        params.rightMargin = vScaleDef.getLayoutWidth(TEXT_MARGIN);
+
         params = (RelativeLayout.LayoutParams)m_switchButton.getLayoutParams();
         params.height = vScaleDef.getLayoutHeight(SWITCH_BUTTON_HEIGHT);
         params.width = vScaleDef.getLayoutWidth(SWITCH_BUTTON_WIDTH);
         params.rightMargin = vScaleDef.getLayoutWidth(LAYOUT_MARGIN);
+        params.topMargin = vScaleDef.getLayoutHeight(SWITCH_BUTTON_MARGIN);
 
         layoutParams = (LinearLayout.LayoutParams)m_rlBingoPlate.getLayoutParams();
         layoutParams.height = vScaleDef.getLayoutHeight(LAYOUT_HEIGHT+LINE_HEIGHT);
@@ -740,7 +759,14 @@ public class LBingoFragment extends LBaseFragment implements
         vScaleDef.setTextSize(TEXT_SIZE, m_btnRestart);
         vScaleDef.setTextSize(TEXT_SIZE, m_btnSelect);
 
-        resetGridView();
+        m_flContent.setVisibility(View.GONE);
+        m_handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setGridView();
+                m_flContent.setVisibility(View.VISIBLE);
+            }
+        }, 500);
     }
 
     @Override
@@ -752,6 +778,11 @@ public class LBingoFragment extends LBaseFragment implements
 
     @Override
     protected void registerFragment(FragmentManager fragmentManager) {
+
+    }
+
+    @Override
+    protected void onLanguageChangeUpdateUI() {
 
     }
 
@@ -798,7 +829,7 @@ public class LBingoFragment extends LBaseFragment implements
                     m_iRange = m_iCol * m_iCol;
 
                     resetBingoData();
-                    resetGridView();
+                    setGridView();
                 }
             });
         }
@@ -824,26 +855,30 @@ public class LBingoFragment extends LBaseFragment implements
 
     //重玩或開始新遊戲時, 重設賓果盤資料, 統一為未選狀態
     private void resetSelectBingoData(){
-        for ( int i = 0; i < m_alData.size(); i ++ ){
-            m_alData.get(i).m_bSelect = false;
-        }
-
         m_alUnSelect.clear();
-        for (int i = 0; i < m_alData.size(); i ++){
+        for ( int i = 0; i < m_alData.size(); i ++ ){
             m_alUnSelect.add(m_alData.get(i));
         }
 
         //連線數歸0
         m_tvLine.setText("");
         m_btnRestart.setVisibility(View.INVISIBLE);
+        m_btnSelect.setVisibility(View.VISIBLE);
     }
 
     //當賓果盤內容/賓果盤大小...等資料改變時, 需重設賓果盤view
-    private void resetGridView(){
-        m_adapter   = new LBingoAdapter(
-                getActivity(),
-                m_adapterParameter,
-                m_adapterListener);
+    private void setGridView(){
+
+        if ( null == m_adapter ){
+            m_adapter   = new LBingoAdapter(
+                    getActivity(),
+                    m_adapterParameter,
+                    m_adapterListener);
+        }else {
+            m_adapter.setParameter(m_adapterParameter);
+            m_adapter.notifyDataSetChanged();
+        }
+
         m_gridView.setNumColumns(m_iCol);
         m_gridView.setAdapter(m_adapter);
     }
@@ -853,7 +888,7 @@ public class LBingoFragment extends LBaseFragment implements
         HidekeyBoard();
 
         //layout隱藏/顯示的動畫
-        new Handler().post(new Runnable() {
+        m_handler.post(new Runnable() {
             @Override
             public void run() {
 
@@ -874,6 +909,13 @@ public class LBingoFragment extends LBaseFragment implements
                     m_rlRange.setVisibility(View.INVISIBLE);
                     m_rlSize.setVisibility(View.INVISIBLE);
                     m_rlBingoPlate.setVisibility(View.INVISIBLE);
+
+                    m_type = LBingoAdapter.BingoType.GAME;
+                    //重置已選數字
+                    if ( null != m_adapter)
+                        m_adapter.resetSelectBingoData();
+
+                    resetSelectBingoData();
 
                 }else {
                     //切換為輸入模式
@@ -903,7 +945,11 @@ public class LBingoFragment extends LBaseFragment implements
 
                     m_btnSelect.setVisibility(View.VISIBLE);
                     m_rlLine.setVisibility(View.GONE);
+
+                    m_type = LBingoAdapter.BingoType.CLICK;
                 }
+
+                setGridView();
             }
         });
     }
@@ -911,7 +957,7 @@ public class LBingoFragment extends LBaseFragment implements
     //顯示賓果盤連線數
     private void setBingoLine(){
 
-        int iLine = LApplication.getBingoInfo().getBingoLine(m_alData, m_iCol);
+        int iLine = getBingoLine();
 
         if ( 0 != iLine ){
             String strLine = String.format(
@@ -933,6 +979,148 @@ public class LBingoFragment extends LBaseFragment implements
         }else {
             m_btnSelect.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * 確認最大值與最小值是否符合在範圍之內
+     */
+    private boolean checkBingoRange(int iMin, int iMax, int iRange){
+        if ( checkMin(iMin, iRange) && checkMax(iMax, iRange) ){
+            if ( iMax > iMin && (iMax - iMin) >= (iRange - 1) ){
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
+
+    private boolean checkMin(int iMin, int iRange){
+        if ( DEF_MIN <= iMin && DEF_MAX >= (iMin + iRange - 1) ){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkMax(int iMax, int iRange){
+        if ( (DEF_MIN + iRange - 1) <= iMax && DEF_MAX >= iMax ){
+            return true;
+        }
+        return false;
+    }
+
+    //確認賓果盤都有輸入數字
+    private boolean checkBingoDataNotEmpty(){
+        for(int i = 0; i < m_alData.size(); i ++){
+            if (TextUtils.isEmpty(m_alData.get(i).m_strNum))
+                return false;
+        }
+        return true;
+    }
+
+    //確認賓果盤沒有重複資料
+    private boolean checkBingoDataNotRepeat(){
+        Set<String> set = new HashSet<>();
+        for(int i = 0; i < m_alData.size(); i ++){
+            if (TextUtils.isEmpty(m_alData.get(i).m_strNum))
+                return false;
+
+            set.add(m_alData.get(i).m_strNum);
+        }
+
+        if ( set.size() == m_alData.size()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    //返回亂數data
+    private ArrayList<LBingoItem> getBingoRandomArray(){
+
+        int                     iRandom;
+        HashSet                 hashSet = new HashSet<Integer>(m_iRange);
+        ArrayList<LBingoItem>   result  = new ArrayList<>();
+
+        for (int i = 0 ; i < m_iRange ; i ++){
+            iRandom = (int)(Math.random() * (m_iMax - m_iMin + 1) + m_iMin);
+
+            while (!hashSet.add(iRandom))
+                iRandom = (int)(Math.random() * (m_iMax - m_iMin + 1) + m_iMin);
+
+            result.add(new LBingoItem(i, String.valueOf(iRandom)));
+        }
+
+        return result;
+    }
+
+    //計算連線數
+    private int getBingoLine(){
+
+        if ( 0 == m_alData.size()){
+            return 0;
+        }
+
+        int iLine = 0;
+        int iSize = m_alData.size();
+
+        //橫線
+        for(int i = 0; i < iSize; i += m_iCol){
+            boolean bLine = true;
+            for (int j = i; j < (i + m_iCol); j ++){
+                if (false == m_alData.get(j).m_bSelect)
+                    bLine = false;
+            }
+
+            if (true == bLine){
+                iLine ++;
+            }
+        }
+
+        //直線
+        for(int i = 0; i < m_iCol; i ++){
+            boolean bLine = true;
+            for (int j = i; j < iSize; j += m_iCol){
+                if (false == m_alData.get(j).m_bSelect)
+                    bLine = false;
+            }
+
+            if (true == bLine){
+                iLine ++;
+            }
+        }
+
+        //正斜線
+        boolean bSlash = true;
+        for(int i = 0; i < iSize; i += (m_iCol+1)){
+            if (false == m_alData.get(i).m_bSelect)
+                bSlash = false;
+        }
+
+        if (true == bSlash){
+            iLine ++;
+        }
+
+        //反斜線
+        boolean bBackslash = true;
+        int iIndex = 0;
+        for(int i = (m_iCol-1); i < iSize; i += (m_iCol-1)){
+            //只要依列數確認n個數字是否都已選
+            if (iIndex >= m_iCol)
+                break;
+
+            if (false == m_alData.get(i).m_bSelect)
+                bBackslash = false;
+
+            iIndex++;
+        }
+
+        if (true == bBackslash){
+            iLine ++;
+        }
+
+        return iLine;
     }
 
     @Override
@@ -979,10 +1167,10 @@ public class LBingoFragment extends LBaseFragment implements
                         return;
 
                     int iMin = Integer.valueOf(strMin);
-                    if ( LApplication.getBingoInfo().checkMin(iMin, m_iRange) ){
+                    if ( checkMin(iMin, m_iRange) ){
                         //如果有輸入最大值，確認是否比最大值還小，且符合範圍之內
                         if ( 0 < m_etMax.getText().toString().length() ){
-                            if ( LApplication.getBingoInfo().checkBingoRange(iMin, m_iMax, m_iRange) ){
+                            if ( checkBingoRange(iMin, m_iMax, m_iRange) ){
                                 m_iMin = iMin;
                             }else {
                                 //最大值減最小值需大於賓果盤範圍
@@ -1024,10 +1212,10 @@ public class LBingoFragment extends LBaseFragment implements
                         return;
 
                     int iMax = Integer.valueOf(strMax);
-                    if ( LApplication.getBingoInfo().checkMax(iMax, m_iRange) ){
+                    if ( checkMax(iMax, m_iRange) ){
                         //如果有輸入最大值，確認是否比最大值還小，且符合範圍之內
                         if ( 0 < m_etMin.getText().toString().length() ){
-                            if ( LApplication.getBingoInfo().checkBingoRange(
+                            if ( checkBingoRange(
                                     m_iMin, iMax, m_iRange) ){
                                 m_iMax = iMax;
                             }else {
@@ -1073,7 +1261,7 @@ public class LBingoFragment extends LBaseFragment implements
                 cancelEditTextFocus();
                 HidekeyBoard();
 
-                if (!LApplication.getBingoInfo().checkBingoRange(m_iMin, m_iMax, m_iRange)){
+                if (!checkBingoRange(m_iMin, m_iMax, m_iRange)){
 
                     showDialog(getString(R.string.warn),
                             String.format(
@@ -1081,8 +1269,14 @@ public class LBingoFragment extends LBaseFragment implements
                                     m_etSize.getText().toString()));
                 }else {
 
-                    m_alData = LApplication.getBingoInfo().getBingoArray(m_iMin, m_iMax, m_iRange);
-                    resetGridView();
+                    m_alData = getBingoRandomArray();
+
+                    m_handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            setGridView();
+                        }
+                    });
                 }
                 break;
             case R.id.btn_clear_bingo:
@@ -1094,23 +1288,37 @@ public class LBingoFragment extends LBaseFragment implements
                 HidekeyBoard();
 
                 resetBingoData();
-                resetGridView();
+                setGridView();
                 break;
             case R.id.btn_restart:
                 //遊戲模式-重玩,清除所有已選item
+                if (false == m_bSwitch || false == m_switchButton.getSlideable() || null == m_adapter  )
+                    return;
+
+                if ( 0 == m_alData.size() )
+                    return;
+
+                m_adapter.resetSelectBingoData();
+
                 resetSelectBingoData();
-                resetGridView();
+
+                setGridView();
                 break;
             case R.id.btn_select:
                 //遊戲模式-隨選,亂數選擇一個尚未被選過的item
+                if (false == m_bSwitch || false == m_switchButton.getSlideable() || null == m_adapter  )
+                    return;
+
+                if ( 0 == m_alUnSelect.size() || 0 == m_alData.size())
+                    return;
+
                 int iRandom = (int)(Math.random() * m_alUnSelect.size());
-                int iIndex = m_alUnSelect.get(iRandom).m_iIndex;
 
-                m_alData.get(iIndex).m_bSelect = true;
+                m_alData.get(m_alUnSelect.get(iRandom).m_iIndex).m_bSelect = true;
 
-                m_alUnSelect.remove(m_alData.get(iIndex));
+                m_alUnSelect.remove(iRandom);
 
-                resetGridView();
+                setGridView();
                 setBingoLine();
                 break;
         }
@@ -1118,7 +1326,7 @@ public class LBingoFragment extends LBaseFragment implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
 
         //BingoActivity回傳編輯結果
         if (requestCode == LUiMessageDef.INTENT_REQUEST_CODE_BINGO
@@ -1129,11 +1337,10 @@ public class LBingoFragment extends LBaseFragment implements
                         LUiMessageDef.BUNDLE_TAG_BINGO_DATA);
             }
 
-            resetGridView();
+            setGridView();
 
             m_bShow = false;
             m_flContent.setVisibility(View.VISIBLE);
         }
-
     }
 }

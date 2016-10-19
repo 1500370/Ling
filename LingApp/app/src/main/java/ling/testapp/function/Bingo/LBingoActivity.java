@@ -195,6 +195,11 @@ public class LBingoActivity extends LBaseActivity {
     }
 
     @Override
+    protected void onLanguageChangeUpdateUI() {
+
+    }
+
+    @Override
     public void finish() {
         cancelEditTextFocus();
 

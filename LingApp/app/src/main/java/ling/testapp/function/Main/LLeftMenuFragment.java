@@ -191,6 +191,11 @@ public class LLeftMenuFragment extends LBaseFragment {
 
     }
 
+    @Override
+    protected void onLanguageChangeUpdateUI() {
+
+    }
+
     public OnInterface uiSetParameterListener(OnListener onListener) {
         m_onListener = onListener;
 

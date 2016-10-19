@@ -1,13 +1,14 @@
 package ling.testapp.function.Main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -20,6 +21,7 @@ import ling.testapp.function.Bingo.LBingoFragment;
 import ling.testapp.function.Main.item.LSideMenuItem;
 import ling.testapp.function.Setting.LSettingFragment;
 import ling.testapp.ui.define.LMenuViewIdDef;
+import ling.testapp.ui.define.LUiMessageDef;
 import ling.testapp.ui.define.LViewScaleDef;
 import ling.testapp.ui.listener.LNaviBarToMainListener;
 
@@ -111,7 +113,8 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
 
     private LLeftMenuFragment.OnInterface m_leftMenuInterface       = null;
 
-    private final static double         MENU_WIDTH                  = 720;
+    private static final String 	    TAG				            = "[Main]";
+    private static final double         MENU_WIDTH                  = 720;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -158,13 +161,8 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
         m_drawerLayout.setDrawerShadow(R.drawable.drawer_shadow_right, GravityCompat.END);
 
         //setScrimColor是在設定側邊選單打開時，剩餘空間的遮罩顏色。
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            m_drawerLayout.setScrimColor(
-                    m_context.getResources().getColor((R.color.transparent),
-                    m_context.getTheme()));
-        } else {
-            m_drawerLayout.setScrimColor(ContextCompat.getColor(m_context, R.color.transparent));
-        }
+        m_drawerLayout.setScrimColor(Color.TRANSPARENT);
+
         m_drawerLayout.addDrawerListener(m_drawerListener);
     }
 
@@ -193,6 +191,20 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
     }
 
     @Override
+    protected void onLanguageChangeUpdateUI() {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //返回MainActivity時, 需更新左右選單的背景顏色
+        if (0 != m_iCurrViewId)
+            setSelectMenu(m_iCurrViewId);
+    }
+
+    @Override
     public void onBackPressed() {
 
         //當畫面不是HomePage時, 按下Back鍵都會先回到首頁, 在首頁按下Back鍵才會離開App
@@ -218,14 +230,6 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
 
         final int       iViewId     = sideMenuItem.iId;
 
-        //更新左右選單的背景顏色
-        if ( null != m_leftMenuInterface ){
-            m_leftMenuInterface.OnSelectMenu(iViewId);
-        }
-//            if ( null != m_onRightMenuInterface ){
-//                m_onRightMenuInterface.onSelectMenu(iViewId);
-//            }
-
         //點選到原本的頁面, 不用換頁
         if ( iViewId == m_iCurrViewId ){
 
@@ -233,6 +237,9 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
             m_drawerLayout.closeDrawers();
             return ;
         }
+
+        //更新左右選單的背景顏色
+        setSelectMenu(iViewId);
 
         //activity or fragment
         switch ( iViewId ) {
@@ -273,6 +280,8 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
                     @Override
                     public void run() {
                         openActivity(sideMenuItem._class);
+
+
                     }
                 }, 300);
                 break;
@@ -355,34 +364,20 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
         fragmentTransaction.commitAllowingStateLoss();
     }
 
-
-    /**
-     * 根據傳入的clazz 開啟新activity
-     */
-    private void openActivity(Class clazz){
-        openActivity(new Intent(), clazz);
-    }
-
-    private void openActivity(Intent intent, Class clazz){
-        openActivity(intent, clazz, 0);
-    }
-
-    private void openActivity(Intent intent, Class clazz, int iRequestCode){
-        openActivity(intent, clazz, iRequestCode, R.anim.anim_right_in, R.anim.anim_left_out);
-    }
-
-    private void openActivity(Intent intent, Class clazz, int iRequestCode, int iEnterAnim, int iExitAnim){
-        intent.setClass(m_context, clazz);
-        if (0 != iRequestCode){
-            startActivity(intent);
-        }else {
-            startActivityForResult(intent, iRequestCode);
+    private void setSelectMenu(int iViewId){
+        //更新左右選單的背景顏色
+        if ( null != m_leftMenuInterface ){
+            m_leftMenuInterface.OnSelectMenu(iViewId);
         }
-        overridePendingTransition(iEnterAnim, iExitAnim);
+//            if ( null != m_onRightMenuInterface ){
+//                m_onRightMenuInterface.onSelectMenu(m_iCurrViewId);
+//            }
     }
 
     @Override
     public void OnNaviBarLeftImgClick() {
+
+        HidekeyBoard();
 
         m_drawerLayout.openDrawer(Gravity.LEFT);
     }
@@ -390,20 +385,26 @@ public class LMainActivity extends LBaseActivity implements LNaviBarToMainListen
     @Override
     public void OnNaviBarRightImgClick() {
 
+        HidekeyBoard();
+
         m_drawerLayout.openDrawer(Gravity.RIGHT);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d(TAG, "[onActivityResult]");
 
         //回MainActivity需更新左右選單的背景顏色
-        if ( null != m_leftMenuInterface ){
-            m_leftMenuInterface.OnSelectMenu(m_iCurrViewId);
-        }
-//            if ( null != m_onRightMenuInterface ){
-//                m_onRightMenuInterface.onSelectMenu(m_iCurrViewId);
-//            }
+        setSelectMenu(m_iCurrViewId);
 
+        if ( requestCode == LUiMessageDef.INTENT_REQUEST_CODE_LANGUAGE
+                && resultCode == LUiMessageDef.INTENT_RESULT_CODE_LANGUAGE ){
+
+            Log.d(TAG, "[Language Change]");
+            onLocaleChangeUpdateView();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

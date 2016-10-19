@@ -17,6 +17,7 @@ import java.util.List;
 import ling.testapp.R;
 import ling.testapp.function.Main.LMainActivity;
 import ling.testapp.ui.define.LViewScaleDef;
+import ling.testapp.ui.object.LApplication;
 
 /**
  * Created by jlchen on 2016/9/21.
@@ -49,6 +50,9 @@ public class LStartActivity extends AppCompatActivity {
             this.finish();
             return;
         }
+
+        //取得上次儲存的語言設定, 並設定在App取不到, 則預設為繁體中文
+        LApplication.getLanguageInfo().initialAppLanguage();
 
         setContentView(R.layout.activity_start);
 

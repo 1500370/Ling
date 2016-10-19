@@ -26,18 +26,20 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
         int GetLeftIconRes();
         /**取得右側按鈕icon*/
         int GetRightIconRes();
+        /**取得右側第二個按鈕icon*/
+        int GetSecondRightIconRes();
     }
 
     public interface OnListener {
-        /**點擊右側按鈕*/
-        void OnRightImgClick();
-
         /**點擊左側按鈕*/
         void OnLeftImgClick();
+        /**點擊右側按鈕*/
+        void OnRightImgClick();
+        /**點擊右側第二個按鈕*/
+        void OnSecondRightImgClick();
     }
 
     public interface OnInterface {
-
         /**變更語系*/
         void changeLanguageText(String strText);
     }
@@ -55,7 +57,9 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     private static final double SHADOW_HEIGHT           = 8.1;
     private static final double IMG_WIDTH               = 120;
     private static final double IMG_MARGIN              = 48;
+    private static final double IMG_MARGIN_SECOND       = 156;
     private static final double TEXT_TITLE_SIZE         = 72;
+    private static final double TEXT_MARGIN             = 200;
 
     private OnParameter     m_onParameter   = null;
     private OnListener      m_onListener    = null;
@@ -66,6 +70,7 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     private TextView        m_tvTitle       = null;
     private ImageButton     m_ibtnLeft      = null;
     private ImageButton     m_ibtnRight     = null;
+    private ImageButton     m_ibtnRightSec  = null;
     private View            m_vLine         = null;
     private View            m_vShadow       = null;
 
@@ -99,15 +104,21 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     @Override
     public void initialLayoutComponent(LayoutInflater inflater) {
 
-        m_rlBg      = (RelativeLayout) findViewById(R.id.rl_navigation_bar_content);
-        m_tvTitle   = (TextView) findViewById(R.id.tv_title);
-        m_ibtnLeft  = (ImageButton) findViewById(R.id.ibtn_left);
+        m_rlBg          = (RelativeLayout) findViewById(R.id.rl_navigation_bar_content);
+
+        m_tvTitle       = (TextView) findViewById(R.id.tv_title);
+
+        m_ibtnLeft      = (ImageButton) findViewById(R.id.ibtn_left);
         m_ibtnLeft.setOnClickListener(this);
-        m_ibtnRight = (ImageButton) findViewById(R.id.ibtn_right);
+
+        m_ibtnRight     = (ImageButton) findViewById(R.id.ibtn_right);
         m_ibtnRight.setOnClickListener(this);
-        m_ibtnRight.setVisibility(INVISIBLE);
-        m_vLine     = findViewById(R.id.v_line);
-        m_vShadow   = findViewById(R.id.v_shadow);
+
+        m_ibtnRightSec  = (ImageButton) findViewById(R.id.ibtn_right_second);
+        m_ibtnRightSec.setOnClickListener(this);
+
+        m_vLine         = findViewById(R.id.v_line);
+        m_vShadow       = findViewById(R.id.v_shadow);
 
         if ( null != m_onParameter ){
             if ( !TextUtils.isEmpty( m_onParameter.GetTitle() ) ){
@@ -124,6 +135,15 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
             if ( 0 != m_onParameter.GetRightIconRes() ){
                 m_ibtnRight.setImageResource( m_onParameter.GetRightIconRes() );
                 m_ibtnRight.setVisibility(VISIBLE);
+            }else {
+                m_ibtnRight.setVisibility(GONE);
+            }
+
+            if ( 0 != m_onParameter.GetSecondRightIconRes() ){
+                m_ibtnRightSec.setImageResource( m_onParameter.GetSecondRightIconRes() );
+                m_ibtnRightSec.setVisibility(VISIBLE);
+            }else {
+                m_ibtnRightSec.setVisibility(GONE);
             }
         }
     }
@@ -133,6 +153,9 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)m_rlBg.getLayoutParams();
         params.height = viewScaleDef.getLayoutHeight(BACKGROUND_HEIGHT);
 
+        params = (RelativeLayout.LayoutParams)m_tvTitle.getLayoutParams();
+        params.leftMargin = viewScaleDef.getLayoutWidth(TEXT_MARGIN);
+        params.rightMargin = viewScaleDef.getLayoutWidth(TEXT_MARGIN);
         viewScaleDef.setTextSize(TEXT_TITLE_SIZE, m_tvTitle);
 
         params = (RelativeLayout.LayoutParams)m_ibtnLeft.getLayoutParams();
@@ -144,6 +167,14 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
         params.height = viewScaleDef.getLayoutMinUnit(IMG_WIDTH);
         params.width = viewScaleDef.getLayoutMinUnit(IMG_WIDTH);
         params.rightMargin = viewScaleDef.getLayoutWidth(IMG_MARGIN);
+
+        params = (RelativeLayout.LayoutParams)m_ibtnRightSec.getLayoutParams();
+        params.height = viewScaleDef.getLayoutMinUnit(IMG_WIDTH);
+        params.width = viewScaleDef.getLayoutMinUnit(IMG_WIDTH);
+        if (VISIBLE == m_ibtnRight.getVisibility())
+            params.rightMargin = viewScaleDef.getLayoutWidth(IMG_MARGIN_SECOND);
+        else
+            params.rightMargin = viewScaleDef.getLayoutWidth(IMG_MARGIN);
 
         params = (RelativeLayout.LayoutParams)m_vLine.getLayoutParams();
         params.height = viewScaleDef.getLayoutMinUnit(LINE_HEIGHT);

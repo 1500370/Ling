@@ -71,41 +71,57 @@ public class LBingoAdapter extends BaseAdapter {
         public LinearLayout llRoot;
     }
 
-    private static final double WEIGHT_PADDING      = 18;
-    private static final double WEIGHT_TEXT_SIZE    = 343;
+    private static final double         WEIGHT_PADDING  = 18;
+    private static final double         WEIGHT_TEXT_SIZE= 343;
 
-    private Context             m_context       = null;
-    private LViewScaleDef       m_viewScaleDef  = null;
+    private Context                     m_context       = null;
+    private LViewScaleDef               m_viewScaleDef  = null;
 
-    private int                 m_iWidth        = 0;
-    private int                 m_iItemWidth    = 0;
-    private int                 m_iItemPadding  = 0;
-    private double              m_dItemTextSize = 0;
-    private int                 m_iMin          = 0;
-    private int                 m_iMax          = 0;
-    private int                 m_iCol          = 1;
-    private BingoType           m_type          = BingoType.CLICK;
-    private ArrayList<LBingoItem> m_alData      = null;
-    private Map<Integer, EditText> m_map        = new HashMap<>();
+    private int                         m_iWidth        = 0;
+    private int                         m_iItemWidth    = 0;
+    private int                         m_iItemPadding  = 0;
+    private double                      m_dItemTextSize = 0;
+    private int                         m_iMin          = 0;
+    private int                         m_iMax          = 0;
+    private int                         m_iCol          = 1;
+    private BingoType                   m_type          = BingoType.CLICK;
+    private ArrayList<LBingoItem>       m_alData        = new ArrayList<>();
+    private Map<Integer, EditText>      m_map           = new HashMap<>();
 
-    private OnBingoAdapterListener m_listener   = null;
+    private OnBingoAdapterListener      m_listener      = null;
+    private OnBingoAdapterParameter     m_parameter     = null;
 
-    public LBingoAdapter(Context context,
+    public LBingoAdapter(Context                    context,
                          OnBingoAdapterParameter    parameter,
                          OnBingoAdapterListener     listener) {
         this.m_context      = context;
         this.m_viewScaleDef = LViewScaleDef.getInstance(m_context);
-        this.m_iWidth       = parameter.getWidth();
-        this.m_alData       = parameter.getData();
-        this.m_iCol         = parameter.getCol();
-        this.m_iMin         = parameter.getMin();
-        this.m_iMax         = parameter.getMax();
-        this.m_type         = parameter.getType();
         this.m_listener     = listener;
+
+        setParameter(parameter);
+    }
+
+    public void setParameter(OnBingoAdapterParameter parameter){
+        this.m_parameter    = parameter;
+        this.m_iWidth       = m_parameter.getWidth();
+        this.m_alData.clear();
+        this.m_alData.addAll(m_parameter.getData());
+        this.m_iCol         = m_parameter.getCol();
+        this.m_iMin         = m_parameter.getMin();
+        this.m_iMax         = m_parameter.getMax();
+        this.m_type         = m_parameter.getType();
 
         this.m_iItemWidth   = m_iWidth / m_iCol;
         this.m_iItemPadding = m_viewScaleDef.getLayoutWidth((WEIGHT_PADDING - m_iCol));
         this.m_dItemTextSize= WEIGHT_TEXT_SIZE / m_iCol;
+    }
+
+    public void resetSelectBingoData(){
+        for ( int i = 0; i < m_alData.size(); i ++ ){
+            m_alData.get(i).m_bSelect = false;
+        }
+
+        notifyDataSetChanged();
     }
 
     @Override
@@ -149,34 +165,36 @@ public class LBingoAdapter extends BaseAdapter {
             m_viewScaleDef.setTextSize(m_dItemTextSize, holder.etNum);
             m_viewScaleDef.setTextSize(m_dItemTextSize, holder.btnNum);
 
-            convertView.setTag(holder);
             m_map.put(iPosition, holder.etNum);
+
+            switch (m_type){
+                //點擊模式
+                case CLICK:{
+                    holder.etNum.setVisibility(View.VISIBLE);
+                    holder.btnNum.setVisibility(View.GONE);
+                    setClickMode(holder, iPosition);
+                    break;
+                }
+                //輸入模式
+                case INPUT:{
+                    holder.etNum.setVisibility(View.VISIBLE);
+                    holder.btnNum.setVisibility(View.GONE);
+                    setInputMode(holder, iPosition);
+                    break;
+                }
+                //遊戲模式
+                case GAME:{
+                    holder.etNum.setVisibility(View.GONE);
+                    holder.btnNum.setVisibility(View.VISIBLE);
+                    setGameMode(holder, iPosition);
+                    break;
+                }
+            }
+
+            convertView.setTag(holder);
+
         }else {
             holder = (Holder) convertView.getTag();
-        }
-
-        switch (m_type){
-            //點擊模式
-            case CLICK:{
-                holder.etNum.setVisibility(View.VISIBLE);
-                holder.btnNum.setVisibility(View.GONE);
-                setClickMode(holder, iPosition);
-                break;
-            }
-            //輸入模式
-            case INPUT:{
-                holder.etNum.setVisibility(View.VISIBLE);
-                holder.btnNum.setVisibility(View.GONE);
-                setInputMode(holder, iPosition);
-                break;
-            }
-            //遊戲模式
-            case GAME:{
-                holder.etNum.setVisibility(View.GONE);
-                holder.btnNum.setVisibility(View.VISIBLE);
-                setGameMode(holder, iPosition);
-                break;
-            }
         }
 
         return convertView;
@@ -366,7 +384,7 @@ public class LBingoAdapter extends BaseAdapter {
         }
 
         //檢查數字是否重複
-        if ( !LApplication.getBingoInfo().checkBingoDataNotRepeat(str, iIndex, m_alData) ){
+        if ( !checkBingoDataNotRepeat(str, iIndex) ){
             //不符合條件，清除資料
             ((EditText) v).setText("");
 
@@ -382,6 +400,17 @@ public class LBingoAdapter extends BaseAdapter {
             return false;
         }
 
+        return true;
+    }
+
+    //確認輸入數字沒有和其他數字重複
+    private boolean checkBingoDataNotRepeat(String str, int iIndex){
+        for(int i = 0; i < m_alData.size(); i ++){
+            if ( i != iIndex
+                    && !TextUtils.isEmpty(m_alData.get(i).m_strNum)
+                    && str.equals(m_alData.get(i).m_strNum) )
+                return false;
+        }
         return true;
     }
 }

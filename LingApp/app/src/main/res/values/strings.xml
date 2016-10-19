@@ -16,7 +16,7 @@
     <string name="menu_group_training">練習題</string>
     <string name="title_home">首頁</string>
     <string name="title_bingo">賓果遊戲</string>
-    <string name="title_nbns">三大法人買賣超走勢圖</string>
+    <string name="title_nbns">三大法人買賣超</string>
     <string name="menu_group_other">其他</string>
     <string name="title_setting">設定</string>
 
@@ -43,12 +43,17 @@
     <string name="bingo_min_error">最小值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
     <string name="bingo_detail_text">數字範圍: %1$s ~ %2$s ; 賓果盤大小: %3$s</string>
     <string name="bingo_line">恭喜您！成功連線 %1$s 條。</string>
+    <string name="bingo_size_3" translatable="false">3 x 3</string>
+    <string name="bingo_size_4" translatable="false">4 x 4</string>
+    <string name="bingo_size_5" translatable="false">5 x 5</string>
+    <string name="bingo_size_6" translatable="false">6 x 6</string>
+    <string name="bingo_size_7" translatable="false">7 x 7</string>
     <string-array name="bingo_size_list" translatable="false">
-        <item name="bingo_3">3 x 3</item>
-        <item name="bingo_4">4 x 4</item>
-        <item name="bingo_5">5 x 5</item>
-        <item name="bingo_6">6 x 6</item>
-        <item name="bingo_7">7 x 7</item>
+        <item>@string/bingo_size_3</item>
+        <item>@string/bingo_size_4</item>
+        <item>@string/bingo_size_5</item>
+        <item>@string/bingo_size_6</item>
+        <item>@string/bingo_size_7</item>
     </string-array>
 
     <!--設定-->

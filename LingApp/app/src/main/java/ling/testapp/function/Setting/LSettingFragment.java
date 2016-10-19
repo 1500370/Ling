@@ -1,22 +1,28 @@
 package ling.testapp.function.Setting;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ling.testapp.R;
+import ling.testapp.function.Base.LBaseActivity;
 import ling.testapp.function.Base.LBaseFragment;
+import ling.testapp.function.Setting.item.LLanguageItem;
+import ling.testapp.ui.define.LUiMessageDef;
 import ling.testapp.ui.define.LViewScaleDef;
 import ling.testapp.ui.listener.LNaviBarToMainListener;
 import ling.testapp.ui.navigation.LNavigationBar;
+import ling.testapp.ui.object.LApplication;
 
 /**
  * Created by jlchen on 2016/9/23.
+ * 設定
  */
 
 public class LSettingFragment extends LBaseFragment implements View.OnClickListener{
@@ -28,6 +34,11 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
             if ( null != m_onMainListener ){
                 m_onMainListener.OnNaviBarRightImgClick();
             }
+        }
+
+        @Override
+        public void OnSecondRightImgClick() {
+
         }
 
         @Override
@@ -52,7 +63,14 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
         public int GetRightIconRes() {
             return 0;
         }
+
+        @Override
+        public int GetSecondRightIconRes() {
+            return 0;
+        }
     };
+
+    private LNavigationBar.OnInterface  m_navigationInterface   = null;
 
     private static final double         FIRST_LAYOUT_HEIGHT     = 380;
     private static final double         FIRST_LAYOUT_PADDING    = 180;
@@ -76,7 +94,7 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
     private LinearLayout                m_llLanguage            = null;
     private TextView                    m_tvLanTitle            = null;
     private TextView                    m_tvLanguage            = null;
-    private ImageButton                 m_ibtnArrow             = null;
+    private ImageView                   m_ivArrow             = null;
     private ImageView                   m_ivArrowShasow         = null;
     private View                        m_vLine1                = null;
 
@@ -99,10 +117,12 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
         m_navigationBar = (LNavigationBar)view.findViewById(R.id.navigation_bar);
 
         m_rlLanguage    = (RelativeLayout)view.findViewById(R.id.rl_language);
+        m_rlLanguage.setOnClickListener(this);
         m_llLanguage    = (LinearLayout)view.findViewById(R.id.ll_language_text);
         m_tvLanTitle    = (TextView)view.findViewById(R.id.tv_title_language);
         m_tvLanguage    = (TextView)view.findViewById(R.id.tv_language);
-        m_ibtnArrow     = (ImageButton)view.findViewById(R.id.ibtn_language);
+        m_ivArrow       = (ImageView)view.findViewById(R.id.iv_language);
+        m_ivArrow.setOnClickListener(this);
         m_ivArrowShasow = (ImageView)view.findViewById(R.id.iv_language_shadow);
         m_vLine1        = view.findViewById(R.id.v_line_1);
 
@@ -113,6 +133,8 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
         m_vLine2        = view.findViewById(R.id.v_line_2);
 
         m_tvAppName     = (TextView)view.findViewById(R.id.tv_app_name);
+
+        initialUI();
     }
 
     @Override
@@ -138,7 +160,7 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
                 = (LinearLayout.LayoutParams) m_tvLanguage.getLayoutParams();
         layoutParams.topMargin = vScaleDef.getLayoutHeight(TEXTVIEW_MARGIN);
 
-        params = (RelativeLayout.LayoutParams) m_ibtnArrow.getLayoutParams();
+        params = (RelativeLayout.LayoutParams) m_ivArrow.getLayoutParams();
         params.height = vScaleDef.getLayoutMinUnit(IMAGE_WIDTH);
         params.width = vScaleDef.getLayoutMinUnit(IMAGE_WIDTH);
         params.topMargin = vScaleDef.getLayoutHeight(IMAGE_MARGIN_TOP);
@@ -192,13 +214,36 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
     @Override
     protected void setOnParameterAndListener(View view) {
 
-        m_navigationBar.uiSetParameterListener(
+        m_navigationInterface = m_navigationBar.uiSetParameterListener(
                 m_navigationParameter, m_navigationListener);
     }
 
     @Override
     protected void registerFragment(FragmentManager fragmentManager) {
 
+    }
+
+    @Override
+    protected void onLanguageChangeUpdateUI() {
+        initialUI();
+    }
+
+    private void initialUI(){
+
+        if ( null != m_navigationInterface )
+            m_navigationInterface.changeLanguageText(m_navigationParameter.GetTitle());
+
+        m_tvLanTitle.setText(R.string.setting_language);
+
+        //取得App設定的語系
+        LLanguageItem item = LApplication.getLanguageInfo().getLanguage();
+        m_tvLanguage.setText( item.strDisplayName );
+
+        m_tvVerTitle.setText(R.string.setting_version);
+        m_tvVersion.setText(R.string.app_version_name);
+        m_tvDevelop.setText(R.string.app_develop_name);
+
+        m_tvAppName.setText(R.string.app_name);
     }
 
     public void uiSetParameterListener(LNaviBarToMainListener onListener) {
@@ -208,8 +253,21 @@ public class LSettingFragment extends LBaseFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.iv_language:
             case R.id.rl_language:
+
+                ((LBaseActivity)getActivity()).openActivity(
+                        new Intent(),
+                        LSelectLanguageActivity.class,
+                        LUiMessageDef.INTENT_REQUEST_CODE_LANGUAGE);
                 break;
         }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d("[Setting]", "[onActivityResult]");
     }
 }

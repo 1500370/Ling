@@ -45,7 +45,7 @@ public class LLanguageInfo {
 
     private ArrayList<LLanguageItem> m_arLanguageList = new ArrayList<>();
 
-    public LLanguageInfo(Context context){
+    public LLanguageInfo( Context context ){
         initial(context);
     }
 
@@ -113,7 +113,7 @@ public class LLanguageInfo {
     public void setLanguage( Locale locale ){
         //設定預設語系
         Locale.setDefault(locale);
-        //2016/04/07 修正App吃不到語系的問題 by ryan
+
         Resources res = LApplication.getContext().getResources();
         Configuration conf = res.getConfiguration();
         conf.locale = locale;

@@ -3,7 +3,10 @@
     android:id="@+id/rl_navigation_bar_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent">
+    android:background="@color/transparent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <View
         android:id="@+id/v_line"
@@ -44,10 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ibtn_left"
-            android:layout_marginLeft="96px"
-            android:layout_marginRight="96px"
-            android:layout_toLeftOf="@+id/ibtn_right"
+            android:layout_marginLeft="200px"
+            android:layout_marginRight="200px"
             android:background="@color/transparent"
             android:ellipsize="end"
             android:gravity="center"
@@ -57,6 +58,16 @@
             android:textSize="60px" />
 
         <ImageButton
+            android:id="@+id/ibtn_right_second"
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="156px"
+            android:background="@color/transparent"
+            android:scaleType="fitXY" />
+
+        <ImageButton
             android:id="@+id/ibtn_right"
             android:layout_width="96px"
             android:layout_height="96px"
@@ -64,6 +75,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="48px"
             android:background="@color/transparent"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"/>
     </RelativeLayout>
 </RelativeLayout>

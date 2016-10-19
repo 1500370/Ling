@@ -29,10 +29,10 @@
             <TextView
                 android:id="@+id/tv_select_size"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60px"
-                android:layout_marginRight="30px"
                 android:maxLines="1"
                 android:text="@string/bingo_please_select_size"
                 android:textColor="@android:color/black"
@@ -40,17 +40,18 @@
 
             <EditText
                 android:id="@+id/et_size"
-                android:layout_width="300px"
+                android:layout_width="400px"
                 android:layout_height="85px"
                 android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="center"
-                android:layout_toRightOf="@+id/tv_select_size"
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
                 android:maxLines="1"
                 android:paddingBottom="5px"
+                android:layout_marginRight="60px"
                 android:paddingTop="0px"
-                android:text="@array/bingo_size_list"
+                android:text="@string/bingo_size_3"
                 android:textColor="@color/black_80"
                 android:textSize="48px" />
 
@@ -63,7 +64,6 @@
 
         </RelativeLayout>
 
-
         <RelativeLayout
             android:id="@+id/rl_range"
             android:layout_width="match_parent"
@@ -73,7 +73,8 @@
             <TextView
                 android:id="@+id/tv_input_range"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60px"
                 android:maxLines="1"
@@ -86,8 +87,7 @@
                 android:layout_width="180px"
                 android:layout_height="85px"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="30px"
-                android:layout_toRightOf="@+id/tv_input_range"
+                android:layout_toLeftOf="@+id/tv_tilde"
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
                 android:hint="@string/bingo_range_min"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="30px"
-                android:layout_toRightOf="@+id/et_min"
+                android:layout_toLeftOf="@+id/et_max"
                 android:maxLines="1"
                 android:text="@string/bingo_tilde"
                 android:textColor="@android:color/black"
@@ -119,7 +119,8 @@
                 android:layout_height="85px"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="30px"
-                android:layout_toRightOf="@+id/tv_tilde"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="60px"
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
                 android:hint="@string/bingo_range_max"
@@ -147,37 +148,44 @@
             android:layout_height="100px"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tv_current_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="60px"
-                android:maxLines="1"
-                android:text="@string/bingo_current_mode"
-                android:textColor="@android:color/black"
-                android:textSize="48px" />
-
-            <TextView
-                android:id="@+id/tv_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:maxLines="1"
-                android:text="@string/bingo_mode_input"
-                android:textColor="@color/black_80"
-                android:textSize="48px" />
-
             <ling.testapp.ui.view.LSwitchButton
                 android:id="@+id/switch_button"
                 android:layout_width="140px"
                 android:layout_height="70px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="15px"
                 android:layout_marginRight="60px"
                 slideswitch:shape="circle"
                 slideswitch:themeColor="@color/pink" />
+
+            <TextView
+                android:id="@+id/tv_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignTop="@+id/switch_button"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30px"
+                android:layout_toLeftOf="@+id/switch_button"
+                android:maxLines="1"
+                android:text="@string/bingo_mode_input"
+                android:textColor="@color/black_80"
+                android:textSize="48px" />
+
+            <TextView
+                android:id="@+id/tv_current_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="60px"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/bingo_current_mode"
+                android:textColor="@android:color/black"
+                android:textSize="48px"
+                android:layout_alignTop="@+id/tv_mode"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp" />
 
         </RelativeLayout>
 
@@ -197,7 +205,8 @@
             <TextView
                 android:id="@+id/tv_please_input_num"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60px"
                 android:maxLines="1"
@@ -268,9 +277,9 @@
                 android:id="@+id/btn_restart"
                 android:layout_width="150px"
                 android:layout_height="80px"
-                android:layout_toLeftOf="@+id/btn_select"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="30px"
+                android:layout_toLeftOf="@+id/btn_select"
                 android:background="@drawable/bg_btn_pink"
                 android:gravity="center"
                 android:minHeight="0dp"

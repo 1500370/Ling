@@ -1,7 +1,10 @@
 package ling.testapp.function.Base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +26,28 @@ public abstract class LBaseFragment extends Fragment {
 
     private     LAlertDialog    m_dialog            = null;
     protected   LayoutInflater  m_layoutInflater    = null;
+
+    protected   Handler         m_handler           = new Handler()
+    {
+        public void handleMessage(Message msg){
+            switch (msg.what) {
+                default:
+//                    if (bOtherHandleMessage(msg)) {
+//                        break;
+//                    }
+                    super.handleMessage(msg);
+                    break;
+            }
+        }
+        private void handleMessage_RestartApp()
+        {
+            Intent intent
+                    = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(
+                        getActivity().getBaseContext().getPackageName() );
+            intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );	//Intent.FLAG_ACTIVITY_CLEAR_TASK
+            getActivity().startActivity(intent);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,6 +143,38 @@ public abstract class LBaseFragment extends Fragment {
     }
 
     /**
+     * 根據傳入的clazz 開啟新activity
+     */
+    public void openActivity(Class clazz){
+        openActivity(new Intent(), clazz);
+    }
+
+    public void openActivity(Intent intent, Class clazz){
+        openActivity(intent, clazz, 0);
+    }
+
+    public void openActivity(Intent intent, Class clazz, int iRequestCode){
+        openActivity(intent, clazz, iRequestCode, R.anim.anim_right_in, R.anim.anim_left_out);
+    }
+
+    public void openActivity(Intent intent, Class clazz, int iRequestCode, int iEnterAnim, int iExitAnim){
+
+        if ( null == getActivity() || getActivity().isFinishing() || true == isDetached() ){
+            return;
+        }
+
+        intent.setClass(getActivity(), clazz);
+
+        if (0 == iRequestCode){
+            startActivity(intent);
+        }else {
+            startActivityForResult(intent, iRequestCode);
+        }
+
+        getActivity().overridePendingTransition(iEnterAnim, iExitAnim);
+    }
+
+    /**
      * 當{@link LBaseActivity}收到Back Event時，會往下通知子LBaseFragment，
      * 若有需要的子LBaseFragment接到後並處理完成，則{@link LBaseActivity}就不會往下傳遞
      * @return	true 代表該LBaseFragment已處理此Back Event<p>
@@ -166,4 +223,7 @@ public abstract class LBaseFragment extends Fragment {
      * @see FragmentTransaction FragmentTransaction相關操作
      */
     protected abstract void registerFragment(FragmentManager fragmentManager);
+
+    /** 當App語言變更後, 會呼叫此介面，藉此更新畫面UI,需要重新呼叫setText*/
+    protected abstract void onLanguageChangeUpdateUI();
 }

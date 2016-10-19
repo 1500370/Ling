@@ -33,6 +33,12 @@ public class LSelectLanguageActivity extends LBaseActivity {
             = new LNavigationBar.OnListener() {
         @Override
         public void OnRightImgClick() {
+
+        }
+
+        @Override
+        public void OnSecondRightImgClick() {
+
         }
 
         @Override
@@ -50,14 +56,27 @@ public class LSelectLanguageActivity extends LBaseActivity {
 
         @Override
         public int GetLeftIconRes() {
-            return R.drawable.ic_left_arrow;
+            return R.drawable.ic_back_arrow;
         }
 
         @Override
         public int GetRightIconRes() {
             return 0;
         }
+
+        @Override
+        public int GetSecondRightIconRes() {
+            return 0;
+        }
     };
+
+    private static final double         LAYOUT_PADDING_TOP      = 180;
+    private static final double         LAYOUT_HEIGHT           = 200;
+    private static final double         LAYOUT_MARGIN           = 60;
+    private static final double         TEXTVIEW_MARGIN         = 30;
+    private static final double         TEXT_SIZE               = 54;
+    private static final double         IMAGE_WIDTH             = 96;
+    private static final double         LINE_HEIGHT             = 1;
 
     private LNavigationBar.OnInterface  m_navigationInterface = null;
 
@@ -93,6 +112,18 @@ public class LSelectLanguageActivity extends LBaseActivity {
 
         m_navigationBar.getLayoutParams().height
                 = vScaleDef.getLayoutHeight(LNavigationBar.NAVIGATION_BAR_HEIGHT);
+
+        LLanguageItem item = LApplication.getLanguageInfo().getLanguage();
+        int iSize = m_arLanguageList.size();
+        for( int iIdx =0; iIdx < iSize; iIdx++ ){
+            if ( m_arLanguageList.get(iIdx).strTag.equals(item.strTag) ){
+                m_iSelect = iIdx;
+                break;
+            }
+        }
+
+        m_locale = item.locale;
+        m_LanguageAdpter.notifyDataSetChanged();
     }
 
     @Override
@@ -108,20 +139,26 @@ public class LSelectLanguageActivity extends LBaseActivity {
     }
 
     @Override
+    protected void onLanguageChangeUpdateUI() {
+
+    }
+
+    @Override
     public void onBackPressed() {
-
-        LLanguageItem item = LApplication.getLanguageInfo().getLanguage();
-
-        if ( m_locale.equals( item.locale ) ){
-            LSelectLanguageActivity.this.finish();
-        } else {
-            setResult(LUiMessageDef.INTENT_RESULT_CODE_LANGUAGE);
-            LSelectLanguageActivity.this.finish();
-        }
+        finish();
     }
 
     @Override
     public void finish() {
+
+        LLanguageItem item = LApplication.getLanguageInfo().getLanguage();
+
+        if ( m_locale.equals( item.locale ) ){
+            setResult(RESULT_OK);
+        } else {
+            setResult(LUiMessageDef.INTENT_RESULT_CODE_LANGUAGE);
+        }
+
         super.finish();
 
         overridePendingTransition(R.anim.anim_left_in, R.anim.anim_right_out);
@@ -149,6 +186,7 @@ public class LSelectLanguageActivity extends LBaseActivity {
 
     class ItemHolder{
 
+        RelativeLayout  background;
         RelativeLayout  layout;
         TextView        text;
         ImageView       image;
@@ -188,9 +226,12 @@ public class LSelectLanguageActivity extends LBaseActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             ItemHolder itemHolder = null;
+
             if ( null == convertView ){
-                itemHolder = new ItemHolder();
                 convertView = LayoutInflater.from(m_context).inflate( R.layout.view_language_item, null);
+
+                itemHolder = new ItemHolder();
+                itemHolder.background = (RelativeLayout)convertView.findViewById(R.id.rl_background);
                 itemHolder.layout   = (RelativeLayout)convertView.findViewById(R.id.rl_content);
                 itemHolder.image    = (ImageView)convertView.findViewById(R.id.image);
                 itemHolder.text     = (TextView)convertView.findViewById(R.id.text);
@@ -198,26 +239,36 @@ public class LSelectLanguageActivity extends LBaseActivity {
 
                 LViewScaleDef viewScaleDef = LViewScaleDef.getInstance(m_context);
 
-                viewScaleDef.setTextSize(54, itemHolder.text);
+                viewScaleDef.setTextSize(TEXT_SIZE, itemHolder.text);
 
-                itemHolder.layout.getLayoutParams().height = viewScaleDef.getLayoutHeight(200);
+                itemHolder.layout.getLayoutParams().height
+                        = viewScaleDef.getLayoutHeight(LAYOUT_HEIGHT);
+
+                if ( 0 == position ){
+                    itemHolder.background.setPadding(0,
+                            viewScaleDef.getLayoutHeight(LAYOUT_PADDING_TOP),
+                            0,
+                            0);
+                } else {
+                    itemHolder.background.setPadding(0, 0, 0, 0);
+                }
 
                 RelativeLayout.LayoutParams
                         params = (RelativeLayout.LayoutParams)itemHolder.text.getLayoutParams();
-                params.leftMargin = viewScaleDef.getLayoutWidth(60);
-                params.rightMargin = viewScaleDef.getLayoutWidth(30);
+                params.leftMargin = viewScaleDef.getLayoutWidth(LAYOUT_MARGIN);
+                params.rightMargin = viewScaleDef.getLayoutWidth(TEXTVIEW_MARGIN);
 
                 params = (RelativeLayout.LayoutParams)itemHolder.text.getLayoutParams();
-                params.leftMargin = viewScaleDef.getLayoutWidth(60);
-                params.rightMargin = viewScaleDef.getLayoutWidth(30);
+                params.leftMargin = viewScaleDef.getLayoutWidth(LAYOUT_MARGIN);
+                params.rightMargin = viewScaleDef.getLayoutWidth(TEXTVIEW_MARGIN);
 
                 params = (RelativeLayout.LayoutParams)itemHolder.image.getLayoutParams();
-                params.height = viewScaleDef.getLayoutMinUnit(96);
-                params.width = viewScaleDef.getLayoutMinUnit(96);
-                params.rightMargin = viewScaleDef.getLayoutWidth(60);
+                params.height = viewScaleDef.getLayoutMinUnit(IMAGE_WIDTH);
+                params.width = viewScaleDef.getLayoutMinUnit(IMAGE_WIDTH);
+                params.rightMargin = viewScaleDef.getLayoutWidth(LAYOUT_MARGIN);
 
                 params = (RelativeLayout.LayoutParams)itemHolder.line.getLayoutParams();
-                params.height = viewScaleDef.getLayoutHeight(1);
+                params.height = viewScaleDef.getLayoutHeight(LINE_HEIGHT);
 
                 convertView.setBackgroundResource(R.drawable.bg_transparent_press_black20);
 
@@ -230,10 +281,10 @@ public class LSelectLanguageActivity extends LBaseActivity {
 
             if ( m_iSelect == position ){
                 itemHolder.image.setVisibility(View.VISIBLE);
-                itemHolder.layout.setSelected(true);
+                itemHolder.background.setSelected(true);
             } else {
                 itemHolder.image.setVisibility(View.INVISIBLE);
-                itemHolder.layout.setSelected(false);
+                itemHolder.background.setSelected(false);
             }
 
             return convertView;

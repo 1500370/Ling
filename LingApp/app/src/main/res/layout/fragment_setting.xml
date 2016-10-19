@@ -73,8 +73,8 @@
             android:alpha="0.8"
             android:src="@drawable/ic_gray_right_arrow" />
 
-        <ImageButton
-            android:id="@+id/ibtn_language"
+        <ImageView
+            android:id="@+id/iv_language"
             android:layout_width="150px"
             android:layout_height="150px"
             android:layout_alignParentRight="true"

@@ -21,6 +21,11 @@ public class LThreeNBNSActivity extends LBaseActivity{
         }
 
         @Override
+        public void OnSecondRightImgClick() {
+
+        }
+
+        @Override
         public void OnLeftImgClick() {
             finish();
         }
@@ -35,11 +40,16 @@ public class LThreeNBNSActivity extends LBaseActivity{
 
         @Override
         public int GetLeftIconRes() {
-            return R.drawable.ic_left_arrow;
+            return R.drawable.ic_back_arrow;
         }
 
         @Override
         public int GetRightIconRes() {
+            return R.drawable.ic_information;
+        }
+
+        @Override
+        public int GetSecondRightIconRes() {
             return 0;
         }
     };
@@ -73,6 +83,11 @@ public class LThreeNBNSActivity extends LBaseActivity{
 
     @Override
     protected void registerFragment(FragmentManager fragmentManager) {
+
+    }
+
+    @Override
+    protected void onLanguageChangeUpdateUI() {
 
     }
 

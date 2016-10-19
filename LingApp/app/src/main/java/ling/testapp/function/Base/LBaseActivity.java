@@ -25,10 +25,10 @@ import ling.testapp.ui.dialog.LAlertDialog;
 
 public abstract class LBaseActivity extends AppCompatActivity {
 
-    protected Context m_context   = null;
+    protected   Context         m_context   = null;
     private     LAlertDialog    m_dialog    = null;
 
-    protected Handler m_handler   = new Handler() {
+    protected   Handler         m_handler   = new Handler() {
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
@@ -198,6 +198,54 @@ public abstract class LBaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 根據傳入的clazz 開啟新activity
+     */
+    public void openActivity(Class clazz){
+        openActivity(new Intent(), clazz);
+    }
+
+    public void openActivity(Intent intent, Class clazz){
+        openActivity(intent, clazz, 0);
+    }
+
+    public void openActivity(Intent intent, Class clazz, int iRequestCode){
+        openActivity(intent, clazz, iRequestCode, R.anim.anim_right_in, R.anim.anim_left_out);
+    }
+
+    public void openActivity(Intent intent, Class clazz, int iRequestCode, int iEnterAnim, int iExitAnim){
+
+        if ( null == m_context || isFinishing()){
+            return;
+        }
+        intent.setClass(m_context, clazz);
+
+        if (0 == iRequestCode){
+            startActivity(intent);
+        }else {
+            startActivityForResult(intent, iRequestCode);
+        }
+
+        overridePendingTransition(iEnterAnim, iExitAnim);
+    }
+
+    //更新語系
+    public void onLocaleChangeUpdateView(){
+
+        //先更新Activity
+        onLanguageChangeUpdateUI();
+
+        //更新ragment
+        if (null != getSupportFragmentManager().getFragments()) {
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                if (fragment instanceof LBaseFragment) {
+                    LBaseFragment baseFragment = (LBaseFragment) fragment;
+                    baseFragment.onLanguageChangeUpdateUI();
+                }
+            }
+        }
+    }
+
+    /**
      * BaseActivity在{@link LBaseActivity#onCreate(Bundle) onCreate()}時 設定
      * {@link LBaseActivity#setContentView(int) setContentView()}用
      *
@@ -231,4 +279,7 @@ public abstract class LBaseActivity extends AppCompatActivity {
      * @see FragmentTransaction FragmentTransaction相關操作
      */
     protected abstract void registerFragment(FragmentManager fragmentManager);
+
+    /** 當App語言變更後, 會呼叫此介面，藉此更新畫面UI,需要重新呼叫setText*/
+    protected abstract void onLanguageChangeUpdateUI();
 }

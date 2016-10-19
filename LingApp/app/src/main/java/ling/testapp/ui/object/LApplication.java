@@ -12,7 +12,7 @@ import ling.testapp.function.Setting.object.LLanguageInfo;
  */
 public class LApplication extends Application {
 
-	private static final String 	TAG				= "LApplication";
+	private static final String 	TAG				= "[LApplication]";
 
 	private static Context 			s_context		= null;
 	public  static LBingoInfo 		s_bingoInfo		= null;
@@ -22,7 +22,7 @@ public class LApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		s_context = getApplicationContext();
-		Log.i(TAG, "onCreate");
+		Log.i(TAG, "[onCreate]");
 	}
 
 	public static Context getContext() {

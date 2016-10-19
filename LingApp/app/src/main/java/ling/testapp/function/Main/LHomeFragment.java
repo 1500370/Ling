@@ -27,6 +27,11 @@ public class LHomeFragment extends LBaseFragment{
         }
 
         @Override
+        public void OnSecondRightImgClick() {
+
+        }
+
+        @Override
         public void OnLeftImgClick() {
             m_onMainListener.OnNaviBarLeftImgClick();
         }
@@ -46,6 +51,11 @@ public class LHomeFragment extends LBaseFragment{
 
         @Override
         public int GetRightIconRes() {
+            return 0;
+        }
+
+        @Override
+        public int GetSecondRightIconRes() {
             return 0;
         }
     };
@@ -80,6 +90,11 @@ public class LHomeFragment extends LBaseFragment{
 
     @Override
     protected void registerFragment(FragmentManager fragmentManager) {
+
+    }
+
+    @Override
+    protected void onLanguageChangeUpdateUI() {
 
     }
 

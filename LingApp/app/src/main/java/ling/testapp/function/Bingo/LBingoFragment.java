@@ -46,9 +46,6 @@ import ling.testapp.ui.navigation.LNavigationBar;
 import ling.testapp.ui.object.LApplication;
 import ling.testapp.ui.view.LSwitchButton;
 
-import static ling.testapp.function.Bingo.object.LBingoInfo.DEF_MAX;
-import static ling.testapp.function.Bingo.object.LBingoInfo.DEF_MIN;
-
 /**
  * Created by jlchen on 2016/9/23.
  * 賓果遊戲
@@ -103,7 +100,8 @@ public class LBingoFragment extends LBaseFragment implements
 
         @Override
         public void OnSecondRightImgClick() {
-            LInfoDialog infoDialog = new LInfoDialog(getActivity(), new LInfoDialog.OnDialogListener() {
+            LInfoDialog infoDialog = new LInfoDialog(getActivity(),
+                    new LInfoDialog.OnDialogListener() {
                 @Override
                 public void OnClose() {
 
@@ -518,6 +516,10 @@ public class LBingoFragment extends LBaseFragment implements
     private static final double         POPUPWINDOW_Y           = 6;
     private static final double         WEIGHT_TOTAL_WIDTH      = 1020;
     private static final double         WEIGHT_PADDING          = 15;
+
+    //賓果盤基本預設值
+    public  static final int            DEF_MIN             = 1;
+    public  static final int            DEF_MAX             = 999;
 
     private LNaviBarToMainListener      m_onMainListener    = null;
 

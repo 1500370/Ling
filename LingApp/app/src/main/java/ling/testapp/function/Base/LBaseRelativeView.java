@@ -15,8 +15,8 @@ import ling.testapp.ui.listener.LBaseViewInterface;
 public abstract class LBaseRelativeView extends RelativeLayout
         implements LBaseViewInterface {
 
-    protected Context m_context           = null;
-    protected LayoutInflater m_layoutInflater    = null;
+    protected Context           m_context           = null;
+    protected LayoutInflater    m_layoutInflater    = null;
 
     public LBaseRelativeView(Context context) {
         this(context, null);

@@ -41,6 +41,13 @@
     <string name="bingo_detail_text">數字範圍: %1$s ~ %2$s ; 賓果盤大小: %3$s</string>
     <string name="bingo_line">恭喜您！成功連線 %1$s 條。</string>
 
+    <!--三大法人-->
+    <string name="nbns_qfii">外資</string>
+    <string name="nbns_brk">自營</string>
+    <string name="nbns_it">投信</string>
+    <string name="nbns_tes">上市</string>
+    <string name="nbns_otc">上櫃</string>
+
     <!--設定-->
     <string name="setting_language">语言设定</string>
     <string name="setting_version">系統版本</string>

@@ -12,7 +12,7 @@
     <string name="menu_group_training">Exercise</string>
     <string name="title_home">Home</string>
     <string name="title_bingo">Bingo</string>
-    <string name="title_nbns">3IIs Net Buy/Sell</string>
+    <string name="title_nbns">Net Buy/Sell of 3IIs</string>
     <string name="menu_group_other">Others</string>
     <string name="title_setting">Setting</string>
 
@@ -38,6 +38,13 @@
     <string name="bingo_min_error">最小值請輸入 %1$s ~ %2$s 之間的任一數字！</string>
     <string name="bingo_detail_text">數字範圍: %1$s ~ %2$s ; 賓果盤大小: %3$s</string>
     <string name="bingo_line">恭喜您！成功連線 %1$s 條。</string>
+
+    <!--三大法人-->
+    <string name="nbns_qfii">QFII</string>
+    <string name="nbns_brk">BRK</string>
+    <string name="nbns_it">IT</string>
+    <string name="nbns_tes">TES</string>
+    <string name="nbns_otc">OTC</string>
 
     <!--設定-->
     <string name="setting_language">Language Setting</string>

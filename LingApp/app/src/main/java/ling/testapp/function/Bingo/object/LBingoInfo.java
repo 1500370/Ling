@@ -26,10 +26,6 @@ public class LBingoInfo {
      */
     private static final int    DEF_BINGO_SIZE  = 3;
 
-    //賓果盤基本預設值
-    public  static final int    DEF_MIN         = 1;
-    public  static final int    DEF_MAX         = 999;
-
     public LBingoInfo(Context context) {
 
         this.m_context      = context;

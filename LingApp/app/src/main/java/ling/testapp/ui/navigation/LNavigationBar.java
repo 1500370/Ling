@@ -64,8 +64,6 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
     private OnParameter     m_onParameter   = null;
     private OnListener      m_onListener    = null;
 
-    private Context         m_context       = null;
-
     private RelativeLayout  m_rlBg          = null;
     private TextView        m_tvTitle       = null;
     private ImageButton     m_ibtnLeft      = null;

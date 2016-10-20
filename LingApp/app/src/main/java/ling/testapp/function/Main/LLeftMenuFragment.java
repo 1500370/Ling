@@ -107,14 +107,14 @@ public class LLeftMenuFragment extends LBaseFragment {
     };
 
     private OnListener                      m_onListener        = null;
-    private ArrayList<LSideMenuGroupItem> m_alLeftMenuItem    = new ArrayList<>();
+    private ArrayList<LSideMenuGroupItem>   m_alLeftMenuItem    = new ArrayList<>();
 
     private LSideMenuItem                   m_menuHomeItem      = null;
     private LSideMenuAdapter.ChildHolder    m_cHeaderHolder     = null;
     private LSideMenuAdapter                m_adpater           = null;
 
-    private ExpandableListView m_elvLeftMenu       = null;
-    private RelativeLayout m_rlHome            = null;
+    private ExpandableListView              m_elvLeftMenu       = null;
+    private RelativeLayout                  m_rlHome            = null;
 
     @Override
     protected int getLayoutResourceId() {
@@ -193,7 +193,15 @@ public class LLeftMenuFragment extends LBaseFragment {
 
     @Override
     protected void onLanguageChangeUpdateUI() {
+        m_adpater.notifyDataSetChanged();
+        m_elvLeftMenu.setAdapter(m_adpater);
 
+        // 打開所有子選項
+        for (int i = 0; i < m_adpater.getGroupCount(); i++) {
+            m_elvLeftMenu.expandGroup(i);
+        }
+
+        m_cHeaderHolder.tvText.setText(m_menuHomeItem.iNameResId);
     }
 
     public OnInterface uiSetParameterListener(OnListener onListener) {

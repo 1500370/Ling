@@ -57,7 +57,7 @@ public class LStartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         LViewScaleDef   viewScaleDef    = LViewScaleDef.getInstance(LStartActivity.this);
-        TextView tvAppName       = (TextView)findViewById(R.id.tv_title);
+        TextView        tvAppName       = (TextView)findViewById(R.id.tv_title);
 
         tvAppName.setPadding(viewScaleDef.getLayoutWidth(TEXT_PADDING),
                 viewScaleDef.getLayoutHeight(TEXT_PADDING),
@@ -99,11 +99,10 @@ public class LStartActivity extends AppCompatActivity {
 
     private String getCurrentActivityName(Context context) throws Exception {
 
-        ActivityManager am
-                = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> taskInfo        = am.getRunningTasks(20);
+        ActivityManager                         am              = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo>   taskInfo        = am.getRunningTasks(20);
         ActivityManager.RunningTaskInfo         currentTaskInfo = filterApplicationTask(context, taskInfo);
-        String activity        = null;
+        String                                  activity        = null;
 
         //取得現有的Activity,若大於1個回傳最上層的ClassName,若小於等於1回傳null
         if (currentTaskInfo.numActivities == 0
@@ -119,7 +118,7 @@ public class LStartActivity extends AppCompatActivity {
     private ActivityManager.RunningTaskInfo filterApplicationTask(Context context,
                                                                   List<ActivityManager.RunningTaskInfo> taskInfo) {
 
-        String strApplicationName  = context.getPackageName();
+        String                          strApplicationName  = context.getPackageName();
         ActivityManager.RunningTaskInfo currentTaskInfo     = null;
 
         for (ActivityManager.RunningTaskInfo info : taskInfo) {

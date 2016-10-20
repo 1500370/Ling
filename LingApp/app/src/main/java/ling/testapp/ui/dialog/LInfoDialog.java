@@ -33,7 +33,7 @@ public class LInfoDialog extends Dialog
 	private static final double WEIGHT_HEIGHT_TITLE 		= 150;
 	private static final double WEIGHT_HEIGHT_CONTENT_TOP 	= 5;
 	private static final double WEIGHT_HEIGHT_CONTENT_GAP 	= 30;
-	private static final double WEIGHT_HEIGHT_CONTENT_MAX	= 1500;
+	private static final double WEIGHT_HEIGHT_CONTENT_MAX	= 1650;
 	private static final double TEXT_SIZE_TITLE				= 60;
 	private static final double TEXT_SIZE_CONTENT			= 48;
 

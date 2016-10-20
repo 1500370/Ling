@@ -2,6 +2,8 @@ package ling.testapp.function.Base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 
 import ling.testapp.R;
+import ling.testapp.ui.core.LWifiConnectionStateReceiver;
 import ling.testapp.ui.define.LUiMessageDef;
 import ling.testapp.ui.define.LViewScaleDef;
 import ling.testapp.ui.dialog.LAlertDialog;
@@ -23,10 +26,13 @@ import ling.testapp.ui.dialog.LAlertDialog;
  * Created by jlchen on 2016/9/21.
  */
 
-public abstract class LBaseActivity extends AppCompatActivity {
+public abstract class LBaseActivity extends AppCompatActivity
+        implements LWifiConnectionStateReceiver.Callback{
 
     protected   Context         m_context   = null;
     private     LAlertDialog    m_dialog    = null;
+
+    private     LWifiConnectionStateReceiver m_wifiReceiver = null;
 
     protected   Handler         m_handler   = new Handler() {
         public void handleMessage(Message msg) {
@@ -72,6 +78,27 @@ public abstract class LBaseActivity extends AppCompatActivity {
         setOnParameterAndListener();
 
         registerFragment(getSupportFragmentManager());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 註冊監聽網路狀態的廣播
+        m_wifiReceiver = new LWifiConnectionStateReceiver(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(m_wifiReceiver, filter);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // 反註冊監聽網路狀態的廣播
+        unregisterReceiver(m_wifiReceiver);
+        m_wifiReceiver = null;
     }
 
     @Override
@@ -282,4 +309,14 @@ public abstract class LBaseActivity extends AppCompatActivity {
 
     /** 當App語言變更後, 會呼叫此介面，藉此更新畫面UI,需要重新呼叫setText*/
     protected abstract void onLanguageChangeUpdateUI();
+
+    @Override
+    public void onNetworkConnect() {
+
+    }
+
+    @Override
+    public void onNetworkDisconnect() {
+
+    }
 }

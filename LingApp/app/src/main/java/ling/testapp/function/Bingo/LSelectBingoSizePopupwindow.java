@@ -65,6 +65,7 @@ public class LSelectBingoSizePopupwindow extends PopupWindow
         setBackgroundDrawable(
                 new ColorDrawable(ContextCompat.getColor(m_context, R.color.transparent)));
     }
+
     private void initialLayoutComponent(View view) {
         m_listView = (ListView)view.findViewById(R.id.lv_select_bingo_size);
         m_adapter = new LSelectBingoSizeAdapter(m_context, m_alItems);
@@ -98,8 +99,8 @@ public class LSelectBingoSizePopupwindow extends PopupWindow
     }
 
     @Override
-    public void showAsDropDown(View anchor, int xoff, int yoff, int gravity) {
-        super.showAsDropDown(anchor, xoff, yoff, gravity);
+    public void showAsDropDown(View anchor, int xoff, int yoff) {
+        super.showAsDropDown(anchor, xoff, yoff);
 
         ObjectAnimator oa = ObjectAnimator.ofFloat(
                 m_vContentView,

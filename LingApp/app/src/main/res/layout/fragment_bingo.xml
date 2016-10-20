@@ -1,13 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:slideswitch="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_bingo_root"
+    android:id="@+id/rl_bingo_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:focusable="true"
+    android:background="@color/red_dark"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
+
+    <View
+        android:id="@+id/v_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bingo"
+        android:alpha="0.5"/>
 
     <ling.testapp.ui.navigation.LNavigationBar
         android:id="@+id/navigation_bar"
@@ -18,6 +25,7 @@
         android:id="@+id/ll_bingo_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/navigation_bar"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -35,7 +43,7 @@
                 android:layout_marginLeft="60px"
                 android:maxLines="1"
                 android:text="@string/bingo_please_select_size"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="48px" />
 
             <EditText
@@ -52,7 +60,7 @@
                 android:layout_marginRight="60px"
                 android:paddingTop="0px"
                 android:text="@string/bingo_size_3"
-                android:textColor="@color/black_80"
+                android:textColor="@color/white_80"
                 android:textSize="48px" />
 
             <View
@@ -60,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_alignParentBottom="true"
-                android:background="@color/black_50" />
+                android:background="@color/white_50" />
 
         </RelativeLayout>
 
@@ -79,7 +87,7 @@
                 android:layout_marginLeft="60px"
                 android:maxLines="1"
                 android:text="@string/bingo_please_input_range"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="48px" />
 
             <EditText
@@ -97,8 +105,8 @@
                 android:nextFocusDown="@+id/et_max"
                 android:paddingBottom="5px"
                 android:paddingTop="0px"
-                android:textColor="@color/black_80"
-                android:textColorHint="@color/black_50"
+                android:textColor="@color/white_80"
+                android:textColorHint="@color/pink_light2"
                 android:textSize="48px" />
 
             <TextView
@@ -110,7 +118,7 @@
                 android:layout_toLeftOf="@+id/et_max"
                 android:maxLines="1"
                 android:text="@string/bingo_tilde"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="48px" />
 
             <EditText
@@ -129,8 +137,8 @@
                 android:maxLines="1"
                 android:paddingBottom="5px"
                 android:paddingTop="0px"
-                android:textColor="@color/black_80"
-                android:textColorHint="@color/black_50"
+                android:textColor="@color/white_80"
+                android:textColorHint="@color/pink_light2"
                 android:textSize="48px" />
 
             <View
@@ -138,7 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_alignParentBottom="true"
-                android:background="@color/black_50" />
+                android:background="@color/white_50" />
 
         </RelativeLayout>
 
@@ -170,7 +178,7 @@
                 android:layout_toLeftOf="@+id/switch_button"
                 android:maxLines="1"
                 android:text="@string/bingo_mode_input"
-                android:textColor="@color/black_80"
+                android:textColor="@color/white_80"
                 android:textSize="48px" />
 
             <TextView
@@ -181,7 +189,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:text="@string/bingo_current_mode"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="48px"
                 android:layout_alignTop="@+id/tv_mode"
                 android:layout_alignParentStart="true"
@@ -200,7 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_alignParentTop="true"
-                android:background="@color/black_50" />
+                android:background="@color/white_50" />
 
             <TextView
                 android:id="@+id/tv_please_input_num"
@@ -211,7 +219,7 @@
                 android:layout_marginLeft="60px"
                 android:maxLines="1"
                 android:text="@string/bingo_please_input_num"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="48px" />
 
             <Button
@@ -270,7 +278,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60px"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="48px" />
 
             <Button
@@ -308,4 +316,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

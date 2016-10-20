@@ -12,7 +12,7 @@ import android.widget.TextView;
 import ling.testapp.R;
 import ling.testapp.ui.define.LViewScaleDef;
 
-/**自定義警告訊息視窗
+/**自定義警告訊息視窗(粉紅)
  *<br>Title 為必要參數
  *<br>Content 為非必要參數, 放置要顯示的訊息,離開App時適用*/
 public class LAlertDialog extends Dialog
@@ -105,8 +105,8 @@ public class LAlertDialog extends Dialog
 		layout_bg.getLayoutParams().width = m_viewScaleDef.getLayoutHeight(WEIGHT_WIDTH_DIALOG);
 
 
-		TextView tvTitle			= (TextView)findViewById(R.id.tv_title);
-		TextView tvContent		= (TextView)findViewById(R.id.tv_content);
+		TextView tvTitle	= (TextView)findViewById(R.id.tv_title);
+		TextView tvContent	= (TextView)findViewById(R.id.tv_content);
 		View vHeadLine 		= (View)findViewById(R.id.v_head_div);
 		View vContentLine 	= (View)findViewById(R.id.v_content_div);
 

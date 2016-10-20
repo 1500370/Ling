@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_dialog_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:id="@+id/ll_dialog_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="50px"
+        android:background="@drawable/bg_info_dialog"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="170px"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:shadowColor="@color/black_15"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="4"
+            android:text="title"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+
+        <ling.testapp.ui.view.LShadowScrollView
+            android:id="@+id/shadowlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_close"
+        android:layout_width="100px"
+        android:layout_height="100px"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/bg_white_circle" />
+
+    <ImageButton
+        android:id="@+id/ibtn_close"
+        android:layout_width="100px"
+        android:layout_height="100px"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_close" />
+
+</RelativeLayout>

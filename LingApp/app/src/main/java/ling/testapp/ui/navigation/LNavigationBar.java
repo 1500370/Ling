@@ -196,6 +196,11 @@ public class LNavigationBar extends LBaseRelativeView implements View.OnClickLis
                     m_onListener.OnRightImgClick();
                 }
                 break;
+            case R.id.ibtn_right_second:
+                if ( null != m_onListener ){
+                    m_onListener.OnSecondRightImgClick();
+                }
+                break;
         }
     }
 }

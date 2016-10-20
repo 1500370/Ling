@@ -5,7 +5,14 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:fitsSystemWindows="true"
-    android:background="@color/black_40">
+    android:background="@android:color/black">
+
+    <View
+        android:id="@+id/v_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bingo"
+        android:alpha="0.5"/>
 
     <FrameLayout
         android:id="@+id/fl_content"

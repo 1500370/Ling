@@ -40,6 +40,7 @@ import ling.testapp.function.Bingo.adapter.LBingoAdapter;
 import ling.testapp.function.Bingo.item.LBingoItem;
 import ling.testapp.ui.define.LUiMessageDef;
 import ling.testapp.ui.define.LViewScaleDef;
+import ling.testapp.ui.dialog.LInfoDialog;
 import ling.testapp.ui.listener.LNaviBarToMainListener;
 import ling.testapp.ui.navigation.LNavigationBar;
 import ling.testapp.ui.object.LApplication;
@@ -102,7 +103,15 @@ public class LBingoFragment extends LBaseFragment implements
 
         @Override
         public void OnSecondRightImgClick() {
+            LInfoDialog infoDialog = new LInfoDialog(getActivity(), new LInfoDialog.OnDialogListener() {
+                @Override
+                public void OnClose() {
 
+                }
+            });
+            infoDialog.uiSetTitleText(getString(R.string.bingo_info_title));
+            infoDialog.uiSetContentText(getString(R.string.bingo_info));
+            infoDialog.show();
         }
 
         @Override
@@ -514,7 +523,7 @@ public class LBingoFragment extends LBaseFragment implements
 
     private LNavigationBar              m_navigationBar     = null;
 
-    private LinearLayout                m_llRoot            = null;
+    private RelativeLayout              m_rlRoot            = null;
     private LinearLayout                m_llContent         = null;
     private RelativeLayout              m_rlRange           = null;
     private TextView                    m_tvRange           = null;
@@ -555,7 +564,7 @@ public class LBingoFragment extends LBaseFragment implements
     private int                         m_iCol              = 3;
     private int                         m_iRange            = m_iCol * m_iCol;
     private ArrayList<LBingoItem>       m_alData            = new ArrayList<>();
-    private ArrayList<String>           m_alSize            = new ArrayList<>();
+    private final ArrayList<String>     m_alSize            = new ArrayList<>();
     private ArrayList<LBingoItem>       m_alUnSelect        = new ArrayList<>();
     private LBingoAdapter.BingoType     m_type              = LBingoAdapter.BingoType.CLICK;
 
@@ -573,7 +582,7 @@ public class LBingoFragment extends LBaseFragment implements
     @Override
     protected void initialLayoutComponent(LayoutInflater inflater, View view) {
 
-        m_llRoot        = (LinearLayout) view.findViewById(R.id.ll_bingo_root);
+        m_rlRoot        = (RelativeLayout) view.findViewById(R.id.rl_bingo_root);
         m_llContent     = (LinearLayout) view.findViewById(R.id.ll_bingo_content);
         m_llContent.setOnTouchListener(this);
         m_navigationBar = (LNavigationBar)view.findViewById(R.id.navigation_bar);
@@ -791,23 +800,21 @@ public class LBingoFragment extends LBaseFragment implements
     }
 
     private void cancelEditTextFocus(){
-        m_llRoot.setFocusable(true);
-        m_llRoot.setFocusableInTouchMode(true);
-        m_llRoot.requestFocus();
+        m_rlRoot.setFocusable(true);
+        m_rlRoot.setFocusableInTouchMode(true);
+        m_rlRoot.requestFocus();
     }
 
     //下拉式選擇賓果盤大小
-    private void pullDownMenu(View v){
+    private void pullDownMenu(final View v){
+
+        cancelEditTextFocus();
 
         if (true == m_bSwitch || false == m_switchButton.getSlideable())
             return;
 
-        cancelEditTextFocus();
-
         if ( null != m_popupWindow && m_popupWindow.isShowing() )
             return;
-
-        final ArrayList<String> alSize = m_alSize;
 
         if ( null == m_popupWindow ){
             m_popupWindow = new LSelectBingoSizePopupwindow(
@@ -819,7 +826,7 @@ public class LBingoFragment extends LBaseFragment implements
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int iPosition, long l) {
 
-                    m_etSize.setText(alSize.get(iPosition));
+                    m_etSize.setText(m_alSize.get(iPosition));
                     int iCol = Integer.valueOf(m_etSize.getText().toString().substring(0,1));
 
                     if ( m_iCol == iCol )
@@ -834,11 +841,17 @@ public class LBingoFragment extends LBaseFragment implements
             });
         }
 
-        //menu顯示於edittext 下方, 要與輸入框底線靠近一點
-        m_popupWindow.showAsDropDown(
-                v,
-                (int)POPUPWINDOW_X,
-                -LViewScaleDef.getInstance(getActivity()).getLayoutHeight(POPUPWINDOW_Y));
+        m_handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                //menu顯示於edittext 下方, 要與輸入框底線靠近一點
+                m_popupWindow.showAsDropDown(
+                        v,
+                        (int)POPUPWINDOW_X,
+                        -LViewScaleDef.getInstance(getActivity()).getLayoutHeight(POPUPWINDOW_Y));
+            }
+        });
     }
 
     //size改變或清空時, 重設賓果盤data
@@ -904,7 +917,7 @@ public class LBingoFragment extends LBaseFragment implements
                     m_tvMode.setText(R.string.bingo_mode_play);
                     m_tvMode.setTextColor(ContextCompat.getColor(
                             getActivity(),
-                            R.color.pink_dark2));
+                            R.color.pink_light2));
 
                     m_rlRange.setVisibility(View.INVISIBLE);
                     m_rlSize.setVisibility(View.INVISIBLE);
@@ -941,7 +954,7 @@ public class LBingoFragment extends LBaseFragment implements
                     m_tvMode.setText(R.string.bingo_mode_input);
                     m_tvMode.setTextColor(ContextCompat.getColor(
                             getActivity(),
-                            R.color.black_80));
+                            R.color.white_80));
 
                     m_btnSelect.setVisibility(View.VISIBLE);
                     m_rlLine.setVisibility(View.GONE);

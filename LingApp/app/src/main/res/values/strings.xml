@@ -55,6 +55,32 @@
         <item>@string/bingo_size_6</item>
         <item>@string/bingo_size_7</item>
     </string-array>
+    <string name="bingo_info_title" translatable="false">訓練題目-賓果遊戲</string>
+    <string name="bingo_info" translatable="false">
+題目說明：\n
+● 3*3賓果盤，數字範圍1-30。\n
+● 需有開關功能切換遊戲或輸入模式。\n
+● 輸入模式下可手動輸入各方格的數字。\n
+● 另提供按鈕，可亂數決定所有方格的數字。\n
+● 遊戲模式下不能修改賓果盤數字。\n
+● 賓果盤數字於按下時需能改顏色，再次按下時復原。\n
+● 數字不得重覆，手動輸入時如有重覆則需無法輸入或警示。\n
+● 亂數輸入時，需判斷數字不能重覆。\n\n
+進階功能：\n
+● 賓果盤大小及數字範圍皆可自選。\n
+● 自定義新功能（遊戲模式-隨選功能）。\n\n
+評分標準：\n
+● 功能性需求是否實作完成。\n
+● 非功能性需求是否實作完成。\n
+● 成果報告過程中是否有當機及效能不佳的問題。\n
+● 是否有遵守Coding Standard。\n
+● 物件的使用是否合乎標準。\n
+● 考慮多國語，使用字串檔。\n\n
+加分：\n
+● UI是否美觀及User Friendly。\n
+● 是否有實作題目以外的功能。\n
+● 是否考慮不同解析度。\n
+● 是否考慮不同作業系統版本。</string>
 
     <!--設定-->
     <string name="setting_language">語系設定</string>

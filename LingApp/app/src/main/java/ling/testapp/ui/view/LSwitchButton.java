@@ -33,6 +33,7 @@ public class LSwitchButton extends View {
     private static final String BUNDLE_TAG_INSTANCE_STATE   = "instanceState";
 
     // 3 attributes
+    private              int        m_iColorCloseTheme;
     private              int        m_iColorTheme;
     private              boolean    m_bIsOpen;
     private              int        m_iShape;
@@ -71,6 +72,7 @@ public class LSwitchButton extends View {
                 R.styleable.slideSwitch);
         m_iColorTheme = a.getColor(R.styleable.slideSwitch_themeColor,
                 ContextCompat.getColor(context, R.color.pink));
+        m_iColorCloseTheme = ContextCompat.getColor(context, R.color.pink_light);
         m_bIsOpen = a.getBoolean(R.styleable.slideSwitch_isOpen, false);
         m_iShape = a.getInt(R.styleable.slideSwitch_shape, SHAPE_RECT);
         a.recycle();
@@ -138,7 +140,7 @@ public class LSwitchButton extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (m_iShape == SHAPE_RECT) {
-            m_paint.setColor(Color.GRAY);
+            m_paint.setColor(m_iColorCloseTheme);
             canvas.drawRect(m_rectBack, m_paint);
             m_paint.setColor(m_iColorTheme);
             m_paint.setAlpha(m_iAlpha);
@@ -152,7 +154,7 @@ public class LSwitchButton extends View {
             // draw circle
             int radius;
             radius = m_rectBack.height() / 2 - RIM_SIZE;
-            m_paint.setColor(Color.GRAY);
+            m_paint.setColor(m_iColorCloseTheme);
             m_rfBackCircle.set(m_rectBack);
             canvas.drawRoundRect(m_rfBackCircle, radius, radius, m_paint);
             m_paint.setColor(m_iColorTheme);

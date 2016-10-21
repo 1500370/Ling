@@ -9,7 +9,7 @@ import ling.testapp.function.Bingo.LBingoFragment;
 import ling.testapp.function.Main.LHomeFragment;
 import ling.testapp.function.Main.item.LSideMenuGroupItem;
 import ling.testapp.function.Main.item.LSideMenuItem;
-import ling.testapp.function.NBNS.LThreeNBNSActivity;
+import ling.testapp.function.NBNS.LNetBSActivity;
 import ling.testapp.function.Setting.LSettingFragment;
 
 /**
@@ -83,7 +83,7 @@ public class LMenuViewIdDef {
                 MENU_ID_NBNS,
                 R.string.title_nbns,
                 R.drawable.ic_nbns,
-                LThreeNBNSActivity.class));
+                LNetBSActivity.class));
         alGroupList.add(new LSideMenuGroupItem(
                 MENU_ID_TRAINING,
                 R.string.menu_group_training,

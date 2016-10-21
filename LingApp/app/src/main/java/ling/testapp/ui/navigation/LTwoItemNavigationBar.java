@@ -2,6 +2,7 @@ package ling.testapp.ui.navigation;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -28,7 +29,9 @@ public class LTwoItemNavigationBar extends LBaseRelativeView implements View.OnC
         String GetLeftText();
         /**取得右邊按鈕字串*/
         String GetRightText();
-        /**取得右邊按鈕字串*/
+
+        /**取得預設選取的按鈕*/
+        @NonNull
         eItemType GetInitType();
     }
 

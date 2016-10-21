@@ -84,29 +84,31 @@
     <string name="nbns_it">投信</string>
     <string name="nbns_tes">上市</string>
     <string name="nbns_otc">上櫃</string>
+    <string name="nbns_tes_api" translatable="false">http://iwow.systex.com.tw/webService/ThreeCommOverBS_TSE.ashx</string>
+    <string name="nbns_otc_api" translatable="false">http://iwow.systex.com.tw/webService/ThreeCommOverBS_OTC.ashx</string>
     <string name="nbns_info_title" translatable="false">訓練題目-三大法人買賣超走勢圖</string>
     <string name="nbns_info" translatable="false">
 訓練內容：\n
-1. WebService：Activity及WebService做資料串連。\n
+1. WebService：Activity 及 WebService 做資料串連。\n
  (從 WebService 取得三大法人的買賣超資料，需以 AsyncTask 向 WebService 取資料)\n
-2. SurfaceView的使用。\n
+2. SurfaceView 的使用。\n
 3. ListView 的使用。\n
- (以 ListView 配上 BaseAdapter  來顯示三大法人買賣超)\n\n
+ (以 ListView 配上 BaseAdapter 來顯示三大法人買賣超)\n\n
 題目說明：\n
 1. 畫面\n
  ● 以 SurfaceView 呈現三大法人買賣超柱狀圖。\n
- ● 以ListView 呈現三大法買賣超資料。\n
+ ● 以 ListView 呈現三大法買賣超資料。\n
  ● 上市、上櫃按鈕必須可以切換，切換後畫面資料亦要隨上市、上櫃的類型而重新改變。\n
 2. SurfaceView\n
- ● 若是三大法人合計買賣超為正值，柱狀圖的顏色為 (27,151,250)：若是三大法人數值為負值，柱狀圖的顏色為 (10,77,126)。\n
- ● X 軸為日期, Y 軸為買賣超數值，單位為「億」，「億」必需在最大數值的下方呈現。且 Y 軸正負要各顯示4個數值。\n
- ● 最新的交易日的背景色為黑色，其餘交易日的背景色為灰色 (57,57,57)，每個交易日中間必須間隔 10px。\n
+ ● 若是三大法人合計買賣超為正值，柱狀圖的顏色為 (27, 151, 250)；若是三大法人數值為負值，柱狀圖的顏色為 (10, 77, 126)。\n
+ ● X 軸為日期， Y 軸為買賣超數值，單位為「億」，「億」必需在最大數值的下方呈現。且 Y 軸正負要各顯示4個數值。\n
+ ● 最新的交易日的背景色為黑色，其餘交易日的背景色為灰色 (57, 57, 57)，每個交易日中間必須間隔 10px。\n
  ● 需在圖上以小圓圈代表三大法人買賣超的數值，紅色(255, 0, 0)代表外資買賣超數值、橘色 (252, 164, 41) 代表自營買賣超數值、綠色(0, 255, 0 )代表投信買賣超數值，點要連成一直線。\n
 3. ListView\n
  ● ListView 的表頭為灰色 (196, 196, 196)， 需顯示的欄位為日期、外資、投信、自營、合計。\n
- ● 若數值為負值，則顯示綠色 (37,197,57)，若為正值，則顯示紅色 (192,38,37)。\n
- ● 最新的交易日的背景色為黑色，偶數列的背景色為 (45,45,45)，基數列的背景色為 (32,32,32)。\n\n
- ● ListView 的分隔線的顏色為 (59,59,59)。\n\n
+ ● 若數值為負值，則顯示綠色 (37, 197, 57)，若為正值，則顯示紅色 (192, 38, 37)。\n
+ ● 最新的交易日的背景色為黑色，偶數列的背景色為 (45, 45, 45)，基數列的背景色為 (32, 32, 32)。\n\n
+ ● ListView 的分隔線的顏色為 (59, 59, 59)。\n\n
 資料來源：\n
  ● 三大法人上市買賣金額：\n
  http://iwow.systex.com.tw/webService/ThreeCommOverBS_TSE.ashx \n

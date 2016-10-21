@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navigation_bar"
+        android:background="@color/black_50">
+
+        <View
+            android:id="@+id/v_cb_qfii_bg"
+            android:layout_width="70px"
+            android:layout_height="70px"
+            android:layout_centerVertical="true"
+            android:layout_margin="5px"
+            android:background="@drawable/bg_qfii_check_press_white20"
+            android:clickable="true" />
+
+        <View
+            android:id="@+id/v_cb_qfii"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_tick_black" />
+
+        <TextView
+            android:id="@+id/tv_cb_qfii"
+            android:layout_width="150px"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/v_cb_qfii"
+            android:text="@string/nbns_qfii"
+            android:textColor="@android:color/white" />
+
+        <View
+            android:id="@+id/v_cb_brk_bg"
+            android:layout_width="70px"
+            android:layout_height="70px"
+            android:layout_centerVertical="true"
+            android:layout_margin="5px"
+            android:layout_toRightOf="@+id/tv_cb_qfii"
+            android:background="@drawable/bg_brk_check_press_white20"
+            android:clickable="true" />
+
+        <View
+            android:id="@+id/v_cb_brk"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_cb_qfii"
+            android:background="@drawable/ic_tick_black" />
+
+        <TextView
+            android:id="@+id/tv_cb_brk"
+            android:layout_width="150px"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/v_cb_brk"
+            android:text="@string/nbns_brk"
+            android:textColor="@android:color/white" />
+
+        <View
+            android:id="@+id/v_cb_it_bg"
+            android:layout_width="70px"
+            android:layout_height="70px"
+            android:layout_centerVertical="true"
+            android:layout_margin="5px"
+            android:layout_toRightOf="@+id/tv_cb_brk"
+            android:background="@drawable/bg_it_check_press_white20"
+            android:clickable="true" />
+
+        <View
+            android:id="@+id/v_cb_it"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_cb_brk"
+            android:background="@drawable/ic_tick_black" />
+
+        <TextView
+            android:id="@+id/tv_cb_it"
+            android:layout_width="150px"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/v_cb_it"
+            android:text="@string/nbns_it"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+</LinearLayout>

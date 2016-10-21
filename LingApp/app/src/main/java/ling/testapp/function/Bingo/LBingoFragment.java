@@ -40,7 +40,7 @@ import ling.testapp.function.Bingo.adapter.LBingoAdapter;
 import ling.testapp.function.Bingo.item.LBingoItem;
 import ling.testapp.ui.define.LUiMessageDef;
 import ling.testapp.ui.define.LViewScaleDef;
-import ling.testapp.ui.dialog.LInfoDialog;
+import ling.testapp.ui.dialog.LInfoDialogFragment;
 import ling.testapp.ui.listener.LNaviBarToMainListener;
 import ling.testapp.ui.navigation.LNavigationBar;
 import ling.testapp.ui.object.LApplication;
@@ -100,16 +100,20 @@ public class LBingoFragment extends LBaseFragment implements
 
         @Override
         public void OnSecondRightImgClick() {
-            LInfoDialog infoDialog = new LInfoDialog(getActivity(),
-                    new LInfoDialog.OnDialogListener() {
-                @Override
-                public void OnClose() {
 
-                }
-            });
-            infoDialog.uiSetTitleText(getString(R.string.bingo_info_title));
-            infoDialog.uiSetContentText(getString(R.string.bingo_info));
-            infoDialog.show();
+            //顯示說明dialog
+            LInfoDialogFragment dialogFragment = LInfoDialogFragment.newInstance(
+                    getString(R.string.bingo_info_title),
+                    getString(R.string.bingo_info));
+
+            dialogFragment.uiSetParameterListener(
+                    new LInfoDialogFragment.OnListener() {
+                        @Override
+                        public void OnClose() {
+
+                        }
+                    });
+            dialogFragment.show(getChildFragmentManager(), dialogFragment.getTag());
         }
 
         @Override

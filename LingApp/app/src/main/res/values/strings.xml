@@ -76,7 +76,7 @@
 ● UI是否美觀及User Friendly。\n
 ● 是否有實作題目以外的功能。\n
 ● 是否考慮不同解析度。\n
-● 是否考慮不同作業系統版本。</string>
+● 是否考慮不同作業系統版本。\n</string>
 
     <!--三大法人-->
     <string name="nbns_qfii">外資</string>

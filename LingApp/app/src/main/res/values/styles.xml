@@ -117,6 +117,14 @@
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
+    <!--自定義警示對話框-->
+    <style name="InfoDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
     <!--新增字型設定-->
     <style name="regular">
         <item name="android:fontFamily">sans-serif</item>

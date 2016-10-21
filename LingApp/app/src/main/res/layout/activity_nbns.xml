@@ -13,104 +13,42 @@
         android:alpha="0.5"
         android:background="@drawable/bg_bingo" />
 
+    <ling.testapp.ui.navigation.LTwoItemNavigationBar
+        android:id="@+id/two_bar"
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/navigation_bar" />
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/two_bar"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/fl_surfaceview"
+            android:layout_weight="0.6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_listview"
+            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
+
+    </LinearLayout>
+
     <ling.testapp.ui.navigation.LNavigationBar
         android:id="@+id/navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="180px" />
-
-    <RelativeLayout
-        android:id="@+id/rl_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/navigation_bar"
-        android:background="@color/black_50">
-
-        <View
-            android:id="@+id/v_cb_qfii_bg"
-            android:layout_width="70px"
-            android:layout_height="70px"
-            android:layout_centerVertical="true"
-            android:layout_margin="5px"
-            android:background="@drawable/bg_qfii_check_press_white20"
-            android:clickable="true" />
-
-        <View
-            android:id="@+id/v_cb_qfii"
-            android:layout_width="80px"
-            android:layout_height="80px"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_tick_black" />
-
-        <TextView
-            android:id="@+id/tv_cb_qfii"
-            android:layout_width="150px"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/v_cb_qfii"
-            android:textColor="@android:color/white"
-            android:text="@string/nbns_qfii" />
-
-        <View
-            android:id="@+id/v_cb_brk_bg"
-            android:layout_width="70px"
-            android:layout_height="70px"
-            android:layout_centerVertical="true"
-            android:layout_margin="5px"
-            android:layout_toRightOf="@+id/tv_cb_qfii"
-            android:background="@drawable/bg_brk_check_press_white20"
-            android:clickable="true" />
-
-        <View
-            android:id="@+id/v_cb_brk"
-            android:layout_width="80px"
-            android:layout_height="80px"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_cb_qfii"
-            android:background="@drawable/ic_tick_black" />
-
-        <TextView
-            android:id="@+id/tv_cb_brk"
-            android:layout_width="150px"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/v_cb_brk"
-            android:textColor="@android:color/white"
-            android:text="@string/nbns_brk" />
-
-        <View
-            android:id="@+id/v_cb_it_bg"
-            android:layout_width="70px"
-            android:layout_height="70px"
-            android:layout_centerVertical="true"
-            android:layout_margin="5px"
-            android:layout_toRightOf="@+id/tv_cb_brk"
-            android:background="@drawable/bg_it_check_press_white20"
-            android:clickable="true" />
-
-        <View
-            android:id="@+id/v_cb_it"
-            android:layout_width="80px"
-            android:layout_height="80px"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_cb_brk"
-            android:background="@drawable/ic_tick_black" />
-
-        <TextView
-            android:id="@+id/tv_cb_it"
-            android:layout_width="150px"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/v_cb_it"
-            android:textColor="@android:color/white"
-            android:text="@string/nbns_it" />
-
-        <ling.testapp.ui.navigation.LTwoItemNavigationBar
-            android:id="@+id/two_bar"
-            android:layout_width="match_parent"
-            android:layout_height="80px"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_cb_it">
-
-        </ling.testapp.ui.navigation.LTwoItemNavigationBar>
-    </RelativeLayout>
+        android:layout_height="180px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -80,15 +80,16 @@ public class LToast {
     private final WindowManager.LayoutParams m_params = new WindowManager.LayoutParams();
 
     public LToast (Context context){
-
-        m_context = context;
+        m_context   = context;
         m_vScaleDef = LViewScaleDef.getInstance(context);
+
         init(context);
     }
 
     private void init(Context context) {
 
         final WindowManager.LayoutParams params = m_params;
+
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE

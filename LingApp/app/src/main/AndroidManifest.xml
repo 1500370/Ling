@@ -4,6 +4,8 @@
     android:versionCode="1"
     android:versionName="@string/app_version_name">
 
+    <!-- 切換橫豎屏權限 -->
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <!-- 網路權限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -57,7 +59,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".function.NBNS.LNetBSActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_nbns"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan"

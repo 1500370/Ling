@@ -63,7 +63,6 @@ public class LToast {
 
     private static final int    DEF_TOAST_SHOW_TIME = 3000;
     private static final double DEF_TEXT_SIZE       = 48;
-    private static final double DEF_LAYOUT_WIDTH    = 1020;
     private static final double DEF_LAYOUT_MARGIN   = 30;
     private static final double DEF_TEXT_PADDING    = 60;
     private static final double DEF_TEXT_HEIGHT     = 120;
@@ -91,7 +90,7 @@ public class LToast {
         final WindowManager.LayoutParams params = m_params;
 
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
@@ -116,7 +115,6 @@ public class LToast {
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.ll_toast_content);
         LinearLayout.LayoutParams params
                 = (LinearLayout.LayoutParams)linearLayout.getLayoutParams();
-        params.width = result.m_vScaleDef.getLayoutWidth(DEF_LAYOUT_WIDTH);
         params.leftMargin = result.m_vScaleDef.getLayoutWidth(DEF_LAYOUT_MARGIN);
         params.rightMargin = result.m_vScaleDef.getLayoutWidth(DEF_LAYOUT_MARGIN);
 

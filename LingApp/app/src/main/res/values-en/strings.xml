@@ -45,6 +45,8 @@
     <string name="nbns_it">IT</string>
     <string name="nbns_tes">TES</string>
     <string name="nbns_otc">OTC</string>
+    <string name="nbns_date">Date</string>
+    <string name="nbns_total">Total</string>
 
     <!--設定-->
     <string name="setting_language">Language Setting</string>

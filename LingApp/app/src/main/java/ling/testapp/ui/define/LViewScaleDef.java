@@ -40,6 +40,10 @@ public class LViewScaleDef {
         return m_instance;
     }
 
+    public static void setInstance(LViewScaleDef scaleDef){
+        m_instance = scaleDef;
+    }
+
     private void initial(Context context)
     {
         //設定「長度、寬度單位」最大值

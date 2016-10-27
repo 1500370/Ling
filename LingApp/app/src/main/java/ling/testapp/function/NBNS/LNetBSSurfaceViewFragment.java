@@ -22,7 +22,7 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
 
     LNetBSSurfaceView.OnListener m_svOnListener = new LNetBSSurfaceView.OnListener() {
         @Override
-        public void noData(LNetBSSurfaceView.eType type) {
+        public void noData(LNetBSActivity.eType type) {
 
         }
     };

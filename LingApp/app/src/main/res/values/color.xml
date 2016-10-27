@@ -35,4 +35,10 @@
     <color name="brk_orange_press">#66fca429</color>
     <color name="it_green">#00ff00</color>
     <color name="it_green_press">#6600ff00</color>
+    <color name="lv_head_gray">#c4c4c4</color>
+    <color name="lv_even_gray">#2d2d2d</color>
+    <color name="lv_odd_gray">#202020</color>
+    <color name="lv_line_gray">#3b3b3b</color>
+    <color name="lv_positive_red">#c02625</color>
+    <color name="lv_negative_green">#25c539</color>
 </resources>

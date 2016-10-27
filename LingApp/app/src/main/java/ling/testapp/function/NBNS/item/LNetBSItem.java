@@ -1,20 +1,30 @@
 package ling.testapp.function.NBNS.item;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by jlchen on 2016/10/21.
  */
 
 public class LNetBSItem {
+    public String m_strDate         = null;
+    public String m_strSimpleDate   = null;
+    public String m_strQfii     = null;
+    public double m_dQfii       = 0.0f;
+    public String m_strBrk      = null;
+    public double m_dBrk        = 0.0f;
+    public String m_strIt       = null;
+    public double m_dIt         = 0.0f;
+    public String m_strTotal    = null;
+    public double m_dTotal      = 0.0f;
 
-    public String m_strDate = null;
-    public String m_strQfii = null;
-    public String m_strBrk  = null;
-    public String m_strIt   = null;
+    public double getDoubleTotal(){
+        return m_dQfii+m_dBrk+m_dIt;
+    }
 
-    public LNetBSItem(String strDate, String strQfii, String strBrk, String strIt){
-        this.m_strDate  = strDate;
-        this.m_strQfii  = strQfii;
-        this.m_strBrk   = strBrk;
-        this.m_strIt    = strIt;
+    public String getStringTotal(){
+        //字串格式化
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(getDoubleTotal());
     }
 }

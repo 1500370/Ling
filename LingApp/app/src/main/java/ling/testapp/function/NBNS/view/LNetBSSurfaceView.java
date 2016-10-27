@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
+import ling.testapp.function.NBNS.LNetBSActivity;
 import ling.testapp.function.NBNS.item.LNetBSItem;
 
 /**
@@ -19,10 +20,6 @@ import ling.testapp.function.NBNS.item.LNetBSItem;
  */
 
 public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Callback {
-
-    public enum eType {
-        TES, OTC
-    }
 
     public interface OnParameter {
         /**取得上市買賣超*/
@@ -32,18 +29,18 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
     }
 
     public interface OnListener {
-        void noData(eType type);
+        void noData(LNetBSActivity.eType type);
     }
 
     public interface OnInterface {
         /**切換上市上櫃按鈕*/
-        void changeMode(eType type);
+        void changeMode(LNetBSActivity.eType type);
     }
 
     private OnInterface m_interface = new OnInterface() {
         @Override
-        public void changeMode(eType type) {
-            if ( type == eType.TES ){
+        public void changeMode(LNetBSActivity.eType type) {
+            if ( type == LNetBSActivity.eType.TES ){
 
                 if (null == m_alTES){
                     m_onListener.noData(type);
@@ -63,7 +60,7 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
     private OnListener              m_onListener    = null;
     private ArrayList<LNetBSItem>   m_alTES         = null;
     private ArrayList<LNetBSItem>   m_alOTC         = null;
-    private eType                   m_type          = eType.TES;
+    private LNetBSActivity.eType    m_type          = LNetBSActivity.eType.TES;
     private Canvas                  m_canvas;
 
     public LNetBSSurfaceView(Context        context,
@@ -90,6 +87,7 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+
         drawNetBS(holder);
     }
 
@@ -106,6 +104,9 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
     public void drawNetBS(SurfaceHolder holder) {
         m_canvas = holder.lockCanvas();
         m_canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//設置畫布背景為透明
+
+
+
         holder.unlockCanvasAndPost(m_canvas);
     }
 

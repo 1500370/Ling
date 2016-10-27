@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import ling.testapp.function.Bingo.object.LBingoInfo;
+import ling.testapp.function.NBNS.object.LNetBSInfo;
 import ling.testapp.function.Setting.object.LLanguageInfo;
 
 /**
@@ -16,6 +17,7 @@ public class LApplication extends Application {
 
 	private static Context 			s_context		= null;
 	public  static LBingoInfo 		s_bingoInfo		= null;
+	public  static LNetBSInfo 		s_netBSInfo		= null;
 	public  static LLanguageInfo	s_languageInfo 	= null;
 
 	@Override
@@ -31,7 +33,7 @@ public class LApplication extends Application {
 
 	/**
 	 * 取得賓果遊戲相關參數
-	 * @return CILoginInfo
+	 * @return LBingoInfo
 	 */
 	public static synchronized LBingoInfo getBingoInfo(){
 		if (null == s_bingoInfo) {
@@ -41,8 +43,19 @@ public class LApplication extends Application {
 	}
 
 	/**
+	 * 取得三大法人相關參數
+	 * @return LNetBSInfo
+	 */
+	public static synchronized LNetBSInfo getNetBSInfo(){
+		if (null == s_netBSInfo) {
+			s_netBSInfo = new LNetBSInfo(s_context);
+		}
+		return s_netBSInfo;
+	}
+
+	/**
 	 * 取得語系設定
-	 * @return CILanguageInfo
+	 * @return LLanguageInfo
 	 */
 	public static synchronized LLanguageInfo getLanguageInfo(){
 		if (null == s_languageInfo) {

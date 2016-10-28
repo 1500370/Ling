@@ -21,7 +21,6 @@ import ling.testapp.ui.dialog.LInfoDialogFragment;
 import ling.testapp.ui.navigation.LNavigationBar;
 import ling.testapp.ui.navigation.LTwoItemNavigationBar;
 import ling.testapp.ui.object.LApplication;
-import ling.testapp.ui.toast.LToast;
 
 import static ling.testapp.ui.navigation.LTwoItemNavigationBar.OnListener;
 import static ling.testapp.ui.navigation.LTwoItemNavigationBar.OnParameter;
@@ -184,6 +183,13 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
 
         m_fgListView = new LNetBSListViewFragment();
         m_fgSurfaceView = new LNetBSSurfaceViewFragment();
+
+        m_handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LNetBSPresenter.getInstance(LNetBSActivity.this).loadData(m_type);
+            }
+        }, 500);
     }
 
     @Override
@@ -242,6 +248,9 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
                     m_flSurfaceView.getLayoutParams().width    = iSvWidth;
                     m_flListView.getLayoutParams().width       = iLvWidth;
 
+                    m_fgSurfaceView.setWidthAndHeight(
+                            iSvWidth-(iPadding*2),
+                            m_llContent.getHeight()-(iPadding*2)) ;
                     m_fgListView.setTotalWidth(iLvWidth - iPadding);
                 }
             });
@@ -278,6 +287,9 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
                     m_flSurfaceView.getLayoutParams().height    = iSvHeight;
                     m_flListView.getLayoutParams().height       = iLvHeight;
 
+                    m_fgSurfaceView.setWidthAndHeight(
+                            m_llContent.getWidth()-(iPadding*2),
+                            iSvHeight-iPadding);
                     m_fgListView.setTotalWidth(m_llContent.getWidth() - (iPadding*2));
                 }
             });
@@ -305,14 +317,6 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
         fragmentTransaction.replace(m_flListView.getId(), m_fgListView);
         // 提交事務
         fragmentTransaction.commitAllowingStateLoss();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume");
-        super.onResume();
-
-        LNetBSPresenter.getInstance(this).loadData(m_type);
     }
 
     //切換橫豎屏
@@ -380,6 +384,9 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
                     m_flSurfaceView.getLayoutParams().width    = iSvWidth;
                     m_flListView.getLayoutParams().width       = iLvWidth;
 
+                    m_fgSurfaceView.setWidthAndHeight(
+                            iSvWidth-(iPadding*2),
+                            m_llContent.getHeight()-(iPadding*2)) ;
                     m_fgListView.setTotalWidth(iLvWidth - iPadding);
 
                 } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -392,6 +399,9 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
                     m_flSurfaceView.getLayoutParams().height    = iSvHeight;
                     m_flListView.getLayoutParams().height       = iLvHeight;
 
+                    m_fgSurfaceView.setWidthAndHeight(
+                            m_llContent.getWidth()-(iPadding*2),
+                            iSvHeight-iPadding);
                     m_fgListView.setTotalWidth(m_llContent.getWidth()-(iPadding*2));
                 }
             }
@@ -434,16 +444,16 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
     public void onError(String strError) {
         Log.d(TAG, "onError");
 
-        LToast.makeText(m_context, strError).show();
+        m_fgListView.setErrorMsg(strError);
     }
 
     @Override
     public void showProgress() {
-
+        m_fgListView.setMsgVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+//        m_fgListView.setMsgVisibility(View.GONE);
     }
 }

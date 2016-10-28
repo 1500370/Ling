@@ -7,11 +7,13 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.support.v4.content.ContextCompat;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
+import ling.testapp.R;
 import ling.testapp.function.NBNS.LNetBSActivity;
 import ling.testapp.function.NBNS.item.LNetBSItem;
 
@@ -56,6 +58,7 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
         }
     };
 
+    private Context                 m_context       = null;
     private OnParameter             m_onParameter   = null;
     private OnListener              m_onListener    = null;
     private ArrayList<LNetBSItem>   m_alTES         = null;
@@ -67,6 +70,8 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
                              OnParameter    onParameter,
                              OnListener     onListener) {
         super(context);
+
+        m_context = context;
 
         m_onParameter   = onParameter;
         m_onListener    = onListener;
@@ -93,7 +98,7 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        setWidthAndHeight(holder, width, height);
     }
 
     @Override
@@ -101,11 +106,30 @@ public class LNetBSSurfaceView extends SurfaceView  implements SurfaceHolder.Cal
 
     }
 
+    public void setWidthAndHeight(SurfaceHolder holder, int iW, int iH){
+        m_canvas = holder.lockCanvas();
+
+        //柱狀圖背景
+        Paint pDraw = new Paint();
+        pDraw.setColor(ContextCompat.getColor(m_context, R.color.sv_bg_gray));
+        pDraw.setStrokeWidth((iW - 90) / 10);
+        pDraw.setAntiAlias(true);
+        int iHistogramX = 0;
+        for (int i = 0; i < 10; i++) {
+            if (i == 10 - 1) {
+                pDraw.setColor(Color.BLACK);
+            }
+            m_canvas.drawLine(iHistogramX, 0, iHistogramX, iH, pDraw);
+            iHistogramX = iHistogramX + (10);
+        }
+
+        holder.unlockCanvasAndPost(m_canvas);
+    }
+
     public void drawNetBS(SurfaceHolder holder) {
         m_canvas = holder.lockCanvas();
-        m_canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//設置畫布背景為透明
-
-
+        //設置畫布背景為透明
+        m_canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
         holder.unlockCanvasAndPost(m_canvas);
     }

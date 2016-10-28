@@ -47,6 +47,8 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
     public  static final double     TEXTVIEW_WIDTH  = 85;
     public  static final double     TEXT_SIZE       = 36;
 
+    private LNetBSSurfaceView m_surfaceView = null;
+
     private View        m_vQfiiBg   = null,
                         m_vQfiiImg  = null,
                         m_vBrkBg    = null,
@@ -57,10 +59,11 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
                         m_tvBrk     = null,
                         m_tvIt      = null;
     private RelativeLayout m_rlSv   = null;
-
     private boolean     m_bQfii     = true,
                         m_bBrk      = true,
                         m_bIt       = true;
+
+    private boolean     m_bIsStart  = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -93,10 +96,9 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
 
         m_rlSv      = (RelativeLayout)view.findViewById(R.id.rl_sv);
 
-        LNetBSSurfaceView surfaceView
-                = new LNetBSSurfaceView(getActivity(), m_svOnParameter, m_svOnListener);
-        m_svOnInterface = surfaceView.getInterface();
-        m_rlSv.addView(surfaceView);
+        m_surfaceView = new LNetBSSurfaceView(getActivity(), m_svOnParameter, m_svOnListener);
+        m_svOnInterface = m_surfaceView.getInterface();
+        m_rlSv.addView(m_surfaceView);
 
     }
 
@@ -197,5 +199,26 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
                 }
                 break;
         }
+    }
+
+    public void setWidthAndHeight(final int iWidth, final int iHeight){
+//        if ( false == m_bIsStart ){
+//
+//            m_handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    m_surfaceView.surfaceChanged(m_surfaceView.getHolder(), 0, iWidth, iHeight);
+//                }
+//            }, 500);
+//        }else {
+//            m_surfaceView.surfaceChanged(m_surfaceView.getHolder(), 0, iWidth, iHeight);
+//        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        m_bIsStart = true;
     }
 }

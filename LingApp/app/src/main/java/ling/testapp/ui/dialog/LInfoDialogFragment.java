@@ -145,21 +145,21 @@ public class LInfoDialogFragment extends DialogFragment {
         LViewScaleDef vScaleDef = LViewScaleDef.getInstance(getActivity());
 
         root.setPadding(
-                vScaleDef.getLayoutWidth(WEIGHT_PADDING),
-                vScaleDef.getLayoutHeight(WEIGHT_PADDING),
-                vScaleDef.getLayoutWidth(WEIGHT_PADDING),
-                vScaleDef.getLayoutHeight(WEIGHT_PADDING));
+                vScaleDef.getLayoutMinUnit(WEIGHT_PADDING),
+                vScaleDef.getLayoutMinUnit(WEIGHT_PADDING),
+                vScaleDef.getLayoutMinUnit(WEIGHT_PADDING),
+                vScaleDef.getLayoutMinUnit(WEIGHT_PADDING));
 
         RelativeLayout.LayoutParams rp = (RelativeLayout.LayoutParams)layout_bg.getLayoutParams();
-        rp.leftMargin = vScaleDef.getLayoutWidth(WEIGHT_HEIGHT_CONTENT_GAP);
-        rp.rightMargin = vScaleDef.getLayoutWidth(WEIGHT_HEIGHT_CONTENT_GAP);
-        rp.topMargin = vScaleDef.getLayoutHeight(WEIGHT_DIALOG_TOP);
-        rp.bottomMargin = vScaleDef.getLayoutHeight(WEIGHT_HEIGHT_CONTENT_GAP);
+        rp.leftMargin = vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_CONTENT_GAP);
+        rp.rightMargin = vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_CONTENT_GAP);
+        rp.topMargin = vScaleDef.getLayoutMinUnit(WEIGHT_DIALOG_TOP);
+        rp.bottomMargin = vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_CONTENT_GAP);
 
         vScaleDef.setTextSize( TEXT_SIZE_TITLE, tvTitle);
-        tvTitle.getLayoutParams().height = vScaleDef.getLayoutHeight(WEIGHT_HEIGHT_TITLE);
-        int nLeft = vScaleDef.getLayoutWidth(WEIGHT_PADDING);
-        int nRight= vScaleDef.getLayoutWidth(WEIGHT_PADDING);
+        tvTitle.getLayoutParams().height = vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_TITLE);
+        int nLeft = vScaleDef.getLayoutMinUnit(WEIGHT_PADDING);
+        int nRight= vScaleDef.getLayoutMinUnit(WEIGHT_PADDING);
         tvTitle.setPadding(nLeft, 0, nRight, 0);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -171,15 +171,15 @@ public class LInfoDialogFragment extends DialogFragment {
 //        params.height =  vScaleDef.getLayoutHeight(WEIGHT_HEIGHT_CONTENT_MAX);
         //當沒有輸入title時, 將上方間距加大
         if ( View.VISIBLE == tvTitle.getVisibility() ){
-            params.topMargin = vScaleDef.getLayoutHeight(WEIGHT_HEIGHT_CONTENT_TOP);
+            params.topMargin = vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_CONTENT_TOP);
         } else {
-            params.topMargin = vScaleDef.getLayoutHeight(WEIGHT_HEIGHT_CONTENT_GAP);
+            params.topMargin = vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_CONTENT_GAP);
         }
 //		params.bottomMargin = m_viewScaleDef.getLayoutHeight(WEIGHT_HEIGHT_CONTENT_GAP);
         m_shadowScrollView.setLayoutParams(params);
         m_shadowScrollView.setPadding(
-                vScaleDef.getLayoutWidth(WEIGHT_HEIGHT_CONTENT_TOP), 0,
-                vScaleDef.getLayoutWidth(WEIGHT_HEIGHT_CONTENT_TOP), 0);
+                vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_CONTENT_TOP), 0,
+                vScaleDef.getLayoutMinUnit(WEIGHT_HEIGHT_CONTENT_TOP), 0);
 
         //須依content設定長度
         ViewTreeObserver vto = m_shadowScrollView.getViewTreeObserver();

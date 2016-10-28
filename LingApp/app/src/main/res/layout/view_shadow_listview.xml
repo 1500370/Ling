@@ -5,18 +5,15 @@
     android:background="@color/transparent"
     android:id="@+id/root">
 
-    <ScrollView
+    <ListView
+        android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:scrollbars="none"
-        android:id="@+id/sv">
-
-        <LinearLayout
-            android:id="@+id/llayout_content"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></LinearLayout>
-    </ScrollView>
+        android:listSelector="@color/transparent"
+        android:divider="@color/transparent"
+        android:dividerHeight="0px"/>
 
     <View
         android:id="@+id/v_gradient_top"

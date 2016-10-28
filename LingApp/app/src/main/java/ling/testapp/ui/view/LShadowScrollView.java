@@ -19,7 +19,7 @@ import ling.testapp.ui.define.LViewScaleDef;
 public class LShadowScrollView extends LBaseLinearView {
 
     private ScrollView      m_scrollView        = null;
-    private LinearLayout    m_llayout_Content   = null;
+    private LinearLayout    m_llContent         = null;
     private View            m_vGradient         = null;
     private View            m_vGradientTop      = null;
 
@@ -45,7 +45,7 @@ public class LShadowScrollView extends LBaseLinearView {
     public void initialLayoutComponent(LayoutInflater inflater) {
 
         m_scrollView        = (ScrollView)findViewById(R.id.sv);
-        m_llayout_Content   = (LinearLayout)findViewById(R.id.llayout_content);
+        m_llContent         = (LinearLayout)findViewById(R.id.llayout_content);
         m_vGradient         = findViewById(R.id.v_gradient);
         m_vGradientTop      = findViewById(R.id.v_gradient_top);
         m_vGradientTop.setAlpha(0);
@@ -95,7 +95,7 @@ public class LShadowScrollView extends LBaseLinearView {
     }
 
     public LinearLayout getContentView(){
-        return m_llayout_Content;
+        return m_llContent;
     }
 
     public void setShadowBarHeight( int iPx ){
@@ -112,7 +112,6 @@ public class LShadowScrollView extends LBaseLinearView {
             m_vGradientTop.setVisibility(GONE);
         }
     }
-
 
     ViewTreeObserver.OnScrollChangedListener m_onScroll = new ViewTreeObserver.OnScrollChangedListener() {
         @Override

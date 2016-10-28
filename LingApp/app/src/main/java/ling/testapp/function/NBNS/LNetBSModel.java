@@ -13,8 +13,10 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
+import ling.testapp.R;
 import ling.testapp.function.NBNS.item.LNetBSItem;
 import ling.testapp.function.NBNS.item.LNetBSResp;
+import ling.testapp.ui.object.LApplication;
 
 /**
  * Created by jlchen on 2016/10/26.
@@ -161,7 +163,7 @@ public class LNetBSModel {
                         listener.onSuccess(result);
                     }
                 } else {
-                    listener.onError("連線失敗");
+                    listener.onError(LApplication.getContext().getString(R.string.no_wifi));
                 }
 
                 listener.hideProgress();

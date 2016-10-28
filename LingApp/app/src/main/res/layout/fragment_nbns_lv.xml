@@ -4,13 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/lv"
+    <FrameLayout
+        android:id="@+id/fl_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/transparent"
-        android:dividerHeight="0px"
-        android:listSelector="@color/transparent"
-        android:scrollbars="none">
-    </ListView>
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ling.testapp.ui.view.LShadowListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
 </LinearLayout>

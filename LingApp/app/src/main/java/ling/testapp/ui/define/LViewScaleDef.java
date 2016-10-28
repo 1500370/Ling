@@ -46,15 +46,21 @@ public class LViewScaleDef {
 
     private void initial(Context context)
     {
-        //設定「長度、寬度單位」最大值
-        m_iMaxLayoutHeightWeight = context.getResources().getInteger(R.integer.activity_weight_sum_vertical);
-        m_iMaxLayoutWidthWeight = context.getResources().getInteger(R.integer.activity_weight_sum_horizontal);
-
         //設定「長度、寬度、字型單位」
         m_dm = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
         windowManager.getDefaultDisplay().getMetrics(m_dm);
+
+        //設定「長度、寬度單位」最大值
+        //2016.10.28因應切換橫豎屏需求, 調整單位最大值
+        if ( m_dm.widthPixels > m_dm.heightPixels ){
+            m_iMaxLayoutHeightWeight = context.getResources().getInteger(R.integer.activity_weight_sum_horizontal);
+            m_iMaxLayoutWidthWeight = context.getResources().getInteger(R.integer.activity_weight_sum_vertical);
+        }else {
+            m_iMaxLayoutHeightWeight = context.getResources().getInteger(R.integer.activity_weight_sum_vertical);
+            m_iMaxLayoutWidthWeight = context.getResources().getInteger(R.integer.activity_weight_sum_horizontal);
+        }
 
         m_fHeightUnit = (float) m_dm.heightPixels / m_iMaxLayoutHeightWeight;
         m_fWidthUnit = (float) m_dm.widthPixels / m_iMaxLayoutWidthWeight;

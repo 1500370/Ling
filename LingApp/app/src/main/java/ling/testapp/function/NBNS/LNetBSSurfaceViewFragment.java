@@ -1,6 +1,7 @@
 package ling.testapp.function.NBNS;
 
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -20,26 +21,7 @@ import ling.testapp.ui.define.LViewScaleDef;
 
 public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnClickListener{
 
-    LNetBSSurfaceView.OnListener m_svOnListener = new LNetBSSurfaceView.OnListener() {
-        @Override
-        public void noData(LNetBSActivity.eType type) {
-
-        }
-    };
-
-    LNetBSSurfaceView.OnParameter m_svOnParameter = new LNetBSSurfaceView.OnParameter() {
-        @Override
-        public ArrayList<LNetBSItem> GetTesData() {
-            return null;
-        }
-
-        @Override
-        public ArrayList<LNetBSItem> GetOtcData() {
-            return null;
-        }
-    };
-
-    private LNetBSSurfaceView.OnInterface m_svOnInterface = null;
+    private static final String     TAG             = "LNetBSSurfaceViewFrag";
 
     public  static final double     BUTTON_PADDING  = 5;
     public  static final double     BUTTON_WIDTH    = 50;
@@ -59,11 +41,10 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
                         m_tvBrk     = null,
                         m_tvIt      = null;
     private RelativeLayout m_rlSv   = null;
+    private TextView    m_tvMsg     = null;
     private boolean     m_bQfii     = true,
                         m_bBrk      = true,
                         m_bIt       = true;
-
-    private boolean     m_bIsStart  = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -72,6 +53,7 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
 
     @Override
     protected void initialLayoutComponent(LayoutInflater inflater, View view) {
+        Log.d(TAG, "initialLayoutComponent()");
 
         m_vQfiiBg   = view.findViewById(R.id.v_cb_qfii_bg);
         m_vQfiiBg.setOnClickListener(this);
@@ -95,9 +77,9 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
         m_tvIt.setOnClickListener(this);
 
         m_rlSv      = (RelativeLayout)view.findViewById(R.id.rl_sv);
+        m_tvMsg     = (TextView)view.findViewById(R.id.tv_msg);
 
-        m_surfaceView = new LNetBSSurfaceView(getActivity(), m_svOnParameter, m_svOnListener);
-        m_svOnInterface = m_surfaceView.getInterface();
+        m_surfaceView = new LNetBSSurfaceView(getActivity());
         m_rlSv.addView(m_surfaceView);
 
     }
@@ -139,6 +121,8 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
         vScaleDef.setTextSize(TEXT_SIZE, m_tvQfii);
         vScaleDef.setTextSize(TEXT_SIZE, m_tvBrk);
         vScaleDef.setTextSize(TEXT_SIZE, m_tvIt);
+
+        vScaleDef.setTextSize(48, m_tvMsg);
     }
 
     @Override
@@ -201,7 +185,13 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
         }
     }
 
-    public void setWidthAndHeight(final int iWidth, final int iHeight){
+    public void setWidthAndHeight(int iWidth, int iHeight){
+        Log.d(TAG, "setWidthAndHeight()");
+
+        iHeight = iHeight - LViewScaleDef.getInstance(getActivity()).getLayoutHeight(IMAGE_WIDTH);
+
+        m_surfaceView.setWidthAndHeight(iWidth, iHeight);
+
 //        if ( false == m_bIsStart ){
 //
 //            m_handler.postDelayed(new Runnable() {
@@ -215,10 +205,49 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
 //        }
     }
 
+    public void setNetBSData(ArrayList<LNetBSItem> arrayList){
+        Log.d(TAG, "setNetBSData");
+
+        if ( null == arrayList || 0 >= arrayList.size() ){
+            m_tvMsg.setText(R.string.no_data);
+            setMsgVisibility(View.VISIBLE);
+        }else {
+
+            if (true == m_surfaceView.m_bIsCreat ){
+                m_surfaceView.setNetBSData(arrayList);
+                m_surfaceView.drawNetBS(m_surfaceView.getHolder());
+            }else {
+                m_surfaceView = new LNetBSSurfaceView(getActivity(), arrayList);
+                m_rlSv.removeAllViews();
+                m_rlSv.addView(m_surfaceView);
+            }
+
+            setMsgVisibility(View.GONE);
+        }
+    }
+
+    public void setErrorMsg(String strMsg){
+        Log.d(TAG, "setErrorMsg");
+
+        m_tvMsg.setText(strMsg);
+        setMsgVisibility(View.VISIBLE);
+    }
+
+    public void setMsgVisibility(int visibility){
+        Log.d(TAG, "setMsgVisibility");
+
+        if ( View.VISIBLE == visibility ){
+            m_surfaceView.setVisibility(View.INVISIBLE);
+        }else {
+            m_surfaceView.setVisibility(View.VISIBLE);
+        }
+
+        m_tvMsg.setVisibility(visibility);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-
-        m_bIsStart = true;
+        Log.d(TAG, "onResume()");
     }
 }

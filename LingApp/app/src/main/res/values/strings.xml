@@ -89,6 +89,8 @@
     <string name="nbns_otc">上櫃</string>
     <string name="nbns_date">日期</string>
     <string name="nbns_total">合計</string>
+    <string name="nbns_day" translatable="false">日</string>
+    <string name="nbns_hundred_million" translatable="false">億</string>
     <string name="nbns_tes_api" translatable="false">http://iwow.systex.com.tw/webService/ThreeCommOverBS_TSE.ashx</string>
     <string name="nbns_otc_api" translatable="false">http://iwow.systex.com.tw/webService/ThreeCommOverBS_OTC.ashx</string>
     <string name="nbns_info_title" translatable="false">訓練題目-三大法人買賣超走勢圖</string>

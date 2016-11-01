@@ -438,6 +438,7 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
         Log.d(TAG, "onSuccess");
 
         m_fgListView.setNetBSData(resultData.m_alData);
+        m_fgSurfaceView.setNetBSData(resultData.m_alData);
     }
 
     @Override
@@ -445,6 +446,7 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
         Log.d(TAG, "onError");
 
         m_fgListView.setErrorMsg(strError);
+        m_fgSurfaceView.setErrorMsg(strError);
     }
 
     @Override

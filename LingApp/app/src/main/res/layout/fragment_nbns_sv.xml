@@ -93,5 +93,14 @@
     <RelativeLayout
         android:id="@+id/rl_sv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
 </LinearLayout>

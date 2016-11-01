@@ -69,7 +69,6 @@ public class LViewScaleDef {
         m_fScreenScaleDensity = m_dm.scaledDensity;
     }
 
-
     /**
      * @param dHeight 高度比例，參數範圍為「1 ~ 1920」
      * @return 取出經長寬比運算出的高度

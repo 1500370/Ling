@@ -4,7 +4,6 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -40,8 +39,6 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
     private TextView    m_tvQfii    = null,
                         m_tvBrk     = null,
                         m_tvIt      = null;
-    private RelativeLayout m_rlSv   = null;
-    private TextView    m_tvMsg     = null;
     private boolean     m_bQfii     = true,
                         m_bBrk      = true,
                         m_bIt       = true;
@@ -76,11 +73,7 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
         m_tvIt      = (TextView)view.findViewById(R.id.tv_cb_it);
         m_tvIt.setOnClickListener(this);
 
-        m_rlSv      = (RelativeLayout)view.findViewById(R.id.rl_sv);
-        m_tvMsg     = (TextView)view.findViewById(R.id.tv_msg);
-
-        m_surfaceView = new LNetBSSurfaceView(getActivity());
-        m_rlSv.addView(m_surfaceView);
+        m_surfaceView = (LNetBSSurfaceView)view.findViewById(R.id.sv);
 
     }
 
@@ -121,8 +114,6 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
         vScaleDef.setTextSize(TEXT_SIZE, m_tvQfii);
         vScaleDef.setTextSize(TEXT_SIZE, m_tvBrk);
         vScaleDef.setTextSize(TEXT_SIZE, m_tvIt);
-
-        vScaleDef.setTextSize(48, m_tvMsg);
     }
 
     @Override
@@ -146,9 +137,6 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
             case R.id.v_cb_qfii:
             case R.id.v_cb_qfii_bg:
             case R.id.tv_cb_qfii:
-                if ( false == m_bBrk && false == m_bIt )
-                    return;
-
                 m_bQfii = !m_bQfii;
                 if ( true == m_bQfii ){
                     m_vQfiiImg.setVisibility(View.VISIBLE);
@@ -159,9 +147,6 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
             case R.id.v_cb_brk:
             case R.id.v_cb_brk_bg:
             case R.id.tv_cb_brk:
-                if ( false == m_bQfii && false == m_bIt )
-                    return;
-
                 m_bBrk = !m_bBrk;
                 if ( true == m_bBrk ){
                     m_vBrkImg.setVisibility(View.VISIBLE);
@@ -172,9 +157,6 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
             case R.id.v_cb_it:
             case R.id.v_cb_it_bg:
             case R.id.tv_cb_it:
-                if ( false == m_bQfii && false == m_bBrk )
-                    return;
-
                 m_bIt = !m_bIt;
                 if ( true == m_bIt ){
                     m_vItImg.setVisibility(View.VISIBLE);
@@ -182,6 +164,12 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
                     m_vItImg.setVisibility(View.INVISIBLE);
                 }
                 break;
+        }
+
+        m_surfaceView.setShowLine(m_bQfii, m_bIt, m_bBrk);
+
+        if (true == m_surfaceView.m_bIsCreat ){
+            m_surfaceView.drawNetBS(m_surfaceView.getHolder());
         }
     }
 
@@ -191,63 +179,36 @@ public class LNetBSSurfaceViewFragment extends LBaseFragment implements View.OnC
         iHeight = iHeight - LViewScaleDef.getInstance(getActivity()).getLayoutHeight(IMAGE_WIDTH);
 
         m_surfaceView.setWidthAndHeight(iWidth, iHeight);
-
-//        if ( false == m_bIsStart ){
-//
-//            m_handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    m_surfaceView.surfaceChanged(m_surfaceView.getHolder(), 0, iWidth, iHeight);
-//                }
-//            }, 500);
-//        }else {
-//            m_surfaceView.surfaceChanged(m_surfaceView.getHolder(), 0, iWidth, iHeight);
-//        }
     }
 
     public void setNetBSData(ArrayList<LNetBSItem> arrayList){
         Log.d(TAG, "setNetBSData");
 
         if ( null == arrayList || 0 >= arrayList.size() ){
-            m_tvMsg.setText(R.string.no_data);
-            setMsgVisibility(View.VISIBLE);
+            m_surfaceView.setNetBSData(null);
+            m_surfaceView.setErrorMsg(getActivity().getString(R.string.no_data));
         }else {
+            m_surfaceView.setNetBSData(arrayList);
+            m_surfaceView.setShowLine(m_bQfii, m_bIt, m_bBrk);
+        }
 
-            if (true == m_surfaceView.m_bIsCreat ){
-                m_surfaceView.setNetBSData(arrayList);
-                m_surfaceView.drawNetBS(m_surfaceView.getHolder());
-            }else {
-                m_surfaceView = new LNetBSSurfaceView(getActivity(), arrayList);
-                m_rlSv.removeAllViews();
-                m_rlSv.addView(m_surfaceView);
-            }
-
-            setMsgVisibility(View.GONE);
+        if (true == m_surfaceView.m_bIsCreat ){
+            m_surfaceView.drawNetBS(m_surfaceView.getHolder());
         }
     }
 
     public void setErrorMsg(String strMsg){
         Log.d(TAG, "setErrorMsg");
 
-        m_tvMsg.setText(strMsg);
-        setMsgVisibility(View.VISIBLE);
-    }
+        m_surfaceView.setNetBSData(null);
+        m_surfaceView.setErrorMsg(strMsg);
 
-    public void setMsgVisibility(int visibility){
-        Log.d(TAG, "setMsgVisibility");
-
-        if ( View.VISIBLE == visibility ){
-            m_surfaceView.setVisibility(View.INVISIBLE);
-        }else {
-            m_surfaceView.setVisibility(View.VISIBLE);
+        if (true == m_surfaceView.m_bIsCreat ){
+            m_surfaceView.drawMsg(m_surfaceView.getHolder());
         }
-
-        m_tvMsg.setVisibility(visibility);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume()");
+    public void setSurfaceViewVisibility(int visibility){
+        m_surfaceView.setVisibility(visibility);
     }
 }

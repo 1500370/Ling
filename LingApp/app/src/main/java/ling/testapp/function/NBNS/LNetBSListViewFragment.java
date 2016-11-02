@@ -130,6 +130,8 @@ public class LNetBSListViewFragment extends LBaseFragment{
         m_tvTotal.setTextSize(TypedValue.COMPLEX_UNIT_PX, fTextSize);
 
         m_vLine.getLayoutParams().height = vScaleDef.getLayoutHeight(1);
+
+        m_shadow.resetShadowListener();
     }
 
     public void setNetBSData(ArrayList<LNetBSItem> arrayList){
@@ -160,6 +162,7 @@ public class LNetBSListViewFragment extends LBaseFragment{
             m_shadow.setVisibility(View.INVISIBLE);
         }else {
             m_shadow.setVisibility(View.VISIBLE);
+            m_shadow.resetShadowListener();
         }
 
         m_tvMsg.setVisibility(visibility);

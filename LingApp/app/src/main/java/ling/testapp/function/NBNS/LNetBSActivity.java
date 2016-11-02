@@ -91,8 +91,14 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
             = new OnListener() {
         @Override
         public void OnLeftClick() {
-            if ( m_type == eType.TES )
+            if ( m_type == eType.TES ){
                 return;
+            }
+
+            if ( m_bIsLoading == true ){
+                m_twoItemBar.setType(eItemType.RIGHT);
+                return;
+            }
 
             m_type = eType.TES;
             LNetBSPresenter.getInstance(LNetBSActivity.this).loadData(m_type);
@@ -100,8 +106,14 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
 
         @Override
         public void OnRightClick() {
-            if ( m_type == eType.OTC )
+            if ( m_type == eType.OTC) {
                 return;
+            }
+
+            if ( m_bIsLoading == true ){
+                m_twoItemBar.setType(eItemType.LEFT);
+                return;
+            }
 
             m_type = eType.OTC;
             LNetBSPresenter.getInstance(LNetBSActivity.this).loadData(m_type);
@@ -148,6 +160,8 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
     private FrameLayout             m_flSurfaceView = null;
     private FrameLayout             m_flListView    = null;
     private eType                   m_type          = eType.TES;
+
+    private boolean                 m_bIsLoading    = false;
 
     private LNetBSListViewFragment      m_fgListView    = null;
     private LNetBSSurfaceViewFragment   m_fgSurfaceView = null;
@@ -322,6 +336,10 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
     //切換橫豎屏
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+
+        m_llContent.setVisibility(View.INVISIBLE);
+        m_fgSurfaceView.setSurfaceViewVisibility(View.INVISIBLE);
+
         super.onConfigurationChanged(newConfig);
 
         LViewScaleDef.setInstance(null);
@@ -404,6 +422,9 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
                             iSvHeight-iPadding);
                     m_fgListView.setTotalWidth(m_llContent.getWidth()-(iPadding*2));
                 }
+
+                m_llContent.setVisibility(View.VISIBLE);
+                m_fgSurfaceView.setSurfaceViewVisibility(View.VISIBLE);
             }
         }, 1000);
     }
@@ -451,11 +472,13 @@ public class LNetBSActivity extends LBaseActivity implements LNetBSListener{
 
     @Override
     public void showProgress() {
+        m_bIsLoading = true;
         m_fgListView.setMsgVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
+        m_bIsLoading = false;
 //        m_fgListView.setMsgVisibility(View.GONE);
     }
 }

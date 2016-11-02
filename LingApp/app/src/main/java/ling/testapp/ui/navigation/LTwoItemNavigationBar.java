@@ -151,6 +151,11 @@ public class LTwoItemNavigationBar extends LBaseRelativeView implements View.OnC
         return m_type;
     }
 
+    public void setType(eItemType type){
+        m_type = type;
+        switchItemStyle();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){

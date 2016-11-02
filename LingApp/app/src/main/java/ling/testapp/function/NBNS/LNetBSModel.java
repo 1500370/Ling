@@ -121,6 +121,8 @@ public class LNetBSModel {
                                         item.m_strDate = xmlParser.nextText();
                                         item.m_strSimpleDate = new SimpleDateFormat("MM/dd").format(
                                                 new SimpleDateFormat("yyyy/MM/dd").parse( item.m_strDate ));
+                                        item.m_strDay = new SimpleDateFormat("dd").format(
+                                                new SimpleDateFormat("yyyy/MM/dd").parse( item.m_strDate ));
                                     }
                                 }
                                 break;

@@ -2,7 +2,6 @@ package ling.testapp.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ public class LShadowListView extends LBaseLinearView {
 
     //Y軸可滾動的範圍大小,
     private int             m_iScrollHeight     = 0;
+    private int             m_iListViewHeight   = 0;
     private boolean         m_bIsShowTop        = true;
 
     public LShadowListView(Context context) {
@@ -53,10 +53,34 @@ public class LShadowListView extends LBaseLinearView {
         m_vGradient.setVisibility(INVISIBLE);
         m_vGradientTop.setVisibility(INVISIBLE);
 
-        m_listView.getViewTreeObserver().addOnScrollChangedListener(m_onScroll);
+        m_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-        ViewTreeObserver vto = m_listView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                int iCnt = m_listView.getChildCount();
+                if ( iCnt > 0 ){
+                    //內容高度 <= ScrollView高度, 沒有可滾動區域, 無法監聽onScrollChanged(), 需隱藏陰影
+                    if (m_iListViewHeight <= m_listView.getHeight()) {
+
+                        m_vGradient.setVisibility(INVISIBLE);
+                        m_vGradientTop.setVisibility(INVISIBLE);
+                        return;
+                    }
+                }
+
+                //切換橫豎屏時，陰影透明度要依新的比例重抓
+                if ( 0 != m_iScrollHeight )
+                    setGradientAlpha(getListViewScrollY(), m_iScrollHeight);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
+        m_listView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 m_listView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -64,11 +88,11 @@ public class LShadowListView extends LBaseLinearView {
                 int iCnt = m_listView.getChildCount();
                 if ( iCnt > 0 ){
 
-                    int iHeight = getListViewHeight();
-                    m_iScrollHeight = iHeight - m_listView.getHeight();
+                    m_iListViewHeight   = getListViewHeight();
+                    m_iScrollHeight     = m_iListViewHeight - m_listView.getHeight();
 
                     //內容高度 <= ScrollView高度, 沒有可滾動區域, 無法監聽onScrollChanged(), 需隱藏陰影
-                    if (iHeight <= m_listView.getHeight()) {
+                    if (m_iListViewHeight <= m_listView.getHeight()) {
 //                        m_vGradient.setAlpha(0);
 //                        m_vGradientTop.setAlpha(0);
 
@@ -112,35 +136,41 @@ public class LShadowListView extends LBaseLinearView {
         }
     }
 
-    ViewTreeObserver.OnScrollChangedListener m_onScroll = new ViewTreeObserver.OnScrollChangedListener() {
-        @Override
-        public void onScrollChanged() {
+    public void resetShadowListener(){
+        if ( null == m_listView )
+            return;
 
-            int iCnt = m_listView.getChildCount();
-            if ( iCnt > 0 ){
+        m_listView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        m_listView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                int iHeight = getListViewHeight();
-                Log.d("lv","total:"+iHeight);
-                Log.d("lv","height:"+m_listView.getHeight());
-                Log.d("lv","y:"+getListViewScrollY());
-                m_iScrollHeight = iHeight - m_listView.getHeight();
+                        int iCnt = m_listView.getChildCount();
+                        if ( iCnt > 0 ){
 
-                //內容高度 <= ScrollView高度, 沒有可滾動區域, 無法監聽onScrollChanged(), 需隱藏陰影
-                if (iHeight <= m_listView.getHeight()) {
+                            m_iListViewHeight   = getListViewHeight();
+                            m_iScrollHeight     = m_iListViewHeight - m_listView.getHeight();
+
+                            //內容高度 <= ScrollView高度, 沒有可滾動區域, 無法監聽onScrollChanged(), 需隱藏陰影
+                            if (m_iListViewHeight <= m_listView.getHeight()) {
 //                        m_vGradient.setAlpha(0);
 //                        m_vGradientTop.setAlpha(0);
 
-                    m_vGradient.setVisibility(INVISIBLE);
-                    m_vGradientTop.setVisibility(INVISIBLE);
-                    return;
-                }
-            }
+                                m_vGradient.setVisibility(INVISIBLE);
+                                m_vGradientTop.setVisibility(INVISIBLE);
+                                return;
+                            }else {
+                                m_vGradient.setVisibility(VISIBLE);
+                            }
+                        }
 
-            //切換橫豎屏時，陰影透明度要依新的比例重抓
-            if ( 0 != m_iScrollHeight )
-                setGradientAlpha(getListViewScrollY(), m_iScrollHeight);
-        }
-    };
+                        //切換橫豎屏時，陰影透明度要依新的比例重抓
+                        if ( 0 != m_iScrollHeight )
+                            setGradientAlpha(m_listView.getScrollY(), m_iScrollHeight);
+                    }
+                });
+    }
 
     public int getListViewScrollY() {
         View c = m_listView.getChildAt(0);

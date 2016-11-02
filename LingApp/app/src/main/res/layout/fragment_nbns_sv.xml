@@ -36,39 +36,12 @@
             android:textColor="@android:color/white" />
 
         <View
-            android:id="@+id/v_cb_brk_bg"
-            android:layout_width="70px"
-            android:layout_height="70px"
-            android:layout_centerVertical="true"
-            android:layout_margin="5px"
-            android:layout_toRightOf="@+id/tv_cb_qfii"
-            android:background="@drawable/bg_brk_check_press_white20"
-            android:clickable="true" />
-
-        <View
-            android:id="@+id/v_cb_brk"
-            android:layout_width="80px"
-            android:layout_height="80px"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_cb_qfii"
-            android:background="@drawable/ic_tick_black" />
-
-        <TextView
-            android:id="@+id/tv_cb_brk"
-            android:layout_width="150px"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/v_cb_brk"
-            android:text="@string/nbns_brk"
-            android:textColor="@android:color/white" />
-
-        <View
             android:id="@+id/v_cb_it_bg"
             android:layout_width="70px"
             android:layout_height="70px"
             android:layout_centerVertical="true"
             android:layout_margin="5px"
-            android:layout_toRightOf="@+id/tv_cb_brk"
+            android:layout_toRightOf="@+id/tv_cb_qfii"
             android:background="@drawable/bg_it_check_press_white20"
             android:clickable="true" />
 
@@ -77,7 +50,7 @@
             android:layout_width="80px"
             android:layout_height="80px"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_cb_brk"
+            android:layout_toRightOf="@+id/tv_cb_qfii"
             android:background="@drawable/ic_tick_black" />
 
         <TextView
@@ -88,19 +61,37 @@
             android:layout_toRightOf="@+id/v_cb_it"
             android:text="@string/nbns_it"
             android:textColor="@android:color/white" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_sv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <View
+            android:id="@+id/v_cb_brk_bg"
+            android:layout_width="70px"
+            android:layout_height="70px"
+            android:layout_centerVertical="true"
+            android:layout_margin="5px"
+            android:layout_toRightOf="@+id/tv_cb_it"
+            android:background="@drawable/bg_brk_check_press_white20"
+            android:clickable="true" />
+
+        <View
+            android:id="@+id/v_cb_brk"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_cb_it"
+            android:background="@drawable/ic_tick_black" />
 
         <TextView
-            android:id="@+id/tv_msg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/loading"
+            android:id="@+id/tv_cb_brk"
+            android:layout_width="150px"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/v_cb_brk"
+            android:text="@string/nbns_brk"
             android:textColor="@android:color/white" />
     </RelativeLayout>
+
+    <ling.testapp.function.NBNS.view.LNetBSSurfaceView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

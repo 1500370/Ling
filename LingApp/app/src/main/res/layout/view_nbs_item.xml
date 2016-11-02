@@ -29,18 +29,18 @@
             android:text="@string/nbns_qfii" />
 
         <TextView
-            android:id="@+id/tv_brk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right|center_vertical"
-            android:text="@string/nbns_brk" />
-
-        <TextView
             android:id="@+id/tv_it"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right|center_vertical"
             android:text="@string/nbns_it" />
+
+        <TextView
+            android:id="@+id/tv_brk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:text="@string/nbns_brk" />
 
         <TextView
             android:id="@+id/tv_total"
